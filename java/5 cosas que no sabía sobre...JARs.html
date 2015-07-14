@@ -1,0 +1,720 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html class="dj_gecko dj_contentbox" xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>5 cosas que no sabía sobre...JARs</title>
+<link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
+<link rel="SHORTCUT ICON" href="http://www.ibm.com/favicon.ico">
+<meta name="DC.Rights" content="© Copyright&nbsp;IBM Corporation&nbsp;2012">
+<meta name="Keywords" content="consejos, trucos, 5 cosas, jars, Java Archive, bugs, tips, tricks, 5 things, tttjca">
+<meta name="DC.Date" scheme="iso8601" content="2012-11-05">
+<meta name="Source" content="v17 delivery:developerWorks">
+<meta name="Security" content="Public">
+<meta name="Abstract" content="Hay muchos desarrolladores de Java que nunca piensan más allá de las bases de los JARs, sólo los usan para empaquetar clases antes de enviarlas a los servidores de producción. Pero un JAR es más que un simple archivo ZIP renombrado. Aprenda cómo usar los archivos Java a su máxima capacidad, así como consejos para dependencias discordantes de Spring y archivos de configuración.">
+<meta name="Description" content="Hay muchos desarrolladores de Java que nunca piensan más allá de las bases de los JARs, sólo los usan para empaquetar clases antes de enviarlas a los servidores de producción. Pero un JAR es más que un simple archivo ZIP renombrado. Aprenda cómo usar los archivos Java a su máxima capacidad, así como consejos para dependencias discordantes de Spring y archivos de configuración.">
+<meta name="IBM.Effective" scheme="W3CDTF" content="2012-11-05">
+<meta name="Owner" content="developerWorks/Argentina/Contr/IBM">
+<meta name="DC.Language" scheme="rfc1766" content="es">
+<meta name="IBM.SpecialPurpose" content="SP001">
+<meta name="IBM.Country" content="AR,CO,PE,MX,BO,CL,EC,PY,UY,VE">
+<meta name="Robots" content="index,follow">
+<meta name="DC.Type" scheme="IBM_ContentClassTaxonomy" content="CT316">
+<meta name="DC.Subject" scheme="IBM_SubjectTaxonomy" content="TT300">
+<meta name="dW.ContentArea" content="1">
+<meta name="dW.Topic" content="263,214">
+
+<meta scheme="IBM_WTMCategory" name="IBM.WTMCategory" content="SOFDCJVAAR">
+
+<link rel="canonical" href="http://www.ibm.com/developerworks/ssa/java/library/j-5things6/index.html">
+<!-- HEADER_SCRIPTS_AND_CSS_INCLUDE -->
+<link href="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/www.css" rel="stylesheet" title="www" type="text/css">
+<!-- Masthead/footer -->
+<link href="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-mfN2015-01.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<link href="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-article-6.css" rel="stylesheet" title="www" type="text/css">
+<link href="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-common-features.css" rel="stylesheet" title="www" type="text/css">
+<link href="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-local-site-v17-N2014-05.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+        <link href="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-bluemix-regbar.css" media="screen,projection" rel="stylesheet" title="www" type="text/css">
+<script type="text/javascript" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/www.js">//</script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/eluminate.js" type="text/javascript"></script>
+<script type="text/javascript" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-www-v2.js">//</script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/Dialog.js" charset="utf-8" type="text/javascript"></script>
+<script type="text/javascript">dojo.addOnLoad(function(){var dw_lang="es_AR";var dw_source="dwssa";var dw_content=window.location.pathname.split("/")[window.location.pathname.split("/").length-2];if(dw_content=="library"){dw_content=window.location.pathname.split("/")[window.location.pathname.split("/").length-1];dw_content=window.location.pathname.split("/")[window.location.pathname.split("/").length-3]+"-"+dw_content.substring(0,dw_content.indexOf(".html"))}var lnkID="article-rbar-bmix-home-regbar";dojo.attr(dojo.query(".dw-regbar-btn")[0],"id",lnkID);var lnkHref=dojo.attr(dojo.byId(lnkID),"href")+"?lang="+dw_lang+"&ca="+dw_source+"-_-bluemix-_-"+dw_content+"-_-regbar-article";dojo.attr(dojo.byId(lnkID),"href",lnkHref);var dwRegbarShow=dojo.animateProperty({node:"dw-regbar",duration:1000,delay:1000,properties:{opacity:{start:0,end:1},top:0}});var ibmTopShow=dojo.animateProperty({node:"ibm-top",duration:1000,delay:1000,properties:{marginTop:{start:0,end:42}}});dwRegbarShow.play();ibmTopShow.play()})
+</script><script type="text/javascript">
+//  ibmweb.config.set({ sbs: { enabled: false }});
+</script>
+<script type="text/javascript">dojo.addOnLoad(function(){var dw_lang="es_AR";var dw_source="dwssa";var dw_register="Regístrese para una prueba<br/>gratuita de Bluemix";var dw_connect="Conecte con desarrolladores<br/>de Bluemix";var dw_vp="Desarrolle y despliegue su próxima app en Bluemix, la plataforma cloud de IBM.";var dw_cta=" 	Comience su<br/>prueba gratuita";var dw_tile_alt="Desarrolle y despliegue su próxima app en Bluemix, la plataforma cloud de IBM. Comience a construir gratis";var dw_campaign="bluemix";var dw_content=window.location.pathname.split("/")[window.location.pathname.split("/").length-2];if(dw_content=="library"){dw_content=window.location.pathname.split("/")[window.location.pathname.split("/").length-1];dw_content=window.location.pathname.split("/")[window.location.pathname.split("/").length-3]+"-"+dw_content.substring(0,dw_content.indexOf(".html"))}var bluDevComURL="https://developer.ibm.com/bluemix/";var bluLink="https://www.bluemix.net/";var lnkID;var lnkIDd;var lnkIDt;var bLinkEnd;var bLinkTemp;var idTrkr=[];var idCnt;var artTop=dojo.query("div.ibm-col-1-1")[0];var artChildren=dojo.query(artTop).children();var edgy=false;if(dojo.hasClass(artChildren[0],"ibm-inset"))edgy=true;if((artChildren[0].nodeName=="H2")&&(dojo.hasClass(artChildren[1],"ibm-inset")))edgy=true;if(dojo.hasClass(artChildren[0],"codesection"))edgy=true;if((artChildren[0].nodeName=="H5")&&(dojo.hasClass(artChildren[1],"codesection")))edgy=true;if((artChildren[0].nodeName=="H5")&&(artChildren[1].width>=701))edgy=true;if(artChildren[1].width>=701)edgy=true;if(dojo.hasClass(artChildren[0],"ibm-data-table"))edgy=true;if((artChildren[0].nodeName=="H5")&&(dojo.hasClass(artChildren[1],"ibm-data-table")))edgy=true;if(!(edgy)){var sBarAB='<div class="dw-article-sidebar dw-bluemix" id="dwc-exp-a">'+'<img src="//dw1.s81c.com/developerworks/i/bluemix-graphic.png" height="64" width="64" alt=""/>'+'<p>'+dw_vp+'</p>'+'<p class="ibm-button-link-alternate dw-button-green">'+'<a id="tutc-sbar-bmix-home-btn-ABa" href="'+bluLink+'" class="dw-button-large">'+dw_cta+'</a></p></div>';dojo.place(sBarAB,artTop,"first")}dojo.forEach(dojo.query("#ibm-content-main a"),function(item,index){var dw_medium="article";var bLink=dojo.attr(item,"href");var linkClass=dojo.attr(item,"class");if((dojo.attr(item,"id")!=null)&&(dojo.attr(item,"id").indexOf("-sbar-")>-1))dw_medium="sidebar";if((dojo.attr(item,"id")!=null)&&(dojo.attr(item,"id").indexOf("-vpromo-")>-1))dw_medium="video-promotion";if(bLink&&(bLink.indexOf("//bluemix.net")>-1))bLink=bLink.replace("//bluemix.net","//www.bluemix.net");if(bLink&&(bLink.indexOf("//ace.ng.bluemix.net")>-1))bLink=bLink.replace("//ace.ng.bluemix.net","//www.bluemix.net");if(bLink&&(bLink.indexOf("//console.ng.bluemix.net")>-1))bLink=bLink.replace("//console.ng.bluemix.net","//www.bluemix.net");if(bLink&&((bLink.indexOf("//www.bluemix.net")>-1)||(bLink.indexOf("//www.ng.bluemix.net")>-1)||(bLink.indexOf("//hub.jazz.net")>-1))){bLinkEnd="";bLink=bLink.split("?");if((bLink[1])&&(bLink[1].indexOf("repository=")!=-1)){var deployBtn=true;bLink[0]=bLink[0]+"?"+bLink[1];bLink[1]=null}if((bLink[1])&&(bLink[1].indexOf("/")!=-1))bLinkEnd=bLink[1].substring(bLink[1].indexOf("/"));bLink=bLink[0];if(bLink.indexOf("//hub.jazz.net")>-1){if(!(deployBtn)&&((bLink.indexOf("//hub.jazz.net/git")>-1)||(bLink.indexOf("//hub.jazz.net/project")>-1))){bLink="https://login.jazz.net/psso/proxy/jazzregister?utm_source="+dw_source+"&utm_medium="+dw_medium+"&utm_content="+dw_content+"&utm_campaign="+dw_campaign+"&redirect_uri="+bLink}else{if(deployBtn){bLink=bLink+"&cm_mmc="+dw_source+"-_-"+dw_campaign+"-_-"+dw_content+"-_-"+dw_medium}else{bLink=bLink+"?utm_source="+dw_source+"&utm_campaign="+dw_campaign+"&utm_content="+dw_content+"&utm_medium="+dw_medium}}}else{if(bLink.indexOf("/#/")==-1){if(bLink.substring(bLink.length-7)=="/docs/#"){bLink=bLink.replace("/docs/#","/docs/"+"?cm_mmc="+dw_source+"-_-"+dw_campaign+"-_-"+dw_content+"-_-"+dw_medium)}else if(bLink.substring(bLink.length-5)=="/docs"){bLink=bLink.replace("/docs","/docs/"+"?cm_mmc="+dw_source+"-_-"+dw_campaign+"-_-"+dw_content+"-_-"+dw_medium)}else{bLink=bLink+"?cm_mmc="+dw_source+"-_-"+dw_campaign+"-_-"+dw_content+"-_-"+dw_medium}}else{bLink=bLink.substring(0,bLink.indexOf("#"))+"?cm_mmc="+dw_source+"-_-"+dw_campaign+"-_-"+dw_content+"-_-"+dw_medium+bLink.substring(bLink.indexOf("#")-1)}}if(bLinkEnd)bLink=bLink+bLinkEnd;if(linkClass.indexOf("bluemix-home")==-1){if((bLink.indexOf("#")==-1)&&(bLink.indexOf("/solutions")==-1)&&(bLink.indexOf("/catalog")==-1)&&(bLink.indexOf("//www.bluemix.net/")!=-1)){bLink=bLink.replace("//www.bluemix.net/","//developer.ibm.com/sso/bmregistration");if(bLink.indexOf("http://")==0)bLink=bLink.replace("http://","https://");if(bLink.indexOf("//")==0)bLink=bLink.replace("//","https://");if(bLink.indexOf("?cm_mmc=")!=-1)bLink=bLink.replace("?cm_mmc=","?lang="+dw_lang+"&ca=")}if((bLink.indexOf("#")==-1)&&(bLink.indexOf("/solutions")==-1)&&(bLink.indexOf("//www.bluemix.net?")!=-1)){bLink=bLink.replace("//www.bluemix.net","//developer.ibm.com/sso/bmregistration");if(bLink.indexOf("http://")==0)bLink=bLink.replace("http://","https://");if(bLink.indexOf("//")==0)bLink=bLink.replace("//","https://");if(bLink.indexOf("?cm_mmc=")!=-1)bLink=bLink.replace("?cm_mmc=","?lang="+dw_lang+"&ca=")}}if((bLink.indexOf("#")!=-1)&&(bLink.indexOf("solutions")!=-1)){bLinkTemp=bLink.substring(0,bLink.indexOf("?"));bLink=bLink.substring(bLink.indexOf("/#/")+3,bLink.length);bLink=bLinkTemp+bLink;bLinkTemp=bLink.substring(0,bLink.indexOf("solution="));bLink=bLink.substring(bLink.indexOf("/solution=")+10,bLink.length);bLink=bLinkTemp+bLink;bLink=bLink+"?cm_mmc="+dw_source+"-_-"+dw_campaign+"-_-"+dw_content+"-_-"+dw_medium}if((bLink.indexOf("#")!=-1)&&(bLink.indexOf("store")!=-1)){if(bLink.indexOf("&cloudOEPaneId=store")!=-1){bLinkTemp=bLink.split("&cloudOEPaneId=store");bLink=bLinkTemp[0]}bLinkTemp=bLink.substring(bLink.indexOf("serviceOfferingGuid=")+20,bLink.length);bLink=bLink.substring(0,bLink.indexOf(".net/")+5)+"catalog/"+bLinkTemp+"?cm_mmc="+dw_source+"-_-"+dw_campaign+"-_-"+dw_content+"-_-"+dw_medium}dojo.attr(item,"href",bLink);}});});</script><!-- LEADSPACE_STYLES -->
+
+<script charset="utf-8" id="dojoIoScript2" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/ares-utf8.js" type="text/javascript"></script><script charset="utf-8" id="dojoIoScript3" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/a.json" type="text/javascript"></script><script charset="utf-8" id="dojoIoScript4" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/profiling.js" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/eluminate_002.js" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/move.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/TimedMoveable.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/_CssStateMixin.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/_FormMixin.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/_DialogMixin.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/DialogUnderlay.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/ContentPane.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/common.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/TooltipDialog.js" charset="utf-8" type="text/javascript"></script><script charset="utf-8" id="dojoIoScript5" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/blackwhite_lists.asc" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/Moveable.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/Mover.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/_ContentPaneResizeMixin.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/html.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/loading.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/_LayoutWidget.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/common_002.js" charset="utf-8" type="text/javascript"></script><script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/autoscroll.js" charset="utf-8" type="text/javascript"></script></head>
+<body aria-busy="true" class="v17" id="ibm-com">
+<div style="opacity: 1; top: 0px;" id="dw-regbar" class="dw-home-band" aria-labelledby="dw-regbar-vp" role="complementary">
+    <div class="ibm-columns">
+        <div class="ibm-col-6-6">
+            <span id="dw-regbar-bluemix">IBM <strong>Bluemix</strong></span>
+            <span id="dw-regbar-vp">¡Desarrolla en la nube en un click!</span>
+            <p class="ibm-button-link-alternate dw-button-green">
+                <a id="article-rbar-bmix-home-regbar" class="dw-button-large dw-regbar-btn" href="https://developer.ibm.com/sso/bmregistration?lang=es_AR&amp;ca=dwssa-_-bluemix-_-j-5things6-_-regbar-article">Comience su prueba gratuita</a>                
+            </p>               
+        </div>
+    </div> 
+</div>	<div style="margin-top: 42px;" id="ibm-top" class="ibm-landing-page ibm-no-scroll"><img src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/ibm_logo_print.png" id="ibm-print-masthead" alt="IBM Print" height="15" width="43">
+
+<!-- MASTHEAD_BEGIN -->		
+<div id="ibm-masthead">
+
+    <!-- TOP ROW -->    
+	<div id="dw-masthead-top-row">	    
+		<ul id="ibm-mast-options-dw" role="toolbar" aria-label="Masthead navigation">
+			<li id="dw-mast-top-4" role="presentation">
+				<a href="http://www.ibm.com/developerworks/ssa/" tabindex="0"><img aria-label="dW" alt="dW" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dwn-dw-badge.png" height="22" width="43"></a>
+			</li>			
+			<li id="dw-mast-top-0" role="presentation">
+				<div id="dw-mast-signin">
+					<a id="dw-mf-signin-link" class="" href="http://www.ibm.com/developerworks/dwwi/jsp/ssologin.jsp?d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fssa%2Fjava%2Flibrary%2Fj-5things6%2F&amp;lang=es_AR&amp;a=dwmav" title="" tabindex="2">Inscríbase</a>
+					<span class="dw-mf-signin-spacer">|</span>
+					<a id="dw-mf-reg-link" class="" href="http://www.ibm.com/developerworks/dwwi/jsp/ssoregister.jsp?d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fssa%2Fjava%2Flibrary%2Fj-5things6%2F&amp;lang=es_AR&amp;a=dwmav" title="" tabindex="3">Regístrese</a>
+				</div>        
+				<div id="dw-mast-auth-link" class="dw-mf-hide">
+					<a class="authenticated ibm-active" href="#" role="button" tabindex="2"></a>
+					<ul id="dw-mast-auth-menu" class="dw-mf-hide">
+						<li class="dw-mast-auth-menu-title" aria-hidden="true">Comunidad developerWorks</li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a href="http://www.ibm.com/developerworks/community/profiles/html/myProfileView.do?lang=es" tabindex="3">Mi perfil</a>
+						</li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a href="http://www.ibm.com/developerworks/community/groups/service/html/mycommunities?lang=es" tabindex="4">Mis comunidades</a>
+						</li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a href="http://www.ibm.com/developerworks/community/news/?lang=es" tabindex="5">Configuración</a>
+						</li>
+						<li class="dw-mast-auth-menu-divider"><hr></li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a id="dw-mast-signout-link" href="http://www.ibm.com/developerworks/dwwi/jsp/ssologout.jsp?d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fssa%2F&amp;a=dwmav" tabindex="6">Cerrar Sesión</a>
+						</li>		                
+					</ul>
+				</div>
+			</li>			
+			<li id="dw-mast-top-1">
+				<div></div>
+			</li>
+			<li id="dw-mast-top-3" role="presentation">
+				<a href="http://www.ibm.com/" tabindex="1">IBM</a>
+			</li>
+		</ul>
+	</div>
+		
+    <!-- BOTTOM ROW -->
+	<div id="ibm-universal-nav-dw" aria-label="Site map">
+		<ul id="ibm-unav-links-dw">
+			<li id="ibm-unav-home-dwlogo">
+				<a href="http://www.ibm.com/developerworks/ssa/"><img src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dwn-dw-wordmark.png" alt="developerWorks®" height="28" width="225"></a>
+			</li>
+		</ul>
+	    
+		<ul id="ibm-menu-links-dw" class="ibm-menu-links-dw-ssa" role="toolbar" aria-label="Site map">
+			<li id="dw-mast-nav-0" role="presentation"><a href="http://www.ibm.com/developerworks/ssa/topics/" tabindex="0">Temas Técnicos</a></li>
+			<li id="dw-mast-nav-1" role="presentation"><a href="http://www.ibm.com/developerworks/ssa/downloads/" tabindex="0">Descargas</a></li>
+			<li id="dw-mast-nav-2" role="presentation"><a href="http://www.ibm.com/developerworks/community/?lang=es" tabindex="0">Comunidad</a></li>
+		</ul>
+		<form id="ibm-search-form" action="//www.ibm.com/search/csass/search/" method="get" name="form1" aria-label="Buscar en developerWorks" role="search">
+			<p>
+				<label for="q"><span class="ibm-access">Buscar en developerWorks</span></label>
+				<input id="q" name="q" value="Buscar en developerWorks" maxlength="100" type="text">
+				<input name="sn" value="dw" type="hidden">
+				<input name="lang" value="es" type="hidden">
+				<input name="cc" value="ES" type="hidden">
+				<input name="en" value="utf" type="hidden">
+				<input name="hpp" value="20" type="hidden">
+				<input name="dws" value="esdw" type="hidden">
+				<input name="lo" value="es" type="hidden">
+				<input id="ibm-search" class="ibm-btn-search" value="Enviar" type="submit">
+			</p>
+		</form>
+	</div>
+	
+</div>
+<div id="fdiv" class="ibm-access"></div><!-- MASTHEAD_END -->
+	    
+<!-- LAYOUT -->
+<!-- LEADSPACE_BEGIN --> 
+<div id="ibm-access-cntr"><div id="ibm-leadspace-head">
+	<!-- LEADSPACE_BODY_BEGIN --> 
+	<div id="ibm-leadspace-body">
+		<!-- Navigation_Trail_BEGIN -->
+        <ul id="ibm-navigation-trail"><li><a href="http://www.ibm.com/developerworks/ssa/">developerWorks en español</a></li><li><a href="http://www.ibm.com/developerworks/ssa/topics/">Temas Técnicos</a></li><li><a href="http://www.ibm.com/developerworks/ssa/">tecnologia Java</a></li><li><a href="http://www.ibm.com/developerworks/ssa/views/java/libraryview.jsp">Biblioteca técnica</a></li></ul>
+		<!-- END_Navigation_Trail -->
+			<!-- Title_Subtitle -->
+			<h1>5 cosas que no sabía sobre...JARs</h1><p><em><span>Un archivo Java es más que un simple paquete de clases</span></em></p>
+	</div>
+	<!-- LEADSPACE_BODY_END --> 
+	<!-- SUMMARY_BEGIN -->
+	<div id="dw-summary-area" class="dw-summary-columns">
+		<div class="ibm-col-6-4">
+		<p>Hay muchos desarrolladores de Java™ que nunca piensan más allá de 
+las bases de los JARs — sólo los usan para empaquetar clases antes de 
+enviarlas a los servidores de producción. Pero un JAR es más que un 
+simple archivo ZIP renombrado. Aprenda cómo usar los Archivos Java a su 
+máxima capacidad, así como consejos para dependencias discordantes de 
+Spring y archivos de configuración.</p>
+		<p class="ibm-no-print ibm-ind-link">
+
+			
+			<span id="nCmts"><span>1</span><img class="dw-cmts-arrow" alt="" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-cmts-arrow.png" height="7" width="7"> <a href="#icomments" class="dw-cmt-link">Comentario:</a></span>
+		</p>
+		</div>
+		<div class="ibm-col-6-2 dw-toc-margin">
+			<p class="dw-summary-author"><a role="button" href="#authorN1002B" class="ibm-popup-link" onclick="ibmweb.overlay.show('authorN1002B',this);return false;">Ted Neward</a>, Director, Neward &amp; Associates</p>
+<div id="authorN1002B" class="ibm-common-overlay"><div class="ibm-head"><p><a href="#close" class="ibm-common-overlay-close">Cerrar [x]</a></p></div><div class="ibm-body"><div class="ibm-main"><div class="ibm-title"><!--this is where the h2 usually goes--></div><div class="ibm-container ibm-alternate"><div class="ibm-container-body">
+<p><!--.-->
+<img class="dw-summary-bio-image-x64" alt="Ted Neward" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/p-tneward.jpg" width="64">Ted
+ Neward es el director de Neward &amp; Associates, donde hace 
+consultoría, es mentor, enseña y hace presentaciones sobre Java, .NET, 
+XML Services y otras plataformas. Vive en Seattle, Washington.</p><br><br></div></div></div></div><div class="ibm-footer"><!----></div></div>
+			<p class="dw-summary-date">05-11-2012</p>
+			
+
+
+			<div aria-hidden="true" class="ibm-container" id="dw-toc"><div class="ibm-container-body"><ul class="ibm-twisty"><li><a href="#toggle" class="ibm-twisty-trigger ibm-twisty-trigger-closed"><img src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/c.gif" alt="+"></a><span class="ibm-twisty-head">Tabla de contenidos</span><div style="display: none;" class="ibm-twisty-body"><ul style="font-size:0.8em" class="ibm-link-list">
+<li><a class="ibm-anchor-down-em-link" href="#N1005F">Póngalo en un JAR</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#N1007B">1. Los JARs son ejecutables</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#N100BC">2. Los JARs puede incluir información de dependencia</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#N100FF">3. Los JARs pueden ser referenciados implícitamente</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#N10111">4. Java 6 permite comodines de la variable classpath</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#N10129">5. Los JARs contienen más que sólo código</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#N10164">En conclusión</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#download">Descargar</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#resources">Recursos</a></li>
+<li><a class="ibm-anchor-down-em-link" href="#icomments">Comentarios</a></li></ul></div></li></ul></div></div>
+		</div>
+	</div>
+	<!-- SUMMARY_END -->
+</div><div id="ibm-pcon">
+
+<!-- BEGIN_IBM-CONTENT -->
+<div id="ibm-content">
+
+<!-- BEGIN_IBM-CONTENT-BODY -->
+<div id="ibm-content-body">
+
+<!-- BEGIN_IBM-CONTENT-MAIN -->
+<div id="ibm-content-main">
+
+<!-- 1_1_COLUMN_BEGIN -->
+<div class="ibm-columns">
+<div class="ibm-col-1-1"><div class="dw-article-sidebar dw-bluemix" id="dwc-exp-a"><img src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/bluemix-graphic.png" alt="" height="64" width="64"><p>Desarrolle y despliegue su próxima app en Bluemix, la plataforma cloud de IBM.</p><p class="ibm-button-link-alternate dw-button-green"><a id="tutc-sbar-bmix-home-btn-ABa" href="https://developer.ibm.com/sso/bmregistration?lang=es_AR&amp;ca=dwssa-_-bluemix-_-j-5things6-_-sidebar" class="dw-button-large"> 	Comience su<br>prueba gratuita</a></p></div>
+
+<p>Para la mayoría de los desarrolladores de Java, los archivos JAR y 
+sus parientes especializados, los WARs y EARs, son simplemente el 
+resultado de un largo proceso de Ant o Maven. Es un procedimiento 
+estándar para copiar el JAR en el lugar correcto del servidor (o, en 
+raras ocasiones, en la máquina del usuario) y olvidarse de él.</p><p>En 
+realidad, los JARs pueden hacer más que almacenar código de origen, pero
+ tiene que saber qué más es posible y cómo conseguirlo. Los consejos en 
+esta cuota de la serie de las <em>5 cosas</em>  le mostrará cómo obtener
+ el máximo de los Archivos Java (y en algunos casos también de los WARs y
+ EARs), especialmente al momento de la implementación.</p><p>Ya que 
+existen muchos desarrolladores de Java que utilizan Spring (y porque la 
+infraestructura de Spring presenta algunos retos particulares para 
+nuestro uso tradicional de JARs), muchos de los consejos atienden 
+específicamente los JARs en aplicaciones de Spring.</p><div class="dw-sidebar ibm-inset"><h2 id="N10054">Sobre esta serie</h2><p>¿Así
+ que piensa que sabe de programación en Java? La realidad es que la 
+mayoría de los desarrolladores sólo conocen las bases de la plataforma 
+de Java, aprendiendo sólo lo necesario para realizar el trabajo. En esta
+ <a href="http://www.ibm.com/developerworks/ssa/views/java/libraryview.jsp?search_by=5+cosas">serie</a>,
+        Ted Neward explora las funcionalidades principales de la 
+plataforma de Java para descubrir hechos poco conocidos que podrían 
+ayudarle a solucionar incluso los más complicados retos de programación.</p></div><p>Comenzaré
+ con un ejemplo rápido de un procedimiento estándar de Archivo Java, el 
+cual servirá como base para los consejos siguientes.</p><h2 id="N1005F">Póngalo en un JAR</h2><p>Normalmente,
+ usted crea un archivo JAR después de que su código de origen ha sido 
+compilado, recolectando el código Java (el cual ha sido segregado por 
+paquete) en una sola colección mediante la utilidad de línea de comandos
+ de <code>jar</code> o, más comúnmente, la tarea
+    <code>jar</code> de Ant. El proceso es sencillo y no lo demostraré 
+aquí, aunque más adelante en el artículo regresaremos al tema de cómo 
+son creados los JARs. Por ahora, sólo necesitamos archivar <code>Hello</code>,
+ una utilidad de consola autónoma que realiza la increíblemente útil 
+tarea de imprimir un mensaje en la consola, mostrado en el Listado 1:</p><h5 id="listing1">Listado 1. Archivando la utilidad de consola</h5><div class="codesection"><pre class="displaycode">package com.tedneward.jars;
+
+public class Hello
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Howdy!");
+    }
+}</pre></div><p>La utilidad <code>Hello</code> no es la gran cosa, pero es una base útil para explorar archivos JAR, comenzando con la ejecución del código.</p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p><h2 id="N1007B">1. Los JARs son ejecutables</h2><div class="dw-sidebar ibm-inset"><h2>Desarrolle habilidades de este tema</h2><p>Este contenido es parte de un knowledge path progresivo para avanzar en sus habilidades. Vea <a href="http://www.ibm.com/developerworks/training/kp/j-kp-intro/index.html">Conviértase en un desarrollador de Java</a></p></div><p>Lenguajes
+ como .NET y C++ históricamente han tenido la ventaja de ser compatibles
+ con el SO en el sentido de que sólo hay que referenciar su nombre en la
+ línea de comandos (<code>helloWorld.exe</code>) o hacer doble clic en 
+su icono en el shell de la GUI iniciaría la aplicación. Sin embargo, en 
+la programación de Java una aplicación iniciadora de —<code>java</code>— arranca la JVM en el proceso, y tenemos que pasar un argumento de línea de comandos (<code>com.tedneward.Hello</code>) indicando la clase cuyo método <code>main()</code> queremos lanzar.</p><p>Estas
+ etapas adicionales hacen que sea más difícil crear aplicaciones fáciles
+ de usar en Java. El usuario final no sólo tiene que escribir todos 
+estos elementos en la línea de comandos, lo cual muchos usuarios finales
+ prefieren evitar, sino que existen muchas probabilidades de que cometa 
+errores de tipografía y eso provoque que se regresen errores.</p><p>La 
+solución es hacer "ejecutable" al archivo JAR, de forma que el iniciador
+ de Java automáticamente sabrá qué clase lanzar al ejecutar el archivo 
+JAR. Lo único que tenemos que hacer es introducir una entrada en el 
+manifiesto del archivo JAR (<code>MANIFEST.MF</code> en el subdirectorio <code>META-INF</code> del JAR), de la siguiente manera:</p><h5 id="listing2">Listado 2. ¡Muéstrame el punto de entrada!</h5><div class="codesection"><pre class="displaycode">Main-Class: com.tedneward.jars.Hello</pre></div><p>El
+ manifiesto es sólo un conjunto de pares de nombre-valor. Ya que el 
+manifiesto algunas veces puede ser sensible respecto a retornos de carro
+ y espacios en blanco, es más fácil usar Ant par generarlo cuando se 
+crea el JAR. En el Listado 3, He usado el elemento <code>manifest</code> de la tarea <code>jar</code> de Ant para especificar el manifiesto:</p><h5 id="listing3">Listado 3. ¡Creame el punto de entrada!</h5><div class="codesection"><pre class="displaycode">    &lt;target name="jar" depends="build"&gt;
+        &lt;jar destfile="outapp.jar" basedir="classes"&gt;
+            &lt;manifest&gt;
+                &lt;attribute name="Main-Class" value="com.tedneward.jars.Hello" /&gt;
+            &lt;/manifest&gt;
+        &lt;/jar&gt;
+    &lt;/target&gt;</pre></div><p>Todo lo que un usuario tiene que hacer
+ para ejecutar ahora el archivo JAR es especificar su nombre de archivo 
+en la línea de comandos, mediante <code>java -jar outapp.jar</code>. En el caso de algunos shells de GUI, hacer doble clic en el archivo JAR también funciona.</p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p><h2 id="N100BC">2. Los JARs puede incluir información de dependencia</h2><p>Parece que se ha hablado mucho de la utilidad <code>Hello</code>
+ , y con ello ha surgido la necesidad de variar la implementación. Los 
+contenedores de inyección de dependencia (DI) como Spring o Guice 
+manejan muchos de los detalles para nosotros, pero aún existe un 
+obstáculo: modificar el código para incluir el uso de un contenedor de 
+DI puede entregar resultados como los que ve en el Listado 4:</p><h5 id="listing4">Listado 4. ¡Hola, mundo de Spring!</h5><div class="codesection"><pre class="displaycode">package com.tedneward.jars;
+
+import org.springframework.context.*;
+import org.springframework.context.support.*;
+
+public class Hello
+{
+    public static void main(String[] args)
+    {
+        ApplicationContext appContext =
+            new FileSystemXmlApplicationContext("./app.xml");
+        ISpeak speaker = (ISpeak) appContext.getBean("speaker");
+        System.out.println(speaker.sayHello());
+    }
+}</pre></div><div class="dw-sidebar ibm-inset"><h2 id="N100CF">Más sobre Spring</h2><p>Este consejo asume que está familiarizado con la inyección de dependencia y la infraestructura de Spring. Consulte la sección <a href="#resources">Recursos</a>  si necesita repasar cualquier tema.</p></div><p>Ya que la opción <code>-jar</code> del iniciador sobrescribe cualquier cosa que suceda en la opción de línea de comandos <code>-classpath</code> , Spring necesita estar en la variable <code>CLASSPATH</code><em>y</em>
+ en la variable de entorno cuando ejecute este código. Afortunadamente, 
+los JARs permiten que una declaración de otras dependencias de JAR 
+aparezcan en el manifiesto, lo que implícitamente crea la variable 
+CLASSPATH sin que tenga que declararla, como se muestra en el Listado 5:</p><h5 id="listing5">Listado 5. ¡Hola, CLASSPATH de Spring!</h5><div class="codesection"><pre class="displaycode">    &lt;target name="jar" depends="build"&gt;
+        &lt;jar destfile="outapp.jar" basedir="classes"&gt;
+            &lt;manifest&gt;
+                &lt;attribute name="Main-Class" value="com.tedneward.jars.Hello" /&gt;
+                &lt;attribute name="Class-Path" 
+                    value="./lib/org.springframework.context-3.0.1.RELEASE-A.jar 
+                      ./lib/org.springframework.core-3.0.1.RELEASE-A.jar 
+                      ./lib/org.springframework.asm-3.0.1.RELEASE-A.jar 
+                      ./lib/org.springframework.beans-3.0.1.RELEASE-A.jar 
+                      ./lib/org.springframework.expression-3.0.1.RELEASE-A.jar 
+                      ./lib/commons-logging-1.0.4.jar" /&gt;
+            &lt;/manifest&gt;
+        &lt;/jar&gt;
+    &lt;/target&gt;</pre></div><p>Note que el atributo <code>Class-Path</code>
+ contiene una referencia relativa a los archivos de JAR de los que 
+depende la aplicación. También puede escribir esto como una referencia 
+absoluta o completamente sin un prefijo, en cuyo caso se asumiría que 
+los archivos JAR estaban en el mismo directorio que el JAR de la 
+aplicación.</p><p>Desafortunadamente, el atributo <code>value</code> para el atributo <code>Class-Path</code> de Ant tiene que aparecer en una línea, ya que el manifiesto de JAR no puede hacer frente a la idea de múltiples atributos <code>Class-Path</code>
+ . Así, todas esas dependencias tiene que aparecer en una línea en el 
+archivo de manifiesto. Lo sé, es horrible, ¡pero poder hacer <code>java -jar outapp.jar</code> vale la pena!</p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p><h2 id="N100FF">3. Los JARs pueden ser referenciados implícitamente</h2><p>Si
+ tiene muchas utilidades de línea de comando distintas (u otras 
+aplicaciones) que usan la infraestructura de Spring, puede ser más fácil
+ poner los archivos JAR de Spring en una ubicación común que todas las 
+aplicaciones puedan referenciar. Hacer esto evita tener múltiples copias
+ de JARs saltando en todo el sistema de archivos. La ubicación común del
+ tiempo de ejecución de Java para los JARs, conocida como el "directorio
+ de extensión", está ubicado de forma predeterminada en el subdirectorio
+ <code>lib/ext</code> , bajo la ubicación del JRE instalado.</p><p>El 
+JRE es una ubicación personalizable, pero es tan raro que se personalice
+ en un entorno de Java dado que es completamente seguro asumir que <code>lib/ext</code> es un lugar seguro para almacenar JARs y que estarán implícitamente disponibles en la variable <code>CLASSPATH del entorno de Java</code>.</p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p><h2 id="N10111">4. Java 6 permite comodines de la variable classpath</h2><p>En un esfuerzo por evitar enormes variables de entorno de <code>CLASSPATH</code> (la cuales los desarrolladores de Java debieron haber dejado atrás hace años) y/o parámetros de línea de comandos <code>-classpath</code> , Java 6 presento la noción del <em>comodín de la variable classpath</em>.
+ En lugar de tener que lanzar con cada archivo JAR explícitamente 
+listado en un argumento, el comodín de la variable classpath le permite 
+especificar <code>lib/*</code> y todos los archivos JAR listados en ese directorio (no en forma recursiva), en la variable classpath. </p><p>Desafortunadamente, el comodín de la variable classpath no se adhiere a la entrada de manifiesto del atributo <code>Class-Path</code>
+ previamente discutida. Pero sí hace que sea más fácil lanzar 
+aplicaciones Java (incluyendo servidores) para tareas de desarrollador 
+tales como herramientas de generación de código o herramientas de 
+análisis.</p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p><h2 id="N10129">5. Los JARs contienen más que sólo código</h2><p>Spring,
+ como muchas partes del ecosistema de Java, depende de un archivo de 
+configuración que describe cómo debe ser establecido el entorno. Como se
+ escribió, Spring depende de un archivo app.xml que reside en el mismo 
+directorio que el archivo JAR — pero es muy común que los 
+desarrolladores olviden copiar el archivo de configuración junto con el 
+archivo JAR.</p><p>Algunos archivos de configuración son editables por 
+un administrador del sistema, pero muchos de ellos (como los 
+correlacionamientos de Hibernación) están fuera del dominio del 
+administrador del sistema, lo que produce errores en la implementación. 
+Una buena solución sería empaquetar el archivo de configuración junto 
+con el código — y esto es factible gracias a que un JAR es básicamente 
+un ZIP disfrazado. Simplemente incluya archivos de configuración en la 
+tarea de Ant o la línea de comandos de <code>jar</code> al compilar un JAR.</p><p>Los JARs también incluyen otros tipos de archivos, no sólo archivos de configuración. Por ejemplo, si mi componente <code>SpeakEnglish</code> quisiera acceder a un archivo de propiedades, yo podría configurar eso como se muestra en el Listado 6:</p><h5 id="listing6">Listado 6. Responder en forma aleatoria</h5><div class="codesection"><pre class="displaycode">package com.tedneward.jars;
+
+import java.util.*;
+
+public class SpeakEnglish
+    implements ISpeak
+{
+    Properties responses = new Properties();
+    Random random = new Random();
+
+    public String sayHello()
+    {
+        // Pick a response at random
+        int which = random.nextInt(5);
+        
+        return responses.getProperty("response." + which);
+    }
+}</pre></div><p>Poner <code>responses.properties</code> en el archivo 
+JAR significa que hay un archivo menos por el cual preocuparse en el 
+despliegue junto con el archivo JAR. Hacer eso sólo requiere incluir el 
+archivo responses.properties durante la etapa de JAR.</p><p>Sin embargo,
+ una vez que ha almacenado sus propiedades en un JAR tal vez se pregunte
+ cómo recuperarlas. Si los datos deseados están co-ubicados dentro del 
+mismo archivo JAR, como en el ejemplo anterior, entonces no se moleste 
+en intentar descubrir la ubicación del archivo del JAR y resuélvalo con 
+un objeto <code>JarFile</code> . En lugar de eso, deje que el <code>ClassLoader</code> de la clase la encuentre como un "recurso" dentro del archivo JAR, utilizando el método <code>ClassLoader getResourceAsStream()</code> mostrado en el Listado 7:</p><h5 id="listing7">Listado 7. ClassLoader ubica un Recurso</h5><div class="codesection"><pre class="displaycode">package com.tedneward.jars;
+
+import java.util.*;
+
+public class SpeakEnglish
+    implements ISpeak
+{
+    Properties responses = new Properties();
+    // ...
+
+    public SpeakEnglish()
+    {
+        try
+        {
+            ClassLoader myCL = SpeakEnglish.class.getClassLoader();
+            responses.load(
+                myCL.getResourceAsStream(
+                    "com/tedneward/jars/responses.properties"));
+        }
+        catch (Exception x)
+        {
+            x.printStackTrace();
+        }
+    }
+    
+    // ...
+}</pre></div><p>Es posible seguir este procedimiento para cualquier tipo
+ de recurso: archivo de configuración, archivo de audio, archivo de 
+gráficos, lo que usted quiera. Virtualmente, cualquier tipo de archivo 
+puede ser empaquetado en un JAR, obtenido como un <code>InputStream</code> (mediante el <code>ClassLoader</code>) y usado en cualquier forma que le plazca.</p><div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p><h2 id="N10164">En conclusión</h2><p>Este
+ artículo ha cubierto las cinco principales cosas que la mayoría de los 
+desarrolladores de Java no saben sobre los JARs — al menos con base en 
+evidencia histórica y anecdótica. Tenga en cuenta que todos estos 
+consejos relacionados con los JARs son igualmente aplicables para los 
+WARs. Algunos consejos (los atributos <code>Class-Path</code> y <code>Main-Class</code>
+ en particular) son menos emocionantes en el caso de los WARs, ya que el
+ entorno de servlet recopila todo el contenido de un directorio y tiene 
+un punto de entrada previamente definido. Aun así, si se toman en forma 
+colectiva, estos conejos nos llevan más allá del paradigma que dice 
+"Está bien, comencemos por copiar todo en este directorio..."  Esto 
+también hace que el despliegue de aplicaciones de Java sea mucho más 
+fácil.</p><p>A continuación en esta serie: 5 cosas que no sabía sobre la supervisión del rendimiento para aplicaciones de Java.</p><!--CMA ID: 844440--><!--Site ID: 90--><!--XSLT stylesheet used to transform this file: dw-document-html-7.0.xsl-->
+<div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p><h2 id="download">Descargar</h2><table class="ibm-data-table dw-download-table" border="0" cellpadding="0" cellspacing="0"><thead><tr><th scope="col">Descripción</th><th scope="col">Nombre</th><th scope="col">tamaño</th></tr></thead><tbody><tr><th scope="row" class="ibm-table-row">Sample code for this article</th><td nowrap="nowrap"><a href="http://www.ibm.com/developerworks/apps/download/index.jsp?contentid=844440&amp;filename=j-5things6-src.zip&amp;method=http&amp;locale=es_AR">j-5things6-src.zip</a></td><td nowrap="nowrap">10KB</td></tr></tbody></table>
+
+</div>
+</div>
+<!-- 1_1_COLUMN_END -->
+
+<!-- SPLIT_COLUMNS_BEGIN -->
+<div class="ibm-columns">
+
+<!-- 6_4_COLUMN_BEGIN -->
+<div class="ibm-col-6-4">
+
+<h2 id="resources" class="ibm-rule">Recursos</h2><h3 class="dw-resources-category-heading">Aprender</h3><ul class="ibm-bullet-list"><li><a href="http://www.ibm.com/developerworks/ssa/views/java/libraryview.jsp?search_by=5+cosas"><em>5 cosas que no sabía sobre</em> ...</a> (Ted Neward, developerworks): Esta serie convierte la trivia de Java en oro para la programación.</li><li>"<a href="http://www.ibm.com/developerworks/library/j-jar/index.html">JAR files revealed</a>"
+ (Pagadala Suresh y Palaniyappan Thiagarajan, developerWorks, octubre de
+ 2003): Presenta los dispositivos y beneficios del formato de Archivo 
+Java, incluyendo el empaquetado, los archivos JAR ejecutables, la 
+seguridad y el indexado.</li><li>The <a href="http://java.sun.com/docs/books/tutorial/deployment/jar/index.html">Packaging programs in JAR files</a> (<em>The Java Tutorials</em> trail): The basics of JARs.</li><li><a href="http://www.springsource.org/">Spring</a>:
+    Información sobre esta infraestructura robusta, flexible y popular, directamente desde el origen.</li><li>"<a href="http://www.ibm.com/developerworks/java/library/j-guice.html">Dependency
+    injection with Guice</a>" (Nicholas Lesiecki, developerworks, 
+diciembre de 2008): La DI mejora la capacidad de mantenimiento, de 
+pruebas y de flexibilidad, y Guice hace que la DI sea fácil.</li><li>"<a href="http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath">Setting multiple jars in java classpath</a>" (StackOverflow Q&amp;A, última actualización en marzo de 2010): Más sobre comodines de la variable classpath.</li><li>"<a href="http://www.javaworld.com/javaworld/javatips/jw-javatip127.html">See JARs run</a>" (Shawn Silverman, JavaWorld.com, mayo de 2002): Un tutorial más amplio sobre la creación de archivos JAR ejecutables.</li><li>"<a href="http://video.google.com/videoplay?docid=-8224544168880829029#">Advanced topics in programming languages series: JSR 277: Java Module System</a>"
+ (Google Tech Talks, mayo de 2007): Los JARs tienen sus desventajas — el
+ infierno de la variable classpath, del archivo JAR y de la extensión, 
+por nombrar algunas. Esta Google Tech Talk explica cómo JSR 277 las 
+puede corregir.</li><li>La <a href="http://www.ibm.com/developerworks/ssa/views/java/libraryview.jsp">zona de tecnología de Java de developerWorks</a>: Cientos de artículos sobre todos los aspectos de la programación en Java.</li></ul><h3 class="dw-resources-category-heading">Comentar</h3><ul class="ibm-bullet-list"><li>Participe de la comunidad <a href="http://www.ibm.com/developerworks/mydeveloperworks">My developerWorks</a>.</li></ul>
+
+<!-- INLINE_COMMENTS_BEGIN -->
+<h2 id="icomments" class="ibm-alternate-rule ibm-no-print">Comentarios</h2>
+    
+<div class="ibm-no-print" id="dw-icomments-container">	
+	<div id="threadShow"><img style="display: none;" id="imgPlHdr" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/animated-progress-38x38c.gif" alt=""><div id="cmtTog" style=""><div class="ibm-container ibm-alternate-two dw-commentbox dw-noborder"><div class="ibm-container-body dw-commentbox dw-noborder"><p id="signInSect"> <a onclick="var e=arguments[0] || window.event; dwsi.siInst &amp;&amp; dwsi.siInst.showSignIn(); if (e.stopPropagation){ e.stopPropagation();} else { e.cancelBubble = true; } e.preventDefault &amp;&amp; e.preventDefault(); return false;" href="#">Ingrese</a> o <a href="http://www.ibm.com/developerworks/dwwi/jsp/ssoregister.jsp?d=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fssa%2Fjava%2Flibrary%2Fj-5things6%2F%23icomments&amp;lang=ar&amp;a=dwmav">regístrese</a>  para publicar un comentario.</p><p id="cmtHead"><label for="newCmt"><strong>Agregar comentario :</strong></label></p><p>Nota: los elementos en HTML no son soportados dentro de los comentarios.</p><div id="infoCmt"></div><form focus="name" enctype="multipart/form-data" method="post" action="" name="form" class="ibm-column-form ibm-styled-form"><p class="6-4-textarea"><textarea rows="5" name="newCmt" id="newCmt" class="dw-inoperable" disabled="disabled"></textarea><br></p><span class="ibm-input-group"><input value="1" name="comment_notification" id="comment_notification" disabled="disabled" type="checkbox"><label id="notifyText" class="ibm-form-note dw-btn-cancel-sec" for="comment_notification">Notificarme cuando se añada un comentario</label></span><span class="ibm-form-note dw-btn-cancel-sec notifySection" id="maxCharsCount">quedan <span id="charCount">1000</span> caracteres</span><p class="ibm-buttons-row"><input value="Postear " name="postCmt" id="postCmt" class="ibm-btn-sec ibm-btn-small ibm-disabled" disabled="disabled" type="button"></p></form></div></div><div class="ibm-alternate-rule"><hr></div><div id="topControl" class="ibm-container ibm-alternate-two dw-comment-totals" style=""><div class="ibm-container-body"><form id="selectComments" method="get" action=""><p>&nbsp;<span class="dw-comment-totals-label"><strong>Comentarios totales (<span id="numCmts">1</span>)</strong></span><span class="dw-how-many-comments-label" style="display:none" id="dropdownCmts"><label for="howManyComments"><strong>Mostrar:</strong></label>&nbsp;<select name="comments" id="howManyComments" class="dw-how-many-comments"><option selected="selected" value="recent">Mostrar los comentarios recientes </option></select><input class="ibm-btn-go" name="ibm-go" value="Go" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/short-btn.gif" alt="Go" type="image"><br></span></p></form></div></div><div id="cmtSect"><div class="comment"><div class="dw-icomment-container"><div class="dw-icomment-body dw-noborder"><div class="dw-icomment-body dw-noborder"><p>"artículo muy bonito!</p><p class="ibm-item-note-alternate dw-item-note-alternate-left">Posteado por <strong><a href="https://www.ibm.com/developerworks/community/profiles/user/PeterFong">PeterFong</a></strong> el 22-11-2013</p><p class="ibm-ind-link ibm-item-note-alternate dw-item-note-alternate-right"><a class="ibm-caution-link dw-report-abuse" href="http://www.ibm.com/developerworks/community/report?lang=es&amp;referingURL=http://www.ibm.com/developerworks/ssa/java/library/j-5things6/&amp;mymessage=Comentario:%20%22art%C3%ADculo%20muy%20bonito%21%0DPosteado%20por%20PeterFong%20el%2022-11-2013%0D%0D--%20Agregue%20comentarios%20debajo%20de%20esta%20l%C3%ADnea%20--" target="_self">Reportar abusos</a></p><div class="dw-clear-both"></div></div></div></div></div></div></div><div id="bottomControl" class="ibm-container ibm-alternate-two dw-comment-totals" style="display:none"><div class="ibm-container-body"><form id="selectComments2" method="get" action=""><p>&nbsp;<span class="dw-comment-totals-label"><strong>Comentarios totales (<span id="numCmts2">1</span>)</strong></span><span class="dw-how-many-comments-label" style="display:none" id="dropdownCmts2"><label for="howManyComments2"><strong>Mostrar:</strong></label>&nbsp;<select name="comments" id="howManyComments2" class="dw-how-many-comments"><option selected="selected" value="recent">Mostrar los comentarios recientes </option></select><input class="ibm-btn-go" name="ibm-go" value="Go" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/short-btn.gif" alt="Go" type="image"><br></span></p></form></div></div></div>
+</div>
+<!-- Sign in OVERLAY STARTS HERE -->
+    
+<!-- Sign in OVERLAY STARTS HERE -->
+<div class="ibm-common-overlay" id="signin_overlay">
+<div class="ibm-head">
+<p><a class="ibm-common-overlay-close" href="#" onclick="dwsi.siInst.clearForm();">Cerrar [x]</a></p>
+</div>
+<div class="ibm-body">
+<div class="ibm-main">
+<div class="ibm-title">
+<h2>developerWorks: Ingrese </h2>
+<div id="ibm-overlay-error-signin" class="no-display"></div>
+</div>
+<div class="ibm-container ibm-alternate ibm-buttons-last">
+<div class="ibm-container-body">
+<p class="ibm-overlay-intro">Los campos obligatorios están marcados con un asterisco (<span class="ibm-required">*</span>).</p> 
+<form class="ibm-column-form" id="sFormId" action="" method="post" name="sForm" onsubmit="return false;">
+<p><label for="ibmid">IBM ID:<span class="ibm-required">*</span></label><span><input aria-required="true" name="ibm-id" id="ibmid" size="25" class="required" onkeypress="dwsi.siInst.handleEP(event,this.form);" type="text"><br><a onclick="window.location='/developerworks/dwwi/DWAuthRouter?m=reg&amp;lang=es_AR&amp;d='+encodeURIComponent(location.protocol
+        + '//' + location.hostname + location.pathname + '#icomments'); return false;" href="#" class="ibm-forward-link">¿Necesita un IBM ID?</a> 
+    <br><a class="ibm-forward-link" href="http://www.ibm.com/developerworks/dwwi/jsp/WSHelp.jsp?lang=es_AR">¿Olvidó su IBM ID?</a>  
+</span>
+</p> 
+<p><label for="password">Password:<span class="ibm-required">*</span></label><span><input name="password" id="password" size="25" value="" class="required" onkeypress="dwsi.siInst.handleEP(event,this.form);" type="password"><br><a class="ibm-forward-link" href="#" onclick="(function () {window.location='https://www.ibm.com/account/profile?page=forgot&amp;lang=es_AR&amp;appname=ibm&amp;required=null&amp;d='+encodeURIComponent(dwsi.siInst.getAuthUrl())+'%3Fm%3Dloginpage%26lang%3Den_US%26d%3D'+encodeURIComponent(location.href);})();">¿Olvidó su Password?</a><br><a class="ibm-forward-link" href="#" onclick="(function () {window.location='https://www.ibm.com/account/profile?page=chpw&amp;lang=en_US&amp;appname=ibm&amp;required=null&amp;d='+encodeURIComponent(location.href);})();">Cambie su Password</a></span></p> 
+<p class="dw-perm-box">
+	<span><input id="perm" name="perm_name" type="checkbox"><label for="perm"> Recordarme.</label></span>
+</p>
+<p>Al hacer clic en <strong>Enviar</strong>, usted está de acuerdo con los <a href="http://www.ibm.com/developerworks/community/terms/?lang=es">términos y condiciones</a> de developerWorks.</p>
+<div class="ibm-buttons-row">
+   <p><input class="ibm-btn-arrow-pri" name="ibm-submit" value="Enviar" onclick="dwsi.siInst.signin();return false;" type="submit"><span class="ibm-sep">&nbsp;</span>
+<input value="Cancelar" name="ibm-cancel" class="ibm-btn-cancel-sec" onclick="dwsi.siInst.clearForm();ibmweb.overlay.hide('signin_overlay');return false;" type="button"></p>
+</div>
+</form>
+ <div class="ibm-overlay-rule"><hr></div> 
+
+<p>La primera vez que inicie sesión en developerWorks, se creará un perfil para usted.  <strong>La
+ información en su propio perfil (nombre, país/región y nombre de la 
+empresa) se muestra al público y acompañará a cualquier contenido que 
+publique, a menos que opte por la opción de ocultar el nombre de su 
+empresa</strong>.  Puede actualizar su cuenta de IBM en cualquier momento.</p>
+<div><p class="dw-c-overlay-secure">Toda la información enviada es segura.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="ibm-footer"></div>
+</div>
+<!-- Display name OVERLAY STARTS HERE -->
+<div class="ibm-common-overlay" id="displayname_overlay">
+<div class="ibm-head">
+<p><a class="ibm-common-overlay-close" href="#" onclick="dwsi.siInst.clearForm();">Cerrar [x]</a></p>
+</div>
+<div class="ibm-body">
+<div class="ibm-main">
+<div class="ibm-title">
+<h2>Elija su nombre para mostrar</h2><br><br>
+<div id="ibm-overlay-error-dname" class="no-display"></div>
+</div>
+<div class="ibm-container ibm-alternate ibm-buttons-last">
+<div class="ibm-container-body">
+<p class="ibm-overlay-intro">La primera vez que inicia sesión en 
+developerWorks se crea un perfil para usted, teniendo que elegir un 
+nombre para mostrar en el mismo. Este nombre acompañará el contenido que
+ usted publique en developerWorks.</p><p><strong>Por favor elija un nombre de 3 - 31 caracteres.</strong>
+ Su nombre de usuario debe ser único en la comunidad developerWorks y 
+debe ser distinto a su dirección de email por motivos de privacidad. </p>
+<p class="ibm-overlay-intro">Los campos obligatorios están marcados con un asterisco (<span class="ibm-required">*</span>).</p> 
+<form id="dFormId" method="post" action="" name="dForm" onsubmit="return false;" class="ibm-column-form">
+<p><label for="displayname">Nombre de usuario:<span class="ibm-required">*</span></label>
+    <span><input aria-required="true" name="displayname" id="displayname" size="25" onkeypress="dwsi.siInst.handleEP(event,this.form);" type="text"></span><span class="ibm-form-note">(Por favor elija un nombre de 3 - 31 caracteres.)</span>
+</p>
+<p>Al hacer clic en <strong>Enviar</strong>, usted está de acuerdo con los <a href="http://www.ibm.com/developerworks/community/terms/?lang=es">términos y condiciones</a> de developerWorks.</p>
+<div class="ibm-buttons-row">
+   <p><input class="ibm-btn-arrow-pri" name="ibm-submit" value="Enviar" onclick="dwsi.siInst.signin();return false;" type="submit"><span class="ibm-sep">&nbsp;</span>
+<input value="Cancelar" name="ibm-cancel" class="ibm-btn-cancel-sec" onclick="dwsi.siInst.clearForm();ibmweb.overlay.hide('displayname_overlay');return false;" type="button"></p>
+</div>
+</form>
+<div class="ibm-overlay-rule"><hr></div>
+<div><p class="dw-c-overlay-secure">Toda la información enviada es segura.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="ibm-footer"></div>
+</div>
+
+
+<!-- INLINE_COMMENTS_END -->
+
+</div>
+<!-- 6_4_COLUMN_END -->
+
+<!-- 6_2_COLUMN_BEGIN -->
+<div class="ibm-col-6-2">
+
+<!-- Next_Steps -->
+<!-- Dig_Deeper -->
+
+
+<!-- Promotion_Module -->
+    
+<!-- PROMOTION_MODULE_START -->
+<div class="ibm-alternate-rule"><hr></div>
+<ul class="ibm-portrait-module-list">
+<li><a role="presentation" tabindex="-1" class="" href="http://www.ibm.com/ibm/puresystems/mx/es/index.html"><img src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/sm-f-cl-puresystems70.jpg" alt="" height="60" width="60"></a>
+<h3><a class="ibm-feature-link" href="http://www.ibm.com/ibm/puresystems/mx/es/index.html">IBM PureSystems</a></h3>
+<p>La nueva familia de sistemas expertos integrados de IBM está aquí.</p></li>
+<li><a role="presentation" tabindex="-1" class="" href="https://www.ibm.com/developerworks/ssa/websphere/was/?S_TACT=105AGY79&amp;S_CMP=TILE"><img src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/t-r-was.gif" alt="" height="60" width="60"></a>
+<h3><a class="ibm-feature-link" href="https://www.ibm.com/developerworks/ssa/websphere/was/?S_TACT=105AGY79&amp;S_CMP=TILE">La carrera ha comenzado!</a></h3>
+<p> Obtenga WAS para desarrolladores sin costo.</p></li>
+<li><a role="presentation" tabindex="-1" class="" href="http://www.ibm.com/developerworks/ssa/downloads/r/rtcp/index.html"><img src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/tile_r_teamconcert.jpg" alt="" height="60" width="60"></a>
+<h3><a class="ibm-feature-link" href="http://www.ibm.com/developerworks/ssa/downloads/r/rtcp/index.html">Descarga gratuita:</a></h3>
+<p>Rational Team Concert for Power Systems Software Standard Edition</p></li>
+</ul>
+<!-- PROMOTION_MODULE_END -->
+
+</div>
+<!-- 6_2_COLUMN_END -->
+
+</div>
+<!-- SPLIT_COLUMNS_END -->
+
+<!-- BOTTOM_BACK_TO_TOP -->
+<div class="ibm-columns">
+<div class="ibm-col-1-1">
+	<div class="ibm-alternate-rule"><hr></div><p class="ibm-ind-link ibm-back-to-top"><a href="#ibm-pcon" class="ibm-anchor-up-link">Volver arriba</a></p>
+</div>
+</div>
+
+<!-- Rating_Meta_BEGIN -->
+<!--Rating_Meta_BEGIN--><div class="metavalue">static.content.url=http://www.ibm.com/developerworks/js/artrating/</div><div class="metavalue">SITE_ID=90</div><div class="metavalue">Zone=tecnologia Java</div><div class="metavalue">ArticleID=844440</div><div class="metavalue">ArticleTitle=5 cosas que no sabía sobre...JARs</div><div class="metavalue">publish-date=11052012</div><script language="javascript" type="text/javascript">document.write('<div class="metavalue">url='+location.href.replace(/</g,  '%3C')+'</div>');</script><div class="metavalue">url=http://www.ibm.com/developerworks/ssa/java/library/j-5things6/</div><!--Rating_Meta_END-->
+<!-- Rating_Meta_END -->
+
+</div>
+<!-- END_IBM_CONTENT_MAIN -->
+
+</div>
+<!-- END_IBM_CONTENT_BODY -->
+
+</div>
+<!-- END_IBM_CONTENT -->
+
+</div></div>
+<!-- LEADSPACE_END -->
+
+
+<!-- END_IBM_PCON -->
+<!-- FOOTER_BEGIN -->
+<!-- FOOTER_BEGIN -->
+<div id="ibm-footer"><!-- IBM footer container; disabled --></div>
+
+<div id="ibm-footer-module-dwwrapper" role="contentinfo" aria-label="developerWorks Footer">
+
+<div id="ibm-footer-module-dw">
+	<div class="dw-footer-columns">
+		<div class="dw-footer-col-6-1 dw-footer-col-6-1-ssa">
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/ssa/aboutdw/" tabindex="0">Acerca de</a></li>
+				<li><a href="https://www.ibm.com/developerworks/secure/feedback.jsp?domain=dwssa" tabindex="0">Contacto</a></li>
+		</ul>
+		</div>
+		<div class="dw-footer-col-6-2 dw-footer-col-6-2-ssa">
+			<ul>
+
+				<li><a class="ibm-twitter-link" href="http://twitter.com/dWEspanol" target="_blank" tabindex="0">@dWEspanol</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-3 dw-footer-col-6-3-ssa">
+			<ul>
+				<li><a href="https://www.ibm.com/developerworks/community/report?lang=es" tabindex="0">Informar abusos</a></li>
+				<li><a href="https://www.ibm.com/developerworks/community/terms?lang=es" tabindex="0">Términos de uso</a></li>
+				<li class="dw-footer-newline"><a href="https://www.ibm.com/developerworks/ssa/community/terms/thirdparty/" tabindex="0">Aviso de términos legales de terceros</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-4">
+		    <ul>
+		    	<li><a href="http://www.ibm.com/privacy/us/en/" tabindex="0">Privacidad (Inglés)</a></li>
+		    	<li><a href="http://www.ibm.com/accessibility/us/en/" tabindex="0">Accesibilidad (Inglés)</a></li>
+		    </ul>
+		</div>
+		<div class="dw-footer-col-6-5">
+			<ul>
+				<li class="dw-footer-lang-head">Seleccione un idioma:</li>
+				<li><a href="http://www.ibm.com/developerworks/" tabindex="0">English</a></li>
+				<li><a href="http://www.ibm.com/developerworks/cn/" tabindex="0" lang="zh">中文</a></li>
+				<li><a href="http://www.ibm.com/developerworks/jp/" tabindex="0" lang="ja">日本語</a></li>
+				<li><a href="http://www.ibm.com/developerworks/ru/" tabindex="0" lang="ru">Русский</a></li>
+				<li><a href="http://www.ibm.com/developerworks/br/" tabindex="0" lang="pt">Português (Brasil)</a></li>
+				<li><a href="http://www.ibm.com/developerworks/ssa/" tabindex="0" lang="es">Español</a></li>
+				<li><a href="http://www.ibm.com/developerworks/vn/" tabindex="0" lang="vi">Việt</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-6">
+			<img alt="IBM®" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dwn-ibm-logo-v17.png" height="46" width="223">
+			<img class="dw-preload" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/ibm_sprite_social_blue_ON.png" alt="" height="1" width="1">
+		</div>
+	</div>
+</div>
+
+</div><!-- FOOTER_END -->
+
+<!-- END_IBM-TOP -->
+</div>
+
+<!-- SCRIPTS_INCLUDE_BEGIN -->
+<script type="text/javascript" src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/dw-comments.js">//</script>
+<script type="text/javascript" language="JavaScript">
+	dojo.ready(function(){
+		rBHash = typeof rBHash == "undefined" ? {} : rBHash;
+		rBHash['viperLang'] = 'es';
+		rBHash['urlLang'] = 'ar';
+		rBHash['dwwi2Lang'] = 'es_AR';
+		rBHash['appCode'] = 'dwmav';
+		rBHash['signoutUrl'] = (location.host.toLowerCase() === "www.ibm.com" || location.host.toLowerCase() === "developer.ibm.com") ? 'http://www.ibm.com/developerworks/ssa/' : ''; 
+		dwsi.siInst = new dwweb.dynnav.dwsi();
+		dwsi.siInst.initSI();		
+
+		// construct the comment widget
+dwc.cmts = 'comentarios';
+dwc.signInPreText = '';
+dwc.signIn = 'Ingrese';
+dwc.or = 'o';
+dwc.register = 'regístrese';
+dwc.signInPostText = '';
+dwc.leaveCmt = 'para publicar un comentario.';
+dwc.view = 'Ver';
+dwc.totalCmts = 'Comentarios totales';
+dwc.postYourCmt = 'Publicar su comentario';
+dwc.show = 'Mostrar:';
+dwc.recentCmts = 'Mostrar los comentarios recientes';
+dwc.allCmts = 'Todos los comentarios';
+dwc.tooLongCmt = 'Su comentario ha excedido el límite de 1000 caracteres';
+dwc.numCharsLeft = 'quedan <span id="charCount">{1}</span> caracteres';
+dwc.reportAbuse = 'Reportar abusos';
+dwc.notifyMsg = 'Notificarme cuando se añada un comentario';
+dwc.htmlWarning = 'Nota: los elementos en HTML no son soportados dentro de los comentarios.'; 
+dwc.cmt = 'Comentario:';
+dwc.addCmts = 'Agregar comentarios';
+dwc.addCmt = 'Agregar comentario ';
+dwc.doNotErase = '-- Agregue comentarios debajo de esta línea --'; 
+dwc.viewOrAddCmts = 'Ver o agregar comentario';
+dwc.reportInapprCont = 'Reportar contenido inapropiado';
+dwc.reportInapprContLink = 'http://www.ibm.com/developerworks/forums/forum.jspa?forumID=1836';
+dwc.postingCmt = 'postear comentario';
+dwc.noCmt = 'No hay comentarios en este artículo';
+dwc.netwkErr = 'Hay un problema para salvar los comentarios. Por favor inténtelo luego';
+dwc.addACmt = 'Agregar un comentario';
+dwc.instructCmt = 'El archivo indicado con un asterisco (<span class="ibm-required">*</span>)es requerido para completar esta transacción.';
+dwc.btnPost = 'Postear ';
+dwc.btnPostAnon = 'Postear anónimamente';
+dwc.btnClrCmt = 'Borrar comentario';
+dwc.btnCancel = 'Cancelar';
+dwc.showRecent = 'Mostrar {1} los comentarios más recientes'; // {1} is the count to be substituted
+dwc.showNext = 'Mostrar {1} el siguiente comentarios'; // {1} is the count to be substituted
+dwc.showAllCmts = 'Mostrar todos los comentarios';
+dwc.enterCmt = 'Por favor entre un comentario.';
+dwc.loginErr = 'Su estatus de registro en el sistema no puede verificarse. Por favor inténtelo nuevamente más tarde.';
+dwc.postErr = 'Su comentario no se puede postear en este momento. Por favor intente nuevamente luego.';
+dwc.postBy = 'Posteado por <strong>{1}</strong> el {2}'; // {1} is the author to be substituted {2} is the date
+dwc.siteId = 90;
+dwc.lang = 'es_AR';
+dwc.viperLang = 'es';
+// dwc.abuseHref =  null;
+dwc.maxChars =  1000;
+dwc.cmtTxt =  'Comentario:';
+dwc.cmtsTxt =  'Comentarios:';  
+		dwc && new dwc.comments('threadShow','95%',5,'nCmts','icomments');
+		});
+</script>
+ 
+
+
+<!-- BEGIN: Use this section to set page specific variables for the Unica Page Tag -->
+<script language="JavaScript">var NTPT_PGEXTRA="ibmSkillLevel=1&ibmCmaId=844440&ibmContentAreas=java";</script>
+<!--END --><!-- SCRIPTS_INCLUDE_END -->
+
+<div id="ibm-metrics">
+<script src="5%20cosas%20que%20no%20sab%C3%ADa%20sobre...JARs_files/stats.js" type="text/javascript">//</script>
+</div>
+
+
+
+</body></html>
