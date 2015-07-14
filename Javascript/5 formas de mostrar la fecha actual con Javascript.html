@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+ <title>5 formas de mostrar la fecha actual con Javascript</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta name="apple-touch-fullscreen" content="no">
+
+<link rel="shortcut icon" href="http://www.desarrolloweb.com/img/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="http://www.desarrolloweb.com/images/icono_DW.png">
+
+<link href="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/css.css" rel="stylesheet" type="text/css">
+<meta name="author" content="DesarrolloWeb.com">
+<meta name="owner" content="Guiarte Multimedia S.L.">
+<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow">
+
+<link rel="stylesheet" href="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/style.css">
+
+
+<script async="" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/cbgapi.loaded_1"></script><script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/analytics.js" async=""></script><script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/all.js" id="facebook-jssdk"></script><script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/ca-pub-2899450519669111.js" type="text/javascript" async=""></script><script async="" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/cbgapi.loaded_0"></script><script gapi_processed="true" type="text/javascript" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/plusone.js">
+  {lang: 'es'}
+</script><meta property="og:title" content="5 formas de mostrar la fecha actual con Javascript">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://www.desarrolloweb.com/articulos/mostrar-fecha-actual-javascript.html">
+<meta property="og:image" content="http://www.desarrolloweb.com/images/logo-desarrolloweb100x60.gif"><meta property="og:site_name" content="DesarrolloWeb.com">
+<meta property="fb:admins" content="100001063850916">
+<script>
+var base_dir = "http://www.desarrolloweb.com";
+</script>
+
+<script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/secureAnonymousFramework"></script><style type="text/css">* html #li_ui_li_gen_1436556540533_0 a#li_ui_li_gen_1436556540533_0-link{height:1% !important;}#li_ui_li_gen_1436556540533_0{position:relative !important;overflow:visible !important;display:block !important;}#li_ui_li_gen_1436556540533_0 span{-webkit-box-sizing:content-box !important;-moz-box-sizing:content-box !important;box-sizing:content-box !important;}#li_ui_li_gen_1436556540533_0 a#li_ui_li_gen_1436556540533_0-link{border:0 !important;height:20px !important;text-decoration:none !important;padding:0 !important;margin:0 !important;display:inline-block !important;}#li_ui_li_gen_1436556540533_0 a#li_ui_li_gen_1436556540533_0-link:link, #li_ui_li_gen_1436556540533_0 a#li_ui_li_gen_1436556540533_0-link:visited, #li_ui_li_gen_1436556540533_0 a#li_ui_li_gen_1436556540533_0-link:hover, #li_ui_li_gen_1436556540533_0 a#li_ui_li_gen_1436556540533_0-link:active{border:0 !important;text-decoration:none !important;}#li_ui_li_gen_1436556540533_0 a#li_ui_li_gen_1436556540533_0-link:after{content:"." !important;display:block !important;clear:both !important;visibility:hidden !important;line-height:0 !important;height:0 !important;}#li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-logo{background-image:url(https://static.licdn.com/scds/common/u/images/apps/connect/sprites/sprite_connect_v14.png) !important;background-position:0px -593px !important;background-repeat:no-repeat !important;background-color:#0077b5 !important;background-size:initial !important;cursor:pointer !important;border:0 !important;border-right:1px solid #066094 !important;text-indent:-9999em !important;overflow:hidden !important;padding:0 !important;margin:0 !important;position:absolute !important;left:0px !important;top:0px !important;display:block !important;width:20px !important;height:20px !important;float:right !important;border-radius:2px !important;-moz-border-radius:2px !important;border-top-right-radius:2px !important;border-bottom-right-radius:2px !important;-moz-border-radius-topright:2px !important;-moz-border-radius-bottomright:2px !important;}#li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title{color:#fff !important;cursor:pointer !important;display:block !important;white-space:nowrap !important;float:left !important;margin-left:1px !important;vertical-align:top !important;overflow:hidden !important;text-align:center !important;height:18px !important;padding:0 4px 0 23px !important;border:1px solid #000 !important;border-top-color:#0077b5 !important;border-right-color:#0077b5 !important;border-bottom-color:#0077b5 !important;border-left-color:#0077b5 !important;text-shadow:0 -1px #005887 !important;line-height:20px !important;border-radius:2px !important;-moz-border-radius:2px !important;border-top-right-radius:2px !important;border-bottom-right-radius:2px !important;-moz-border-radius-topright:2px !important;-moz-border-radius-bottomright:2px !important;background-color:#0077b5 !important;background-image:-moz-linear-gradient(top, #0077b5 0%, #0077b5 100%) !important;}#li_ui_li_gen_1436556540533_0.hovered #li_ui_li_gen_1436556540533_0-title{border:1px solid #000 !important;border-top-color:#0369a0 !important;border-right-color:#0369a0 !important;border-bottom-color:#0369a0 !important;border-left-color:#0369a0 !important;background-color:#0369a0 !important;background-image:-moz-linear-gradient(top, #0369a0 0%, #0369a0 100%) !important;}#li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title, #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title{color:#fff !important;border:1px solid #000 !important;border-top-color:#066094 !important;border-right-color:#066094 !important;border-bottom-color:#066094 !important;border-left-color:#066094 !important;background-color:#066094 !important;background-image:-moz-linear-gradient(top, #066094 0%, #066094 100%) !important;}.IN-shadowed #li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title{}.IN-shadowed #li_ui_li_gen_1436556540533_0.hovered #li_ui_li_gen_1436556540533_0-title{}.IN-shadowed #li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title, .IN-shadowed #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title{}#li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title-text, #li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title-text *{color:#fff !important;font-size:11px !important;font-family:Arial, sans-serif !important;font-weight:bold !important;font-style:normal !important;-webkit-font-smoothing:antialiased !important;display:inline-block !important;background:transparent none !important;vertical-align:top !important;height:18px !important;line-height:20px !important;float:none !important;}#li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title-text strong{font-weight:bold !important;}#li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title-text em{font-style:italic !important;}#li_ui_li_gen_1436556540533_0.hovered #li_ui_li_gen_1436556540533_0-title-text, #li_ui_li_gen_1436556540533_0.hovered #li_ui_li_gen_1436556540533_0-title-text *{color:#fff !important;}#li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title-text, #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title-text, #li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title-text *, #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title-text *{color:#fff !important;}#li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title #li_ui_li_gen_1436556540533_0-mark{display:inline-block !important;width:0px !important;overflow:hidden !important;}.success #li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title{color:#fff !important;border-top-color:#0077b5 !important;border-right-color:#0077b5 !important;border-bottom-color:#0077b5 !important;border-left-color:#0077b5 !important;background-color:#0077b5 !important;background-image:-moz-linear-gradient(top, #0077b5 0%, #0077b5 100%) !important;}.success #li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title-text, .success #li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title-text *{color:#fff !important;}.IN-shadowed .success #li_ui_li_gen_1436556540533_0 #li_ui_li_gen_1436556540533_0-title{}.success #li_ui_li_gen_1436556540533_0.hovered #li_ui_li_gen_1436556540533_0-title{color:#fff !important;border-top-color:#0369a0 !important;border-right-color:#0369a0 !important;border-bottom-color:#0369a0 !important;border-left-color:#0369a0 !important;background-color:#0369a0 !important;background-image:-moz-linear-gradient(top, #0369a0 0%, #0369a0 100%) !important;}.success #li_ui_li_gen_1436556540533_0.hovered #li_ui_li_gen_1436556540533_0-title-text, .success #li_ui_li_gen_1436556540533_0.hovered #li_ui_li_gen_1436556540533_0-title-text *{color:#fff !important;}.success #li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title, .success #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title{color:#fff !important;border-top-color:#066094 !important;border-right-color:#066094 !important;border-bottom-color:#066094 !important;border-left-color:#066094 !important;background-color:#066094 !important;background-image:-moz-linear-gradient(top, #066094 0%, #066094 100%) !important;}.success #li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title-text, .success #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title-text, .success #li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title-text *, .success #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title-text *{color:#fff !important;}.IN-shadowed .success #li_ui_li_gen_1436556540533_0.clicked #li_ui_li_gen_1436556540533_0-title, .IN-shadowed .success #li_ui_li_gen_1436556540533_0.down #li_ui_li_gen_1436556540533_0-title{}#li_ui_li_gen_1436556540573_1-container.IN-top {display:inline-block !important;overflow:visible !important;position:relative !important;height:42px !important;line-height:1px !important;cursor:pointer !important;}#li_ui_li_gen_1436556540573_1.IN-top {display:inline-block !important;height:42px !important;width:60px !important;text-align:center !important;background-image:url(https://static.licdn.com/scds/common/u/images/apps/connect/sprites/sprite_connect_v14.png) !important;background-color:transparent !important;background-repeat:no-repeat !important;background-position:-207px -470px !important;}#li_ui_li_gen_1436556540573_1-content.IN-top {display:inline !important;font-size:16px !important;color:#4e4e4e !important;font-weight:bold !important;font-family:Arial, sans-serif !important;line-height:38px !important;}#li_ui_li_gen_1436556540573_1-container.IN-empty #li_ui_li_gen_1436556540573_1-inner.IN-top {background-image:url(https://static.licdn.com/scds/common/u/images/apps/connect/sprites/sprite_connect_v14.png) !important;background-color:transparent !important;background-repeat:no-repeat !important;background-position:0px -560px !important;background-size:initial !important;overflow:hidden !important;margin:4px auto 0 auto !important;width:28px !important;height:28px !important;display:block !important;}#li_ui_li_gen_1436556540573_1-container.IN-empty #li_ui_li_gen_1436556540573_1-content.IN-top {text-indent:-999px !important;display:inline-block !important;}#li_ui_li_gen_1436556540573_1-container.IN-hidden #li_ui_li_gen_1436556540573_1 {display:none !important;}</style><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f8;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3a5795;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #2f477a;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f8;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style></head>
+
+<body>
+	<div id="container">
+   	<header>
+      <div id="logo">
+                <a href="http://www.desarrolloweb.com/">
+          <img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/logo.png" alt="Logo de DesarrolloWeb.com">
+        </a>
+      </div>
+      <div id="iconosredes20">
+        <a href="http://www.facebook.com/desarrollowebcom/"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/1x1.png" class="sprite" alt="facebook" id="fb20"></a>
+        <a href="http://www.twitter.com/deswebcom/"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/1x1.png" class="sprite" alt="twitter" id="tw20"></a>
+        <a href="https://plus.google.com/111428356405969326386/posts"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/1x1.png" class="sprite" alt="google plus" id="gp20"></a>
+        <a href="http://www.youtube.com/desarrollowebcom"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/1x1.png" class="sprite" alt="youtube" id="yt20"></a>
+        <a href="http://www.desarrolloweb.com/rss/general_rss.php"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/1x1.png" class="sprite" alt="rss" id="rss20"></a>
+      </div>
+
+      <div id="buscador">
+        <form action="/buscar.php " id="cse-search-box">
+          <div>
+            <input name="cx" value="partner-pub-2899450519669111" type="hidden">
+            <input name="cof" value="FORID:11" type="hidden">
+            <input name="ie" value="ISO-8859-1" type="hidden">
+            <input name="q" id="textobuscar" placeholder="ej. css" type="text"><input name="sa" value="Buscar" id="botonbuscar" type="submit">
+          </div>
+        <input name="siteurl" value="www.desarrolloweb.com/" type="hidden"><input name="ref" value="" type="hidden"><input name="ss" value="" type="hidden"></form>
+      </div>
+      <div class="loginbox">
+                <div class="icousuario">
+          <span class="icon-user"></span>
+           <a id="enlacelogin" href="#" onclick="$('.cu250mdWrapper').slideToggle();return false;">Login</a> | <a href="http://www.desarrolloweb.com/comunidad/registro/">Registro</a>
+          <div class="cu250mdWrapper" id="2flogin">
+            <div class="cu250md">
+              <div class="accesoUsuarios col_1 mb">Acceso usuarios</div>
+              <div class="errorLoginWrapper">
+                 <div class="errorLogin"></div>
+              </div>
+              <form method="post" action="/dologin.php" id="formullogin" onsubmit="return false;">
+                <input value="" name="id_descarga" type="hidden">
+                <input value="/" name="origen" type="hidden">
+                <div class="col_1 mb sufix_1">
+                  <label for="usuario" class="col_2">E-mail:</label>
+                  <input maxlength="150" size="14" name="usuario" id="usuario" class="col_2" type="text">
+                </div>
+                <div class="col_1 mb sufix_1">
+                  <label for="clave" class="col_2">Clave:</label>
+                  <input maxlength="150" size="14" name="clave" id="clave" class="col_2" type="password">
+                </div>
+                <div class="col_1">
+                  <span class="col_2"><label for="guardar_clave" class="nh">Recordar este usuario</label></span>
+                  <input value="1" name="guardar_clave" id="guardar_clave" type="checkbox">
+                </div>
+                <div class="submitButtonWrapper">
+                  <input value="Login" id="btnlogin" onclick="doSubmit(this)" type="submit">
+                </div>
+              </form>
+              <div class="accion">
+                    <img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/key.png" alt="" height="16" width="16"> <a href="http://www.desarrolloweb.com/comunidad/recordarclave.php">¿Olvidaste tu clave?</a>
+                    <img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/user.png" alt="" height="16" width="16"> <a href="http://www.desarrolloweb.com/comunidad/registro/">Registrarse</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+      </div>
+
+      <div id="accionnavega" class="sprite">Navegación</div>
+      <div class="clearfix"></div>
+    </header>
+    <div id="localizador">
+      <div id="breadcrumbs"><a href="http://www.desarrolloweb.com/index.php">DesarrolloWeb.com</a> &gt; <a href="http://www.desarrolloweb.com/manuales/">Manuales</a> &gt;  <a href="http://www.desarrolloweb.com/manuales/22/">Taller de Javascript</a></div>
+      <a id="accnavlocaliza" href="#" onclick="return false;" alt="menu responsive"></a>
+      </div>
+    <div id="supercuerpo">
+      <nav>
+        <ul>
+          <li class="navtit"><a href="http://www.desarrolloweb.com/secciones/">Secciones</a></li>
+          <li><a href="http://www.desarrolloweb.com/manuales/">Manuales</a></li>
+          <li><a href="http://www.desarrolloweb.com/programas/">Programas</a></li>
+          <li><a href="http://www.desarrolloweb.com/faq/">FAQs</a></li>
+          <li><a href="http://www.desarrolloweb.com/directorio/">Directorio</a></li>
+          <li><a href="http://www.desarrolloweb.com/videos/">Vídeos</a></li>
+          <li><a href="http://www.desarrolloweb.com/en-directo/">En directo</a></li>
+        </ul>
+        <ul>
+          <li class="navtit"><a href="http://www.desarrolloweb.com/monotematicos/">Monotemáticos</a></li>
+          <li><a href="http://www.desarrolloweb.com/desde0/">Desde 0</a></li>
+          <li><a href="http://www.desarrolloweb.com/diseno-web/">Diseño web</a></li>
+          <li><a href="http://www.desarrolloweb.com/html/">HTML</a></li>
+          <li><a href="http://www.desarrolloweb.com/css/">CSS</a></li>
+          <li><a href="http://www.desarrolloweb.com/javascript/">Javascript</a></li>
+          <li><a href="http://www.desarrolloweb.com/ajax/">Ajax</a></li>
+          <li><a href="http://www.desarrolloweb.com/asp/">ASP</a></li>
+          <li><a href="http://www.desarrolloweb.com/php/">PHP</a></li>
+        </ul>
+        <ul>
+          <li class="navtit"><a href="http://www.desarrolloweb.com/blogging/">Blogging</a></li>
+          <li><a href="http://www.desarrolloweb.com/actualidad/">Actualidad</a></li>
+          <li><a href="http://www.desarrolloweb.com/de_interes/">De interés</a></li>
+          <li><a href="http://www.desarrolloweb.com/agenda/">Agenda</a></li>
+        </ul>
+        <ul>
+          <li class="navtit"><a href="http://www.desarrolloweb.com/comunidad/">Usuarios</a></li>
+          <li><a href="http://www.desarrolloweb.com/usuarios/">Perfiles</a></li>
+          <li><a href="http://www.desarrolloweb.com/comunidad/registro/">Registro</a></li>
+          <li><a href="http://www.desarrolloweb.com/boletinnovedades/">Boletín</a></li>
+        </ul>
+        <div class="clearfix"></div>
+      </nav>
+      <div role="main" id="contenido">
+            <div id="columnaprincipal">
+              <div class="col_1 mt mb">
+<script async="" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/adsbygoogle.js"></script>
+<!-- dw_adaptable -->
+<ins data-adsbygoogle-status="done" class="adsbygoogle" style="display: block; height: 90px;" data-ad-client="ca-pub-2899450519669111" data-ad-slot="4486354017" data-ad-format="horizontal"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:849px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:849px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="90" width="849"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+	<section>
+		<article class="articulo">
+			<h1>5 formas de mostrar la fecha actual con Javascript</h1>
+
+						<div class="datosDescripcionArticulo col_1 hr">
+				<ul class="inline_list">
+										<li>
+					Por <a rel="author" href="http://www.desarrolloweb.com/contacta/51.html"><b>Luis Javier Alvarez</b></a><br>					</li>
+										<li>				</li></ul>
+			</div>
+			<div class="col_1">
+				<ul class="inline_list">
+										<li class="icofecha">
+						<span class="icon-calendar-alt-stroke"></span>
+						09						de
+						noviembre						de
+						2009					</li>
+										<li class="icocoment">
+												<span class=" icon-comment-stroke"></span>
+						<a href="#comentarios">18 Comentarios</a>
+					</li>
+					<li class="icotag">
+						<span class=" icon-tag-fill2"></span> <a href="http://www.desarrolloweb.com/directorio/programacion/javascript/scripts_en_javascript">Scripts en Javascript</a>					</li>
+				</ul>
+			</div>
+
+			<div class="breve_descripcion col_1 mb mt">
+				<b>Varias maneras de mostrar la fecha del día de hoy en una página web con Javascript, para que aparezca con distintos formatos.</b>
+			</div>
+
+			<div class="fl sufix_1_2">
+			<script async="" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/adsbygoogle.js"></script>
+<!-- dw_roba -->
+<ins data-adsbygoogle-status="done" class="adsbygoogle" style="display: inline-block; width: 300px; height: 250px;" data-ad-client="ca-pub-2899450519669111" data-ad-slot="1253686019"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;" frameborder="0" height="250" width="300"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>			</div>
+
+			<div>
+				En este artículo vamos a mostrar varias formas de mostrar la fecha 
+actual en una página web y que esta sea dinámica, de modo que siempre se
+ muestre la fecha del día de hoy, sin que nosotros tengamos que hacer 
+nada, ni actualizar la página ni ninguna otra tarea de mantenimiento.
+<p>
+La manera más fácil de hacer esto, que no tiene ningún requisito para su
+ funcionamiento, ni en lo relativo al servidor donde esté la página, ni 
+al navegador con el que accede el usuario, es con Javascript. Bueno, en 
+realidad requiere que el usuario que visita nuestra página tenga un 
+navegador compatible con Javascript, pero eso en el momento actual es lo
+ más común. 
+</p><p>
+Las funciones con las que se calcula la fecha actual por medio de 
+programación en el cliente nos las ofrece la clase Date de Javascript, 
+que forma parte de cualquier Javascript, por antiguo que sea el 
+navegador. En el artículo de DesarrollolloWeb.com <a href="http://www.desarrolloweb.com/articulos/744.php">Clase date en Javascript para manejo de fechas</a>
+ ya se explicó cómo hacer nuestros propios códigos para obtener fechas 
+en cualquier formato y con cualquier dato, lo que puede ser bueno para 
+aprender las bases. En este artículo voy a dejar de lado las 
+explicaciones y centrarme más en mostrar varios scripts, por separado, 
+que nos pueden ayudar a crear una fecha con distintos formatos.
+</p><p>
+Podemos <a href="http://www.desarrolloweb.com/articulos/ejemplos/tallerjs/fechas-con-javascript.html" target="_blank">ver en una página aparte todos los ejemplos de visualización de la fecha actual</a> que vamos a construir en este artículo.
+
+</p><h2>
+Fecha básica con números
+</h2>
+Podemos utilizar el siguiente script, para mostrar la fecha en español 
+con números, es decir, en el formato como se escribe en nuestro idioma: 
+dia/mes/año. 
+<p>
+
+<span class="codigo">
+&lt;script&gt;<br>
+var f = new Date();<br>
+document.write(f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear());<br>
+&lt;/script&gt;
+</span>
+
+</p><p>
+Este script de Javascript lo tenemos que colocar en el cuerpo de la 
+página, en el lugar donde queremos que aparezca la fecha de hoy. 
+Nosotros podremos colocar este script en cualquier contenedor donde 
+queramos que aparezca, como un párrafo, una capa o división, una celda 
+de una tabla, o donde deseemos.
+</p><h2>
+Fecha con el nombre del mes
+</h2>
+Podríamos desear poner la fecha escrita, donde aparezca el nombre del 
+mes con letras, es decir, algo como "9 de noviembre de 2009". Esto 
+quedaría bien si queremos darle un toque más prosaico a la visualización
+ de la fecha actual. Se consigue con un script como este:
+<p>
+
+<span class="codigo">
+&lt;script&gt;<br>
+var meses = new Array 
+("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");<br>
+var f=new Date();<br>
+document.write(f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());<br>
+&lt;/script&gt;
+</span>
+
+</p><p>
+Como habrás podido comprobar, no tiene ninguna dificultad, pero tenemos 
+que crear un array con los nombres de los meses en español, puesto que 
+en Javascript no tenemos ninguna manera de conseguir esos nombres en 
+nuestro idioma. Nuevamente, colocaremos el script en el lugar donde 
+deseamos que aparezca escrita la fecha.
+</p><h2>
+Fecha con nombre de més y nombre de día de la semana
+</h2>
+Ahora vamos a darle una vuelta de trueca al anterior script para generar
+ el nombre del día de la semana. El esquema sigue siendo el mismo, pero 
+ahora necesitaremos otro array con los nombres de los días de la semana.
+ Con este script conseguiremos una fecha escrita que será parecida a 
+esta: "Lunes, 9 de Noviembre de 2009".
+<p>
+
+<span class="codigo">
+&lt;script&gt;<br>
+var meses = new Array 
+("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");<br>
+var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");<br>
+var f=new Date();<br>
+document.write(diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());<br>
+&lt;/script&gt;
+</span>
+
+</p><h2>
+Fecha con estilos CSS
+</h2>
+
+Ayudados de las <a href="http://www.desarrolloweb.com/manuales/manual-css-hojas-de-estilo.html">Hojas de estilo en Cascada</a>,
+ vamos a mostrar la fecha con un poco de decoración gráfica. Para ello 
+escribiremos la fecha en diversas cajas, a las que aplicaremos los 
+estilos adecuados para que combine con el aspecto de nuestro sitio. En 
+este caso vamos a requerir dos cosas: 
+<ul>
+<li>
+El script para escribir la fecha, que colocaremos donde queramos que aparezca.
+</li>
+<li>
+Código CSS con Las declaraciones de estilos, que podemos colocar antes 
+de mostrar la fecha o bien junto con otras declaraciones de estilos que 
+tengamos en nuestra página o en el fichero de estilos CSS.
+</li>
+</ul>
+<span class="codigo">
+&lt;style type="text/css"&gt;<br>
+.mifecha {<br>
+&nbsp;&nbsp;&nbsp;background-color: #999;<br>
+&nbsp;&nbsp;&nbsp;padding: 3px;<br>
+&nbsp;&nbsp;&nbsp;width: 110px;<br>
+&nbsp;&nbsp;&nbsp;text-align: center;<br>
+&nbsp;&nbsp;&nbsp;font-family:verdana, arial;<br>
+&nbsp;&nbsp;&nbsp;font-size: 12pt;<br>
+}<br>
+.mifecha .ano{<br>
+&nbsp;&nbsp;&nbsp;background-color: #339;<br>
+&nbsp;&nbsp;&nbsp;padding: 2px;<br>
+&nbsp;&nbsp;&nbsp;font-size: 100%;<br>
+&nbsp;&nbsp;&nbsp;margin-bottom: 3px;<br>
+&nbsp;&nbsp;&nbsp;color: #fff;<br>
+&nbsp;&nbsp;&nbsp;letter-spacing: 3px;<br>
+&nbsp;&nbsp;&nbsp;font-weight: bold;<br>
+}<br>
+.mifecha .dia{<br>
+&nbsp;&nbsp;&nbsp;background-color: #99f;<br>
+&nbsp;&nbsp;&nbsp;font-size: 300%;<br>
+&nbsp;&nbsp;&nbsp;padding: 5px 8px;<br>
+&nbsp;&nbsp;&nbsp;margin-bottom: 3px;<br>
+&nbsp;&nbsp;&nbsp;font-weight: bold;<br>
+}<br>
+.mifecha .mes{<br>
+&nbsp;&nbsp;&nbsp;background-color: #339;<br>
+&nbsp;&nbsp;&nbsp;font-size: 80%;<br>
+&nbsp;&nbsp;&nbsp;padding: 2px;<br>
+&nbsp;&nbsp;&nbsp;color: #fff;<br>
+&nbsp;&nbsp;&nbsp;font-weight: bold;<br>
+}<br>
+&lt;/style&gt;<br>
+<br>
+&lt;script&gt;<br>
+var f=new Date();<br>
+var meses = new Array 
+("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");<br>
+document.write('&lt;div class="mifecha"&gt;');<br>
+document.write('&lt;div class="ano"&gt;' + f.getFullYear() + '&lt;/div&gt;');<br>
+document.write('&lt;div class="dia"&gt;' + f.getDate() + '&lt;/div&gt;');<br>
+document.write('&lt;div class="mes"&gt;' + meses[f.getMonth()] + '&lt;/div&gt;');<br>
+document.write('&lt;/div&gt;');<br>
+&lt;/script&gt;
+</span>
+
+
+<p>
+Como decía, las declaraciones de estilos las he creado yo ahora como me 
+ha parecido bien, pero vosotros tendríais que editar el código CSS para 
+que la fecha tenga un aspecto que quede bien en vuestra página.
+</p><p>
+Con un mínimo de habilidades de Javascript y CSS estoy seguro que 
+podréis alterar este código de manera que se pueda mostrar la fecha con 
+otro aspecto y otra ordenación de los elementos.
+</p><h2>
+Fecha creativa, con casillas para los días del mes y con el día actual remarcado
+</h2>
+Por variar un poco este script para escribir el día de hoy en una web, 
+he creado una forma de mostrar la fecha un poco más creativa. Utilizo un
+ código de Javascript un poco más complejo, para generar los casilleros 
+de todos los días del mes, resaltando el día actual. Da un aspecto 
+similar a un calendario, pero bastante más simplificado.
+<p>
+Este script ya se complica un poco, básicamente porque tengo que meter 
+algunas líneas de código para saber cuántos días tiene el mes actual, a 
+fin de crear cada una de las casillas para cada uno de los días. Además,
+ tendré que hacer una comprobación para saber cuál es el día actual y 
+darle un estilo diferente. Como en el caso anterior, hacemos uso de un 
+poco de CSS para decorar y estilizar los componentes de esta fecha.
+</p><p>
+
+<span class="codigo">
+&lt;style type="text/css"&gt;<br>
+.mifecha2 {<br>
+&nbsp;&nbsp;&nbsp;border: 1px solid #ddd;<br>
+&nbsp;&nbsp;&nbsp;padding: 3px;<br>
+&nbsp;&nbsp;&nbsp;text-align: center;<br>
+&nbsp;&nbsp;&nbsp;font-family:verdana, arial;<br>
+&nbsp;&nbsp;&nbsp;font-size: 10pt;<br>
+&nbsp;&nbsp;&nbsp;overflow: hidden;<br>
+&nbsp;&nbsp;&nbsp;width: 100%<br>
+}<br>
+.mifecha2 .mesano{<br>
+&nbsp;&nbsp;&nbsp;float: left;<br>
+&nbsp;&nbsp;&nbsp;padding: 3px;<br>
+&nbsp;&nbsp;&nbsp;font-weight: bold;<br>
+}<br>
+.mifecha2 .dia, .mifecha2 .diaactual{<br>
+&nbsp;&nbsp;&nbsp;width: 20px;<br>
+&nbsp;&nbsp;&nbsp;padding: 3px;<br>
+&nbsp;&nbsp;&nbsp;margin-left: 3px;<br>
+&nbsp;&nbsp;&nbsp;background-color: #ddd;<br>
+&nbsp;&nbsp;&nbsp;float: left;<br>
+}<br>
+.mifecha2 .diaactual{<br>
+&nbsp;&nbsp;&nbsp;background-color: #999;<br>
+&nbsp;&nbsp;&nbsp;font-weight: bold;<br>
+}<br>
+<br>
+&lt;/style&gt;<br>
+&lt;script&gt;<br>
+var f=new Date();<br>
+var ano = f.getFullYear();<br>
+var mes = f.getMonth();<br>
+var dia = f.getDate();<br>
+var estiloDia;<br>
+var meses = new Array 
+("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");<br>
+var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");<br>
+var diasMes = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);<br>
+var diaMaximo = diasMes[mes];<br>
+if (mes == 1 &amp;&amp; (((ano % 4 == 0) &amp;&amp; (ano % 100 != 0)) || (ano % 400 == 0)))<br>
+&nbsp;&nbsp;&nbsp;diaMaximo = 29;<br>
+document.write('&lt;div class="mifecha2"&gt;');<br>
+document.write('&lt;div class="mesano"&gt;' + meses[mes] + ' ' + ano + ':&lt;/div&gt;');<br>
+<br>
+for (i=1; i&lt;=diaMaximo; i++){<br>
+&nbsp;&nbsp;&nbsp;if(i == dia)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;estiloDia = "diaactual";<br>
+&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;estiloDia = "dia";<br>
+&nbsp;&nbsp;&nbsp;document.write('&lt;div class="' + estiloDia + '"&gt;' + i + '&lt;/div&gt;');<br>
+}&nbsp;&nbsp;&nbsp;<br>
+document.write('&lt;/div&gt;');<br>
+&lt;/script&gt;
+</span>
+</p><p>
+Para terminar, dejo de nuevo el enlace a una <a href="http://www.desarrolloweb.com/articulos/ejemplos/tallerjs/fechas-con-javascript.html" target="_blank">página donde están todos los ejemplos de fechas</a> creados en este artículo.			</p></div>
+			<script async="" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/adsbygoogle.js"></script>
+<!-- dw_articulos_inferior -->
+<ins data-adsbygoogle-status="done" class="adsbygoogle" style="display: block; height: 90px;" data-ad-client="ca-pub-2899450519669111" data-ad-slot="4207152414" data-ad-format="auto"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:849px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:849px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;" frameborder="0" height="90" width="849"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>						<footer>
+						  	<div class="colaborador">
+										<div id="descripcion-autor" class="fr tar">
+						<h2>Autor</h2>
+						<h3>
+							<a href="http://www.desarrolloweb.com/contacta/51.html">
+								<b>Luis Javier Alvarez</b>
+							</a>
+							<br>
+																				</h3>
+						<div class="col_1"></div>
+						<div class="col_1"></div>
+					</div>
+				</div>
+								<div class="colaborador">
+									</div>
+				<div class="fr">
+					<a href="#" class="button" onclick="scroll($('body'),'.articulo h1');return false;">Subir <span class="icon-arrow-up"></span></a>
+				</div>
+				
+	
+ 
+
+
+
+
+															<div class="col_1">
+					<h2 class="cabeceraAzul"><b>Manual</b></h2><ul><li><a href="http://www.desarrolloweb.com/manuales/22/">Taller de Javascript</a></li></ul>				</div>
+				<div class="col_1 mt">
+					<div class="fl"><a href="http://www.desarrolloweb.com/articulos/tinymce.html" class="button">
+	<span class="icon-arrow-left2"></span> Editor de texto WYSIWYG Javascript: TinyMCE</a></div><div class="fr"><a href="http://www.desarrolloweb.com/articulos/libreria-yui-yahoo.html" class="button">YUI: Yahoo! User Interface <span class="icon-arrow-right2"></span></a></div>				</div>
+				
+				
+				<div class="col_1">
+					<a name="compartir"></a>
+					<h2 class="cabeceraAzul"><b>Compartir</b></h2>
+										<div class="col_1 mt">
+
+	<script gapi_processed="true" type="text/javascript" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/plusone.js">
+	  {lang: 'es'}
+	</script>
+
+	
+	<div class="col_1">
+		<ul class="col_1 inline_list redes_sociales">
+			<li>
+				<script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/in.js" type="text/javascript">
+					lang: es_ES
+				</script>
+				<span class="IN-widget" style="line-height: 1; vertical-align: baseline; display: inline-block; text-align: center;"><span style="padding: 0px ! important; margin: 0px ! important; text-indent: 0px ! important; display: inline-block ! important; vertical-align: baseline ! important; font-size: 1px ! important;"><span id="li_ui_li_gen_1436556540573_1-container" class="IN-top"><span id="li_ui_li_gen_1436556540573_1" class="IN-top"><span id="li_ui_li_gen_1436556540573_1-inner" class="IN-top"><span id="li_ui_li_gen_1436556540573_1-content" class="IN-top">1</span></span></span></span></span><br><span style="padding: 0px ! important; margin: 0px ! important; text-indent: 0px ! important; display: inline-block ! important; vertical-align: baseline ! important; font-size: 1px ! important;"><span id="li_ui_li_gen_1436556540533_0"><a id="li_ui_li_gen_1436556540533_0-link" href="javascript:void(0);"><span id="li_ui_li_gen_1436556540533_0-logo">in</span><span id="li_ui_li_gen_1436556540533_0-title"><span id="li_ui_li_gen_1436556540533_0-mark"></span><span id="li_ui_li_gen_1436556540533_0-title-text">Compartir</span></span></a></span></span></span><script type="IN/Share+init" data-counter="top"></script>
+			</li>
+			<li>
+				<div id="___plusone_0" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 50px; height: 60px;"><iframe title="+1" data-gapiattached="true" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/fastbutton.html" name="I0_1436556533577" id="I0_1436556533577" vspace="0" tabindex="0" style="position: static; top: 0px; width: 50px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 60px;" scrolling="no" marginwidth="0" marginheight="0" hspace="0" frameborder="0" width="100%"></iframe></div>
+			</li>
+			<li>
+				<script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/widgets.js" type="text/javascript"></script>
+				<div>
+			    <iframe style="position: static; visibility: visible; width: 57px; height: 61px;" data-twttr-rendered="true" title="Twitter Tweet Button" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-vertical" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/tweet_button.html" allowtransparency="true" scrolling="no" id="twitter-widget-0" frameborder="0"></iframe>
+				</div>
+			</li>
+			<li>
+				<div class=" fb_reset" id="fb-root"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/xRlIuTsSMoE.html" style="border: medium none;" tabindex="-1" title="Facebook Cross Domain Communication Frame" aria-hidden="true" id="fb_xdm_frame_http" scrolling="no" allowfullscreen="true" allowtransparency="true" name="fb_xdm_frame_http" frameborder="0"></iframe><iframe src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/xRlIuTsSMoE_002.html" style="border: medium none;" tabindex="-1" title="Facebook Cross Domain Communication Frame" aria-hidden="true" id="fb_xdm_frame_https" scrolling="no" allowfullscreen="true" allowtransparency="true" name="fb_xdm_frame_https" frameborder="0"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/ping.html" style="display: none;" scrolling="no" allowfullscreen="true" allowtransparency="true" name="fc83b800b50646" frameborder="0"></iframe></div></div></div>
+				<script>(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1&appId=459742597430134";
+				  fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));</script>
+				<div fb-iframe-plugin-query="action=recommend&amp;app_id=459742597430134&amp;container_width=85&amp;href=http%3A%2F%2Fwww.desarrolloweb.com%2Farticulos%2Fmostrar-fecha-actual-javascript.html&amp;layout=box_count&amp;locale=es_LA&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=150" fb-xfbml-state="rendered" class="fb-like fb_iframe_widget" data-href="http://www.desarrolloweb.com/articulos/mostrar-fecha-actual-javascript.html" data-width="150" data-layout="box_count" data-action="recommend" data-show-faces="false" data-send="false"><span style="vertical-align: bottom; width: 86px; height: 61px;"><iframe class="" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/like.html" style="border: medium none; visibility: visible; width: 86px; height: 61px;" title="fb:like Facebook Social Plugin" scrolling="no" allowfullscreen="true" allowtransparency="true" name="f2ce3435fbf98a2" frameborder="0" height="1000px" width="150px"></iframe></span></div>
+			</li>
+			<li style="height: 68px;line-height: 68px;text-align: center;">
+				<a href="http://www.meneame.net/submit.php?url=http://www.desarrolloweb.com/articulos/mostrar-fecha-actual-javascript.html" target="_blank" title="Enviar este artÃ­culo a Meneame"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/menea.png" style="margin-right:10px" border="0"></a>
+			</li>
+			<li style="height: 68px;line-height: 68px;">
+				<script type="text/javascript" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/widgets_002.js"></script>
+				<a title="Compartir en Tuenti" href="http://www.tuenti.com/share" id="tuenti_share" class="tuenti-share-button"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/light_es.png" style="border: 0px none;"></a>
+				<script type="text/javascript">
+					tuenti.widget.shareButton("tuenti_share", {
+					"icon-style": "light", "language": "es-ES"})
+				</script>
+			</li>
+		</ul>
+		<div class="col_1">
+					</div>
+	</div>
+
+</div> <!-- col_1 -->				</div>
+				
+				
+				<div id="comentarios-articulos">
+					<div class="col_1 mt">
+	<h2 class="cabeceraAzul">
+		<a name="comentarios"></a><b>Comentarios</b>
+	</h2>
+
+	<div>
+				<div class="accion">
+			<div class="accion icocoment">
+						</div>
+			<div class="accion addcommentsico">
+				<span class="icon-chat"></span>
+				<a href="http://www.desarrolloweb.com/comentarios/anadir.php?articulo=3675">Enviar un comentario al artículo</a>
+			</div>
+					</div>
+	</div>
+				<div>
+				<div class="nombre_coment">
+					<h2>Alejandro</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					17/11/2009					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario39950 = new ComentarioVoto(39950, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario39950" class="utilvoto"></div></div>
+				</div>
+								<b>JavaScript</b>
+				<br>
+								<div>
+					Fechas				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario39950"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(39950, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2><span style="line-height: 55px; height: 55px;">ELGRANJESUS</span><div class="fuente8" style="float: left; margin: 0px 10px 0px 0px;" align="center"><img class="cargatipusuario" id="tipusuario7969" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/foto_defecto.gif" border="0" height="55" vspace="2" width="70">	</div></h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					17/11/2009					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario39951 = new ComentarioVoto(39951, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario39951" class="utilvoto"></div></div>
+				</div>
+								<b>Excelente artículo</b>
+				<br>
+								<div>
+					Pienso que al comienzo de quienes nos adentramos en este fascinante
+ mundo del desarrollo web, una de las pirmeras cosas que intentamos 
+hacer es precisamente poner una fecha en el desarrollo que estemos 
+haciendo sea cual sea, y aquí esta explicado de forma totalmente 
+entendible y fáil de aplicar, gracias en realidad por ayudarnos a 
+nutrirnos cada día más.<br>
+Ecelente artículo.				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario39951"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(39951, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>alexander morales</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					17/11/2009					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario39960 = new ComentarioVoto(39960, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario39960" class="utilvoto"></div></div>
+				</div>
+								<b>felicitaciones</b>
+				<br>
+								<div>
+					excelente articulo es decir excelentes script 
+felicitaciones.....son una ayuda muy valiosa para nosotros los 
+principiantes en diseño web...<br>
+<br>
+muchas gracias<br>
+<br>
+alexander morales de colombia				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario39960"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(39960, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>juan</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					18/11/2009					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario39983 = new ComentarioVoto(39983, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario39983" class="utilvoto"></div></div>
+				</div>
+								<b>esta muy bien el tuto</b>
+				<br>
+								<div>
+					gracias por aportar con estos datos soy juan de esi 2 getafe				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario39983"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(39983, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2><span style="line-height: 55px; height: 55px;">kolfff</span><div class="fuente8" style="float: left; margin: 0px 10px 0px 0px;" align="center"><img class="cargatipusuario" id="tipusuario7948" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/foto_defecto.gif" border="0" height="55" vspace="2" width="70">	</div></h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					21/1/2010					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario41081 = new ComentarioVoto(41081, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario41081" class="utilvoto"></div></div>
+				</div>
+								<b>Excelente</b>
+				<br>
+								<div>
+					Me parece un artículo excelente y muy muy MUY util				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario41081"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(41081, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>jackson</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					09/2/2010					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario41493 = new ComentarioVoto(41493, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario41493" class="utilvoto"></div></div>
+				</div>
+								<b>esta pagina es la mas educativa que eh encontrados gracias</b>
+				<br>
+								<div>
+					solo se necesita entrar a tu pagina para ser un verdadero 
+programador , te doy las gracias por averme ensenado tanto , pagina como
+ este no creo. ninguna. ( JACKSON)				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario41493"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(41493, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Luciano</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					23/2/2010					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario41779 = new ComentarioVoto(41779, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario41779" class="utilvoto"></div></div>
+				</div>
+								<b>Php</b>
+				<br>
+								<div>
+					Muy buen aporte, lo unico que quisiera saber es como puedo saber la cantidad de dias que tiene cada mes?				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario41779"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(41779, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Luis</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					24/4/2010					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario43092 = new ComentarioVoto(43092, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario43092" class="utilvoto"></div></div>
+				</div>
+								<b>comentario</b>
+				<br>
+								<div>
+					como siempre de lugo la manera en que se explican las cosas en esta web gracias.				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario43092"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(43092, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Rafael</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					10/9/2010					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario45880 = new ComentarioVoto(45880, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario45880" class="utilvoto"></div></div>
+				</div>
+								<b>Cambios en la fecha</b>
+				<br>
+								<div>
+					Mostrar las fechas con javascript está muy bien y permite mostrar la hora, minutos, segundos constantemente.<br>
+<br>
+Al ser del lado del cliente, puede ocurrir una cosa y es que si el 
+usuario cambia la fecha del sistema, ¿Cómo se evitaría que la fecha 
+mostrada en javascript cambiase también?				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario45880"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(45880, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Luisalo</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					06/10/2010					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario46436 = new ComentarioVoto(46436, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario46436" class="utilvoto"></div></div>
+				</div>
+								<b>Muy buenos scripts</b>
+				<br>
+								<div>
+					Gracias.				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario46436"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(46436, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>juan alberto patal</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					10/2/2011					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario48456 = new ComentarioVoto(48456, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario48456" class="utilvoto"></div></div>
+				</div>
+								<b>excelente</b>
+				<br>
+								<div>
+					excelente aporte gracias n.n				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario48456"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(48456, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2><span style="line-height: 55px; height: 55px;">cacaroto</span><div class="fuente8" style="float: left; margin: 0px 10px 0px 0px;" align="center"><img class="cargatipusuario" id="tipusuario2671" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/foto_defecto.gif" border="0" height="55" vspace="2" width="70">	</div></h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					29/11/2011					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario53080 = new ComentarioVoto(53080, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario53080" class="utilvoto"></div></div>
+				</div>
+								<b>Duda</b>
+				<br>
+								<div>
+					if (mes == 1 &amp;&amp; (((ano % 4 == 0) &amp;&amp; (ano % 100 != 0)) || (ano % 400 == 0)))<br>
+<br>
+No entendi esta parte. . de donde sale el 4, 100 y 400?				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario53080"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(53080, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Mike</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					06/2/2012					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario53869 = new ComentarioVoto(53869, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario53869" class="utilvoto"></div></div>
+				</div>
+								<b>cacarot</b>
+				<br>
+								<div>
+					cada 4, 100 y 400 años, tenemos un año bisiesto.<br>
+<br>
+Con esa pequeña linea condicional buscando si el año es divisible entre 
+esos numeros (resto 0), sabemos si febrero (diaMaximo) tiene 28 o 29 
+días.<br>
+<br>
+:)				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario53869"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(53869, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Ariel</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					26/7/2012					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario55872 = new ComentarioVoto(55872, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario55872" class="utilvoto"></div></div>
+				</div>
+								<b>palabra</b>
+				<br>
+								<div>
+					como van a poner ano, según se dice, se pone: ANIOS , jaja!&lt;br /&gt;<br>
+&lt;br /&gt;<br>
+Saludos.&lt;br /&gt;<br>
+el Stone				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario55872"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(55872, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Jhoan Giraldo</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					08/7/2013					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario58644 = new ComentarioVoto(58644, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario58644" class="utilvoto"></div></div>
+				</div>
+								<b>Soy nuevo! U__U</b>
+				<br>
+								<div>
+					Hola, la verdad soy muy nuevo en esto. Hay alguna forma de que el 
+javascript que muestra la fecha con el día de la semana, muestre una 
+imagen o una animación de flash dependiendo del día de la semana O_O?<br>
+<br>
+Es decir, que si el código nos arroja que es Lunes, muestre una imagen 
+para el lunes, si es martes una imagen para el martes, y asi 
+sucesivamente   *__*?				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario58644"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(58644, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Jennifer</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					05/3/2014					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario60005 = new ComentarioVoto(60005, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario60005" class="utilvoto"></div></div>
+				</div>
+								<b>Gracias</b>
+				<br>
+								<div>
+					Vaya.. muchas gracias por tu articulo.. aun en el pasar del tiempo me fue útil ^^ (Y)<br>
+Y con respecto al de la imagen por día..<br>
+Quizás esto te ayude..<br>
+http://loseasi.blogspot.com/2011/03/mostrar-una-imagen-distinta-cada-dia.html<br>
+XD aunque ha pasado mucho tiempo.. quien quita.. XD<br>
+<br>
+Saludos desde Venezuela! ;)				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario60005"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(60005, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Matias</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					16/7/2014					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario61107 = new ComentarioVoto(61107, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario61107" class="utilvoto"></div></div>
+				</div>
+								<b>;)</b>
+				<br>
+								<div>
+					Muchas gracias por el artículo! Siempre ayudando gratuitamente a 
+nosotros los principiantes que nos encanta aprender! Gracias!!!				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario61107"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(61107, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+					<div>
+				<div class="nombre_coment">
+					<h2>Raúl</h2>
+				</div>
+			</div>
+						<div class="nofloat"></div>
+			<div class="cajacomentario">
+				<div class="fr tar cajaatributos">
+					20/1/2015					<br>
+					<div class="fr">
+	<script>
+			window.addEvent('domready', function() {
+			utilvotocomentario62361 = new ComentarioVoto(62361, 0, 0, 'comentario',0);
+		});
+	</script>
+	<div id="votocomentario62361" class="utilvoto"></div></div>
+				</div>
+								<b>Cómo restar o sumar días correctamente con Javascript</b>
+				<br>
+								<div>
+					Hola, antes que nada, quiero agradecerte por compartir este código,
+ es perfecto para lo que necesitaba. La función específica que me viene 
+genial es la de "Fecha con el nombre del mes ".<br>
+Pero tengo un problema, quiero modificar la misma para que muestre la fecha del día anterior o del siguiente.<br>
+Esto lo intenté con el siguiente código (día anterior): f.getDate()-1<br>
+Pero, por ejemplo, en el día 1 del mes me dice 0, no el último día del mes anterior.<br>
+¿Podrías ayudarme? Lo mismo para, por ejemplo, el último día del mes, 
+quiero que muestra el primero del siguiente mes (osea el día siguiente, 
+el día de mañana).<br>
+Muchas gracias, espero tu respuesta.				</div>
+				<div class="col_1 mb mt">
+					<div id="spamcomentario62361"><a title="Marcar como spam" href="javascript:void(0)" onclick="return marcarSpam(62361, 'comentario')" style="color: rgb(102, 102, 255);">Marcar como spam</a></div>
+				</div>
+			</div>
+		
+		<div class="accion">
+			<div class="accion icocoment">
+						</div>
+			<div class="accion addcommentsico">
+				<span class="icon-chat"></span>
+				<a href="http://www.desarrolloweb.com/comentarios/anadir.php?articulo=3675">Enviar un comentario al artículo</a>
+			</div>
+					</div>
+	</div>				</div>
+							</footer>
+		</article>
+	</section>
+	
+		</div>
+      <!-- fin columna principal -->
+
+      <!-- Barra lateral -->
+      <aside>
+
+                <div id="usuarios">
+          <div class="icousuario">
+            <span class="icon-user"></span>
+            <span>Usuarios:</span> <a id="enlacelogin" href="#" onclick="$('.cu250mdWrapper').slideToggle();return false;">Login</a> | <a href="http://www.desarrolloweb.com/comunidad/registro/">Registro</a>
+            <div class="cu250mdWrapper" id="flogin">
+              <div class="cu250md">
+                <div class="accesoUsuarios">Acceso usuarios</div>
+                <div class="errorLoginWrapper">
+                   <div class="errorLogin"></div>
+                </div>
+                <form method="post" action="/dologin.php" id="formullogin" onsubmit="return false;">
+                  <input value="" name="id_descarga" type="hidden">
+                  <input value="/" name="origen" type="hidden">
+                  <div>
+                    <label class="fuente8" for="usuario2">E-mail:</label>
+                    <input maxlength="150" size="14" name="usuario" id="usuario2" type="text">
+                  </div>
+                  <div>
+                    <label class="fuente8" for="clave2">Clave:</label>
+                    <input maxlength="150" size="14" name="clave" id="clave2" type="password">
+                  </div>
+                  <div>
+                    <label class="fuente8" for="guardar_clave2">Recordar este usuario</label>
+                    <input value="1" name="guardar_clave" id="guardar_clave2" type="checkbox">
+                  </div>
+
+                  <div class="submitButtonWrapper">
+                    <input value="Login" id="btnlogin" onclick="doSubmit(this)" type="submit">
+                  </div>
+                </form>
+                <div class="accion">
+                  <div class="clearfix">
+                    <a href="http://www.desarrolloweb.com/comunidad/recordarclave.php"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/key.png" alt="" height="16" width="16"> ¿Olvidaste tu clave?</a>
+                  </div>
+                  <div class="clearfix">
+                    <a href="http://www.desarrolloweb.com/comunidad/registro/"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/user.png" alt="" height="16" width="16"> Registrarse</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="bannerslat">		<ul>
+		<li><a href="http://www.desarrolloweb.com/disenointerfaces-ya.html" target="_blank"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/3352.jpg"></a></li>
+	</ul>
+</div>
+        <div class="col_1 tac">
+          
+        </div>
+      </aside>
+      <!-- Fin de Barra lateral -->
+      <div class="clearfix"></div>
+    </div>
+    <!-- fin div role main -->
+  </div>
+    <!-- fin div supercuerpo -->
+
+
+    <!-- PIE DE P?GINA -->
+    <footer id="pieprincipal">
+      <div id="todopie">
+        <div class="seccionpie">
+          <h1>Principales</h1>
+          <ul>
+            <li><a href="http://www.desarrolloweb.com/manuales/">Manuales</a></li>
+            <li><a href="http://www.desarrolloweb.com/faq/">FAQs</a></li>
+            <li><a href="http://www.desarrolloweb.com/en-directo/">En directo</a></li>
+            <li><a href="http://www.desarrolloweb.com/videos/">Vídeos</a></li>
+          </ul>
+        </div>
+        <div class="seccionpie">
+          <h1>Monotemáticos</h1>
+          <ul>
+            <li><a href="http://www.desarrolloweb.com/desde0/">Desde cero</a></li>
+            <li><a href="http://www.desarrolloweb.com/html/">HTML</a>, <a href="http://www.desarrolloweb.com/css/">CSS</a></li>
+            <li><a href="http://www.desarrolloweb.com/javascript/">Javascript</a>, <a href="http://www.desarrolloweb.com/ajax/">Ajax</a></li>
+            <li><a href="http://www.desarrolloweb.com/diseno-web/">Diseño</a>, <a href="http://www.desarrolloweb.com/asp/">ASP</a></li>
+          </ul>
+        </div>
+        <div class="seccionpie">
+          <h1>Blogging</h1>
+          <ul>
+            <li><a href="http://www.desarrolloweb.com/actualidad/">Actualidad</a></li>
+            <li><a href="http://www.desarrolloweb.com/de_interes/">De interés</a></li>
+            <li><a href="http://www.desarrolloweb.com/agenda/">Agenda</a></li>
+          </ul>
+        </div>
+        <div class="seccionpie" id="encuentranos">
+          <div class="fb">
+            <a href="https://www.facebook.com/desarrollowebcom" class="enrs" target="_blank">
+              <span class="icon-facebook2"></span>
+            </a>
+          </div>
+          <div class="twitter"><a href="http://twitter.com/deswebcom" class="enrs" target="_blank"><span class="icon-twitter2"></span></a></div>
+          <div class="youtube">
+            <a href="http://www.youtube.com/user/desarrollowebcom" class="enrs" target="_blank">
+              <span class="icon-youtube2"></span>
+            </a>
+          </div>
+          <div class="googleplus">
+            <a href="https://plus.google.com/+desarrolloweb" class="enrs" target="_blank"><span class="icon-google-plus2"></span></a>
+          </div>
+
+        </div>
+        <div class="seccionpie" id="powered">
+          <h1>Powered by:</h1>
+          <ul>
+            <li><a href="http://www.apachectl.com/" target="_blank"><img src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/apachectl.gif"></a></li>
+          </ul>
+        </div>
+      </div> <!-- todo pie -->
+      <div class="clearfix"></div>
+      <div id="piefin">
+        <ul>
+          <li><a href="http://www.desarrolloweb.com/">Desarrolloweb.com</a></li>
+          <li><a href="http://www.desarrolloweb.com/copyright/">Copyright</a></li>
+          <li><a href="http://www.desarrolloweb.com/anunciese/">Publicidad</a></li>
+          <li><a href="http://www.desarrolloweb.com/acercade/">Acerca de</a></li>
+          <li><a href="http://www.desarrolloweb.com/datos-legales/">Datos legales</a></li>
+          <li><a href="http://www.desarrolloweb.com/datos-legales/cookies.php">P. de cookies</a></li>
+          <li><a href="http://www.desarrolloweb.com/contacta/">Contacta</a></li>
+        </ul>
+      </div>
+
+    </footer>
+    <!-- FIN PIE DE PAGINA -->
+  </div>
+  <!-- fin container -->
+
+  <script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/jquery.js"></script>
+  <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.11.1.min.js"><\/script>')</script>
+
+  <script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/plugins.js"></script>
+  <script src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/script.js"></script>
+
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-365134-1', 'desarrolloweb.com');
+  ga('send', 'pageview');
+
+  </script>
+
+<iframe tabindex="-1" style="width: 1px; height: 1px; position: absolute; top: -100px;" src="5%20formas%20de%20mostrar%20la%20fecha%20actual%20con%20Javascript_files/postmessageRelay.html" id="oauth2relay542648987" name="oauth2relay542648987"></iframe></body></html>
