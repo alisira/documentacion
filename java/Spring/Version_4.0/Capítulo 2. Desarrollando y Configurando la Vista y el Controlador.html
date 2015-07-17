@@ -1,0 +1,441 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Capítulo&nbsp;2.&nbsp;Desarrollando y Configurando la
+Vista y el Controlador</title>
+<link rel="stylesheet" href="Cap%C3%ADtulo%C2%A02.%C2%A0Desarrollando%20y%20Configurando%20la%20Vista%20y%20el%20Controlador%20Archivos/html.css" type="text/css">
+<link rel="home" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="up" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="previous" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html" title="Capítulo&nbsp;1.&nbsp;Aplicación Base y Configuración del Entorno">
+<link rel="next" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part3.html" title="Capítulo&nbsp;3.&nbsp;Desarrollando la Lógica de Negocio">
+</head>
+<body alink="#0000ff" link="#0000ff" text="black" vlink="#840084" bgcolor="white">
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" style="border: 1px solid black; background-color: white; height: 73px;"><a style="border: medium none;" href="http://www.springframework.org/" title="The Spring Framework"><img style="border: medium none;" src="Cap%C3%ADtulo%C2%A02.%C2%A0Desarrollando%20y%20Configurando%20la%20Vista%20y%20el%20Controlador%20Archivos/xdev-spring_logo.jpg"></a><a style="border: medium none;" href="http://www.springsource.com/" title="SpringSource"><img style="border: medium none; position: absolute; padding-top: 5px; right: 42px;" src="Cap%C3%ADtulo%C2%A02.%C2%A0Desarrollando%20y%20Configurando%20la%20Vista%20y%20el%20Controlador%20Archivos/springsource-banner-rhs.png"></a></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="part2"></a>Capítulo&nbsp;2.&nbsp;Desarrollando
+y Configurando la Vista y el Controlador</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Ésta es la Parte 2 del tutorial paso a paso sobre cómo
+desarrollar una aplicación web desde cero usando Spring Framework. En la
+<a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html" title="Capítulo&nbsp;1.&nbsp;Aplicacion Base y Configuracion del Entorno">Parte
+1</a> hemos configurado el entorno y montado una aplicación básica que ahora
+vamos a desarrollar.</p>
+
+<p>Esto es lo que hemos implementado hasta ahora:</p>
+<div class="orderedlist">
+<ol type="1">
+	<li>
+	<p>Una página de inicio, <tt class="filename">'index.jsp'</tt>, la
+	página de bienvenida de nuestra aplicación. Fue usada para comprobar
+	que nuestra configuración era correcta. Más tarde la cambiaremos para
+	proveer un enlace a nuestra aplicación.</p>
+	</li>
+	<li>
+	<p>Un controlador frontal, <tt class="classname">DispatcherServlet</tt>,
+	con el correspondiente archivo de configuración <tt class="filename">'app-config.xml'</tt>.</p>
+	</li>
+	<li>
+	<p>Un controlador de página, <tt class="classname">HelloController</tt>,
+	con funcionalidad limitada – simplemente devuelve un objeto <tt class="classname">ModelAndView</tt>. Actualmente tenemos un modelo vacío, más tarde proveeremos un modelo completo.</p>
+	</li>
+	<li>
+	<p>Una unidad de test para la página del controlador, <tt class="classname">HelloControllerTests</tt>, para verificar que el
+	nombre de la vista es el que esperamos.</p>
+	</li>
+	<li>
+	<p>Una vista, <tt class="filename">'hello.jsp'</tt>, que de nuevo
+	es extremadamente sencilla. Las buenas noticias son que el conjunto de
+	la aplicación funciona y que estamos listos para añadir más
+	funcionalidad.</p>
+	</li>
+</ol>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step2.1"></a>2.1.&nbsp;Configurar
+JSTL y añadir un archivo de cabecera JSP</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Vamos a usar la Librería Estandar JSP (JSP Standard Tag Library -
+JSTL), así que comencemos definiendo la dependencia que necesitamos en
+el fichero <tt class="filename">'pom.xml'</tt>.</p>
+<table border="1">
+  <thead bgcolor="lightGray">
+    <tr>
+      <th>Group Id</th>
+      <th>Artifact Id</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><tt class="literal">jstl</tt></td>
+      <td><tt class="literal">jstl</tt></td>
+      <td><tt class="literal">1.2</tt></td>
+    </tr>
+    <tr>
+      <td><tt class="literal">taglibs</tt></td>
+      <td><tt class="literal">standard</tt></td>
+      <td><tt class="literal">1.1.2</tt></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Vamos a crear un archivo de 'cabecera' que será embebido en todas
+las paginas JSP que escribamos después. Así estaremos seguros de que las
+mismas definiciones son incluidas en todos nuestros JSP al insertar el
+archivo de cabecera. También vamos a poner todos nuestros archivos JSP
+en un directorio llamado <tt class="filename">'views'</tt> bajo el
+directorio <tt class="filename">'src/main/webapp/WEB-INF'</tt>. Esto asegurará que
+nuestras vistas sólo puedan ser accedidas a través del controlador, por
+lo que no será posible acceder a estas páginas a través de una dirección
+URL. Esta estrategia podría no funcionar en algunos servidores de
+aplicaciones; si ése es tu caso, mueve el directorio <tt class="filename">'views'</tt> un nivel hacia arriba y usa <tt class="filename">'src/main/webapp/views'</tt> como el directorio de JSP en
+todos los ejemplos que encontrarás a lo largo del tutorial, en lugar de
+<tt class="filename">'src/main/webapp/WEB-INF/views'</tt>.</p>
+
+<p>Primero creamos un archivo de cabecera para incluir en todos los
+archivos JSP que crearemos con posterioridad.</p>
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/views/include.jsp'</tt>:</p>
+
+<pre class="programlisting">&lt;%@ page session="false"%&gt;
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+&lt;%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %&gt;</pre>
+
+<p>Ahora podemos actualizar <tt class="filename">'index.jsp'</tt>
+para que incluya este archivo, y puesto que estamos usando JSTL, podemos
+usar la etiqueta <tt class="literal">&lt;c:redirect/&gt;</tt> para
+redireccionar hacia nuestro controlador frontal: <tt class="interfacename">Controller</tt>. Esto significa que todas nuestras solicitudes a <tt class="filename">'index.jsp'</tt> se resolverán a
+través de dicho controlador. Elimina los contenidos actuales de
+<tt class="filename">'index.jsp'</tt> y reemplázalos con los siguientes:</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/index.jsp'</tt>:</p>
+<pre class="programlisting">&lt;%@ include file="/WEB-INF/views/include.jsp" %&gt;
+
+<i class="lineannotation"><span class="lineannotation">&lt;%-- Redirected because we can't set the welcome page to a virtual URL. --%&gt;</span></i>
+&lt;c:redirect url="/hello.htm"/&gt;</pre>
+
+<p>Mueve <tt class="filename">'hello.jsp'</tt> al directorio <tt class="filename">'src/main/webapp/WEB-INF/views'</tt>. Añade la misma directiva include
+que hemos añadido en <tt class="filename">'index.jsp'</tt> a <tt class="filename">'hello.jsp'</tt>. Vamos a añadir también la fecha y
+hora actual, que serán leídas desde el modelo que pasaremos a la vista,
+y que mostraremos usando la etiqueta JSTL <tt class="filename">&lt;c:out/&gt;</tt>.</p>
+
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/views/hello.jsp'</tt>:</p>
+<pre class="programlisting"><span class="bold"><b>&lt;%@ include file="/WEB-INF/views/include.jsp" %&gt;
+</b></span>
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Hello :: Spring Application&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello - Spring Application&lt;/h1&gt;
+<span class="bold"><b>    &lt;p&gt;Greetings, it is now &lt;c:out value="${now}"/&gt;&lt;/p&gt;
+</b></span>  &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step2.2"></a>2.2.&nbsp;Mejorar
+el controlador</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Antes de actualizar la localización del JSP en nuestro
+controlador, actualicemos nuestra unidad de test. Sabemos que
+necesitamos actualizar la referencia a la vista con su nueva
+localización, <tt class="filename">'WEB-INF/views/hello.jsp'</tt>. También
+sabemos que debería haber un objeto en el modelo mapeado a la clave <tt class="literal">"now"</tt>.</p>
+
+<p><tt class="filename">'springapp/src/test/java/com/companyname/springapp/web/HelloControllerTests.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.web;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.web.servlet.ModelAndView;
+
+
+public class HelloControllerTests {
+
+    @Test
+    public void testHandleRequestView() throws Exception{		
+        HelloController controller = new HelloController();
+        ModelAndView modelAndView = controller.handleRequest(null, null);		
+        <span class="bold"><b>assertEquals("WEB-INF/views/hello.jsp", modelAndView.getViewName());
+        assertNotNull(modelAndView.getModel());
+        String nowValue = (String) modelAndView.getModel().get("now");
+        assertNotNull(nowValue);</b></span>
+
+    }
+
+}</pre>
+
+<p>A continuación, ejecutamos el test y debería fallar.</p>
+
+<p>Ahora actualizamos <tt class="classname">HelloController</tt>
+configurando la referencia a la vista con su nueva localización, <tt class="filename">'WEB-INF/views/hello.jsp'</tt>, así como la pareja
+clave/valor con la fecha y hora actual con la clave <tt class="literal">"now"</tt>
+y el valor: <tt class="literal">'now'</tt>.</p>
+
+<p><tt class="filename">'springapp/src/main/java/com/companyname/springapp/web/HelloController.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.web;
+
+import java.io.IOException;
+<span class="bold"><b>import java.util.Date;</b></span>
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HelloController {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @RequestMapping(value="/hello.htm")
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        <span class="bold"><b>String now = (new Date()).toString();
+        logger.info("Returning hello view with " + now);
+
+        return new ModelAndView("WEB-INF/views/hello.jsp", "now", now);</b></span>
+
+    }
+}</pre>
+
+<p>Ejecutamos de el test y ahora debería pasar.</p>
+<p>Estamos ahora listos para probar nuestras mejoras después sobre el servidor. Cuando introduzcamos la dirección <a href="http://localhost:8080/springapp/" target="_top">http://localhost:8080/springapp/</a>
+en un navegador, debería ejecutarse la página de bienvenida <tt class="filename">'index.jsp'</tt>, la cual debería redireccionarnos a <tt class="filename">'hello.htm'</tt> que es manejada por el <tt class="literal">DispatcherServlet</tt>, quien a su vez delega nuestra
+solicitud al controlador <tt class="classname">HelloController</tt>, que inserta la fecha y hora en el
+modelo y las pone a disposición de la vista <tt class="filename">'hello.jsp'</tt>.</p>
+
+<div class="screenshot">
+<div class="mediaobject" align="center"><img src="Cap%C3%ADtulo%C2%A02.%C2%A0Desarrollando%20y%20Configurando%20la%20Vista%20y%20el%20Controlador%20Archivos/screen3.png" align="middle">
+<div class="caption">
+<p>La aplicación actualizada</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step2.3"> </a>2.3.&nbsp;Separar
+la vista del controlador</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Ahora el controlador especifica la ruta completa a la vista, lo
+cual crea una dependencia innecesaria entre el controlador y la vista.
+Idealmente queremos referirnos a la vista usando un nombre lógico,
+permitiéndonos intercambiar la vista sin tener que cambiar el
+controlador. Puedes crear este mapeo en un archivo de propiedades si
+estas usando <tt class="classname">ResourceBundleViewResolver</tt> y <tt class="classname">SimpleUrlHandlerMapping</tt>. Otra opción para el mapeo básico
+entre una vista y una localización, consiste en simplemente configurar un prefijo y
+sufijo en <tt class="classname">InternalResourceViewResolver</tt>. Esta
+solución es la que vamos a implantar ahora, por lo que modificamos <tt class="filename">'app-config.xml'</tt> y declaramos una entrada
+<tt class="literal">'viewResolver'</tt>. Eligiendo <tt class="classname">JstlView</tt>
+tendremos la oportunidad de usar JSTL en combinación con paquetes de
+mensajes de idioma, los cuales nos ofreceran soporte para la
+internacionalización de la aplicación.</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/spring/app-config.xml'</tt>:</p>
+<pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"&gt;
+
+       <i class="lineannotation"><span class="lineannotation">&lt;!-- Scans the classpath of this application for @Components to deploy as beans --&gt;</span></i>
+       &lt;context:component-scan base-package="com.companyname.springapp.web" /&gt;
+
+       <i class="lineannotation"><span class="lineannotation">&lt;!-- Configures the @Controller programming model --&gt;</span></i>
+       &lt;mvc:annotation-driven/&gt;
+
+       <span class="bold"><b>&lt;bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
+         &lt;property name="viewClass" value="org.springframework.web.servlet.view.JstlView"&gt;&lt;/property&gt;
+         &lt;property name="prefix" value="/WEB-INF/views/"&gt;&lt;/property&gt;
+         &lt;property name="suffix" value=".jsp"&gt;&lt;/property&gt;        
+       &lt;/bean&gt;</b></span>
+&lt;/beans&gt;</pre>
+
+<p>Actualizamos el nombre de la vista en la clase de pruebas del
+controlador <tt class="classname">HelloControllerTests</tt> por <tt class="literal">'hello'</tt> y relanzamos el test para comprobar que
+falla.</p>
+
+<p><tt class="filename">'springapp/src/test/java/com/companyname/springapp/web/HelloControllerTests.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.web;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.web.servlet.ModelAndView;
+
+
+public class HelloControllerTests {
+
+    @Test
+    public void testHandleRequestView() throws Exception{		
+        HelloController controller = new HelloController();
+        ModelAndView modelAndView = controller.handleRequest(null, null);		
+        <span class="bold"><b>assertEquals("hello", modelAndView.getViewName());</b></span>
+        assertNotNull(modelAndView.getModel());
+        String nowValue = (String) modelAndView.getModel().get("now");
+        assertNotNull(nowValue);
+
+    }
+
+}</pre>
+
+<p>Ahora eliminamos el prefijo y sufijo del nombre de la vista en el
+controlador, dejando que el controlador se refiera a la vista por su nombre
+lógico <tt class="literal">"hello".</tt></p>
+
+<p><tt class="filename">'springapp/src/main/java/com/companyname/springapp/web/HelloController.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.web;
+
+import java.io.IOException;
+import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HelloController {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @RequestMapping(value="/hello.htm")
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String now = (new Date()).toString();
+        logger.info("Returning hello view with " + now);
+
+        <span class="bold"><b>return new ModelAndView("hello", "now", now);</b></span>
+
+    }
+}</pre>
+
+<p>Relanzamos el test y ahora debe pasar. Compilamos y desplegamos la aplicación, y verificamos que todavía funciona.</p>
+
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step2.4"></a>2.4.&nbsp;Resumen</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Echemos un vistazo rápido a lo que hemos creado en la Parte 2.</p>
+<div class="orderedlist">
+<ol type="1">
+	<li>
+	<p>Un archivo de cabecera <tt class="filename">'include.jsp'</tt>,
+	el archivo JSP que contiene la directiva taglib que usaremos en todos
+	nuestros archivos JSPs.</p>
+
+	</li>
+</ol>
+</div>
+
+<p>Estos son los componentes de la aplicación que hemos cambiado en
+la Parte 2.</p>
+<div class="orderedlist">
+<ol type="1">
+	<li>
+	<p><tt class="classname">HelloControllerTests</tt> ha sido
+	actualizado repetidamente para hacer al controlador referirse al nombre
+	lógico de la vista en lugar de a su localización y nombre completo.</p>
+
+	<p>El controlador de página, <tt class="classname">HelloController</tt>,
+	ahora hace referencia a la vista por su nombre lógico mediante el uso
+	del <tt class="classname">'InternalResourceViewResolver'</tt> definido
+	en <tt class="filename">'app-config.xml'</tt>.</p>
+	</li>
+</ol>
+</div>
+<p>A continuación puedes ver una captura de pantalla que muestra el aspecto que debería
+tener la estructura de directorios del proyecto después de seguir todas las instrucciones anteriores.</p>
+
+<div class="screenshot">
+<div class="mediaobject" align="center"><img src="Cap%C3%ADtulo%C2%A02.%C2%A0Desarrollando%20y%20Configurando%20la%20Vista%20y%20el%20Controlador%20Archivos/dir-structure-endp2.png" align="middle">
+<div class="caption">
+<p>La estructura de directorios del proyecto al final de la parte 2</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navfooter">
+<hr>
+<table summary="Navigation footer" width="100%">
+	<tbody>
+		<tr>
+			<td align="left" width="40%"><a accesskey="p" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html">Anterior</a>&nbsp;</td>
+			<td align="center" width="20%"><a accesskey="h" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html">Inicio</a></td>
+			<td align="right" width="40%">&nbsp;<a accesskey="n" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part3.html">Siguiente</a></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" width="40%">Capítulo&nbsp;1.&nbsp;Aplicación
+			base y configuración del entorno&nbsp;</td>
+			<td align="center" width="20%"><span style="color: white; font-size: 90%;"><a href="http://www.uv.es/grimo">Autor: Francisco Grimaldo Moreno</a></span></td>
+			<td align="right" valign="top" width="40%">&nbsp;Capítulo&nbsp;3.&nbsp;Desarrollando
+			la Lógica de Negocio</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="Cap%C3%ADtulo%C2%A02.%C2%A0Desarrollando%20y%20Configurando%20la%20Vista%20y%20el%20Controlador%20Archivos/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4959413-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body></html>

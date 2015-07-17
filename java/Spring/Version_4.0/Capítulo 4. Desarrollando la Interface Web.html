@@ -1,0 +1,805 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Capítulo&nbsp;4.&nbsp;Desarrollando la Interface Web</title>
+<link rel="stylesheet" href="Cap%C3%ADtulo%C2%A04.%C2%A0Desarrollando%20la%20Interface%20Web%20Archivos/html.css" type="text/css">
+<link rel="home" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="up" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="previous" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part3.html" title="Capítulo&nbsp;3.&nbsp;Desarrollando la Lógica de Negocio">
+<link rel="next" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part5.html" title="Capítulo&nbsp;5.&nbsp;Implementando la Persistencia en Base de Datos">
+</head>
+<body alink="#0000ff" link="#0000ff" text="black" vlink="#840084" bgcolor="white">
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" style="border: 1px solid black; background-color: white; height: 73px;"><a style="border: medium none;" href="http://www.springframework.org/" title="The Spring Framework"><img style="border: medium none;" src="Cap%C3%ADtulo%C2%A04.%C2%A0Desarrollando%20la%20Interface%20Web%20Archivos/xdev-spring_logo.jpg"></a><a style="border: medium none;" href="http://www.springsource.com/" title="SpringSource"><img style="border: medium none; position: absolute; padding-top: 5px; right: 42px;" src="Cap%C3%ADtulo%C2%A04.%C2%A0Desarrollando%20la%20Interface%20Web%20Archivos/springsource-banner-rhs.png"></a></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="part4"></a>Capítulo&nbsp;4.&nbsp;Desarrollando
+la Interface Web</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Ésta es la Parte 4 del tutorial paso a paso para desarrollar una
+aplicación web desde cero usando Spring Framework. En la <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html" title="Capítulo&nbsp;1.&nbsp;Aplicación base y configuración del entorno">Parte 1</a> hemos configurado el entorno y montado la aplicación básica. En la <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part2.html" title="Capítulo&nbsp;2.&nbsp;Desarrollando y Configurando la Vista y el Controlador">Parte 2</a> hemos mejorado la aplicación que habíamos construido hasta entonces. La <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part3.html" title="Capítulo&nbsp;3.&nbsp;Desarrollando la Lógica de Negocio">Parte 3</a> añade toda la lógica de negocio y los tests unitarios. Ahora es el momento de construir la interface web para la aplicación.</p>
+
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step4.1"></a>4.1.&nbsp;Añadir
+una referencia a la lógica de negocio en el controlador</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Para empezar, renombramos el controlador <tt class="classname">HelloController</tt>
+a algo más descriptivo, como por ejemplo <tt class="classname">InventoryController</tt>,
+puesto que estamos construyendo un sistema de inventario. Aquí es donde
+un IDE con opción de refactorizar es de valor incalculable. Renombramos
+<tt class="classname">HelloController</tt> a <tt class="classname">InventoryController</tt>
+así como <tt class="classname">HelloControllerTests</tt> a <tt class="classname">InventoryControllerTests</tt>. A continuación, modificamos <tt class="classname">InventoryController</tt> para
+que almacene una referencia a la clase <tt class="classname">ProductManager</tt>. Anotaremos la referencia con <tt class="literal">@Autowired</tt>
+ para que Spring la pueda inyectar automáticamente cuando detecte el 
+componente. También añadimos código para permitir al controlador pasar 
+la información sobre los productos a la vista. El método <tt class="methodname">getModelAndView()</tt> ahora devuelve tanto un <tt class="interfacename">Map</tt> con la fecha y hora como una lista de productos.</p>
+
+<p><tt class="filename">'springapp/src/main/java/com/companyname/springapp/web/InventoryController.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.web;
+
+import java.io.IOException;
+import java.util.Date;
+<span class="bold"><b>import java.util.HashMap;
+import java.util.Map;</b></span>
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+<span class="bold"><b>import com.companyname.springapp.service.ProductManager;</b></span>
+
+@Controller
+public class <span class="bold"><b>InventoryController</b></span> {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    <span class="bold"><b>@Autowired
+    private ProductManager productManager;</b></span>
+
+    @RequestMapping(value="/hello.htm")
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    	String now = (new Date()).toString();
+        logger.info("Returning hello view with " + now);
+
+        <span class="bold"><b>Map&lt;String, Object&gt; myModel = new HashMap&lt;String, Object&gt;();
+        myModel.put("now", now);
+        myModel.put("products", this.productManager.getProducts());
+
+        return new ModelAndView("hello", "model", myModel);
+    }
+
+
+    public void setProductManager(ProductManager productManager) {
+        this.productManager = productManager;
+    }</b></span>
+}</pre>
+
+<p>Antes de que los test puedan ser pasados de nuevo, también necesitaremos modificar <tt class="classname">InventoryControllerTest</tt> para que proporcione un <tt class="classname">ProductManager</tt> y extraiga el valor de <tt class="literal">'now'</tt> desde el modelo <tt class="classname">Map</tt>.</p>
+
+<p><tt class="filename">'springapp/src/test/java/com/companyname/springapp/web/InventoryControllerTests.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.web;
+
+<span class="bold"><b>import java.util.Map;</b></span>
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.web.servlet.ModelAndView;
+
+<span class="bold"><b>import com.companyname.springapp.service.SimpleProductManager;</b></span>
+
+public class <span class="bold"><b>InventoryControllerTests</b></span> {
+
+    @Test
+    public void testHandleRequestView() throws Exception{		
+        InventoryController controller = new InventoryController();
+        <span class="bold"><b>controller.setProductManager(new SimpleProductManager());</b></span>
+        ModelAndView modelAndView = controller.handleRequest(null, null);		
+        assertEquals("hello", modelAndView.getViewName());
+        assertNotNull(modelAndView.getModel());
+	<span class="bold"><b>@SuppressWarnings("unchecked")
+        Map&lt;String, Object&gt; modelMap = (Map&lt;String, Object&gt;) modelAndView.getModel().get("model");
+        String nowValue = (String) modelMap.get("now");</b></span>
+        assertNotNull(nowValue);
+    }
+}</pre></div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step4.2"></a>4.2.&nbsp;Modificar
+la vista para mostrar datos de negocio y añadir soporte para archivos de
+mensajes</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Usando la etiqueta JSTL <tt class="literal">&lt;c:forEach/&gt;</tt>,
+añadimos una sección que muestra información de cada producto. También
+vamos a reemplazar el título, la cabecera y el texto de bienvenida con
+una etiqueta JSTL <tt class="literal">&lt;fmt:message/&gt;</tt> que
+extrae el texto a mostrar desde una ubicación <tt class="literal">'message'</tt>
+– veremos esta ubicación un poco más adelante.</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/views/hello.jsp'</tt>:</p>
+<pre class="programlisting">&lt;%@ include file="/WEB-INF/views/include.jsp" %&gt;
+
+&lt;html&gt;
+<span class="bold"><b>  &lt;head&gt;&lt;title&gt;&lt;fmt:message key="title"/&gt;&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;&lt;fmt:message key="heading"/&gt;&lt;/h1&gt;
+    &lt;p&gt;&lt;fmt:message key="greeting"/&gt; &lt;c:out value="${model.now}"/&gt;&lt;/p&gt;
+    &lt;h3&gt;Products&lt;/h3&gt;
+    &lt;c:forEach items="${model.products}" var="prod"&gt;
+      &lt;c:out value="${prod.description}"/&gt; &lt;i&gt;$&lt;c:out value="${prod.price}"/&gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+    &lt;/c:forEach&gt;
+</b></span>  &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step4.3"> </a>4.3.&nbsp;Añadir
+datos de prueba para rellenar algunos objetos de negocio</h2>
+</div>
+</div>
+<div></div>
+</div>
+<p>Es el momento de añadir un <tt class="classname">SimpleProductManager</tt>
+a nuestro archivo de configuración, el cual se inyectará automáticamente en el <tt class="classname">InventoryController</tt>. Todavía no vamos a añadir
+ningun código para cargar los objetos de negocio desde una base de
+datos. En su lugar, podemos reemplazarlos con unas cuantas instancias de
+la clase <tt class="classname">Product</tt> usando beans Spring en el fichero de configuració de la aplicación. Para ello, simplemente pondremos los datos que
+necesitamos en un puñado de entradas bean en el archivo <tt class="filename">'app-config.xml'</tt>. También añadiremos el bean <tt class="literal">'messageSource'</tt> que nos permitirá recuperar mensajes desde la ubicación <tt class="filename">'messages.properties'</tt>, que crearemos en el próximo paso.</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/spring/app-config.xml'</tt>:</p>
+<pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd"&gt;
+
+       <span class="bold"><b>&lt;bean id="productManager" class="com.companyname.springapp.service.SimpleProductManager"&gt;
+         &lt;property name="products"&gt;
+            &lt;list&gt;
+                &lt;ref bean="product1"/&gt;
+                &lt;ref bean="product2"/&gt;
+                &lt;ref bean="product3"/&gt;
+            &lt;/list&gt;
+         &lt;/property&gt;
+       &lt;/bean&gt;
+
+       &lt;bean id="product1" class="com.companyname.springapp.domain.Product"&gt;
+         &lt;property name="description" value="Lamp"/&gt;
+         &lt;property name="price" value="5.75"/&gt;
+       &lt;/bean&gt;
+        
+       &lt;bean id="product2" class="com.companyname.springapp.domain.Product"&gt;
+         &lt;property name="description" value="Table"/&gt;
+         &lt;property name="price" value="75.25"/&gt;
+       &lt;/bean&gt;
+
+       &lt;bean id="product3" class="com.companyname.springapp.domain.Product"&gt;
+         &lt;property name="description" value="Chair"/&gt;
+         &lt;property name="price" value="22.79"/&gt;
+       &lt;/bean&gt;
+
+       &lt;bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"&gt;
+         &lt;property name="basename" value="messages"/&gt;
+       &lt;/bean&gt;</b></span>
+
+       <i class="lineannotation"><span class="lineannotation">&lt;!-- Scans the classpath of this application for @Components to deploy as beans --&gt;</span></i>
+       &lt;context:component-scan base-package="com.companyname.springapp.web" /&gt;
+
+       <i class="lineannotation"><span class="lineannotation">&lt;!-- Configures the @Controller programming model --&gt;</span></i>
+       &lt;mvc:annotation-driven/&gt;
+
+       &lt;bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
+         &lt;property name="viewClass" value="org.springframework.web.servlet.view.JstlView"&gt;&lt;/property&gt;
+         &lt;property name="prefix" value="/WEB-INF/views/"&gt;&lt;/property&gt;
+         &lt;property name="suffix" value=".jsp"&gt;&lt;/property&gt;        
+       &lt;/bean&gt;
+&lt;/beans&gt;</pre></div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step4.4"> </a>4.4.&nbsp;Añadir
+una ubicación para los mensajes</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Creamos un archivo llamado <tt class="filename">'messages.properties'</tt>
+en el directorio <tt class="filename">'src/main/webapp/WEB-INF/classes'</tt>. Este
+archivo de propiedades contiene tres entradas que coinciden con las
+claves especificadas en las etiquetas <tt class="literal">&lt;fmt:message/&gt;</tt>
+que hemos añadido a <tt class="filename">'hello.jsp'</tt>.</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/classes/messages.properties'</tt>:</p>
+<pre class="programlisting">title=SpringApp
+heading=Hello :: SpringApp
+greeting=Greetings, it is now</pre>
+
+<p>Si ahora compilamos y desplegamos de nuevo la aplicación en el servidor, deberíamos ver lo siguiente en el navegador:
+
+</p><div class="screenshot">
+<div class="mediaobject" align="center"><img src="Cap%C3%ADtulo%C2%A04.%C2%A0Desarrollando%20la%20Interface%20Web%20Archivos/screen4.png" align="middle">
+<div class="caption">
+<p>La aplicación actualizada</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step4.5"></a>4.5.&nbsp;Añadir
+un formulario</h2>
+</div>
+</div>
+<div></div>
+</div>
+<p>Para proveer de una interface a la aplicación web que muestre la
+funcionalidad para incrementar los precios, vamos a añadir un formulario
+que permitirá al usuario introducir un valor de porcentaje. Para ello, creamos el archivo JSP <tt class="filename">'priceincrease.jsp'</tt> en el directorio <tt class="filename">'src/main/webapp/WEB-INF/views'</tt>.</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/views/priceincrease.jsp'</tt>:</p>
+<pre class="programlisting">&lt;%@ include file="/WEB-INF/views/include.jsp" %&gt;
+&lt;%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;fmt:message key="title"/&gt;&lt;/title&gt;
+  &lt;style&gt;
+    .error { color: red; }
+  &lt;/style&gt;  
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;&lt;fmt:message key="priceincrease.heading"/&gt;&lt;/h1&gt;
+&lt;form:form method="post" commandName="priceIncrease"&gt;
+  &lt;table width="95%" bgcolor="f8f8ff" border="0" cellspacing="0" cellpadding="5"&gt;
+    &lt;tr&gt;
+      &lt;td align="right" width="20%"&gt;Increase (%):&lt;/td&gt;
+        &lt;td width="20%"&gt;
+          &lt;form:input path="percentage"/&gt;
+        &lt;/td&gt;
+        &lt;td width="60%"&gt;
+          &lt;form:errors path="percentage" cssClass="error"/&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;input type="submit" value="Execute"&gt;
+&lt;/form:form&gt;
+&lt;a href="&lt;c:url value="hello.htm"/&gt;"&gt;Home&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>A continuación, debemos incluir las siguientes dependencias en el fichero <tt class="filename">'pom.xml'</tt>:</p>
+
+<table border="1">
+  <thead bgcolor="lightGray">
+    <tr>
+      <th>Group Id</th>
+      <th>Artifact Id</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><tt class="literal">javax.validation</tt></td>
+      <td><tt class="literal">validation-api</tt></td>
+      <td><tt class="literal">1.1.0.Final</tt></td>
+    </tr>
+    <tr>
+      <td><tt class="literal">org.hibernate</tt></td>
+      <td><tt class="literal">hibernate-validator</tt></td>
+      <td><tt class="literal">5.0.1.Final</tt></td>
+    </tr>
+    <tr>
+      <td><tt class="literal">org.slf4j</tt></td>
+      <td><tt class="literal">slf4j-api</tt></td>
+      <td><tt class="literal">1.7.5</tt></td>
+    </tr>
+    <tr>
+      <td><tt class="literal">org.slf4j</tt></td>
+      <td><tt class="literal">slf4j-log4j12</tt></td>
+      <td><tt class="literal">1.7.5</tt></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Para configurar adecuadamente la librería <tt class="literal">log4j</tt> y evitar así algunos <tt class="literal">Warnings</tt>, recomendamos añadir (si no existiera) una nueva carpeta de recursos de tipo <tt class="literal">Source folder</tt> en nuestro proyecto, a la que llamaremos <tt class="filename">'src/main/resources'</tt>. Dentro de esta carpeta crearemos los ficheros <tt class="filename">'log4j.dtd'</tt> y <tt class="filename">'log4j.xml'</tt> que se muestran a continuación:</p>
+
+<p><tt class="filename">'springapp/src/main/resources/log4j.dtd'</tt>:</p>
+<pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+
+&lt;!-- Authors: Chris Taylor, Ceki Gulcu. --&gt;
+
+&lt;!-- Version: 1.2 --&gt;
+
+&lt;!-- A configuration element consists of optional renderer
+elements,appender elements, categories and an optional root
+element. --&gt;
+
+&lt;!ELEMENT log4j:configuration (renderer*, appender*,(category|logger)*,root?,
+                               categoryFactory?)&gt;
+
+&lt;!-- The "threshold" attribute takes a level value such that all --&gt;
+&lt;!-- logging statements with a level equal or below this value are --&gt;
+&lt;!-- disabled. --&gt;
+
+&lt;!-- Setting the "debug" enable the printing of internal log4j logging   --&gt;
+&lt;!-- statements.                                                         --&gt;
+
+&lt;!-- By default, debug attribute is "null", meaning that we not do touch --&gt;
+&lt;!-- internal log4j logging settings. The "null" value for the threshold --&gt;
+&lt;!-- attribute can be misleading. The threshold field of a repository	 --&gt;
+&lt;!-- cannot be set to null. The "null" value for the threshold attribute --&gt;
+&lt;!-- simply means don't touch the threshold field, the threshold field   --&gt; 
+&lt;!-- keeps its old value.                                                --&gt;
+     
+&lt;!ATTLIST log4j:configuration
+  xmlns:log4j              CDATA #FIXED "http://jakarta.apache.org/log4j/" 
+  threshold                (all|debug|info|warn|error|fatal|off|null) "null"
+  debug                    (true|false|null)  "null"
+&gt;
+
+&lt;!-- renderer elements allow the user to customize the conversion of  --&gt;
+&lt;!-- message objects to String.                                       --&gt;
+
+&lt;!ELEMENT renderer EMPTY&gt;
+&lt;!ATTLIST renderer
+  renderedClass  CDATA #REQUIRED
+  renderingClass CDATA #REQUIRED
+&gt;
+
+&lt;!-- Appenders must have a name and a class. --&gt;
+&lt;!-- Appenders may contain an error handler, a layout, optional parameters --&gt;
+&lt;!-- and filters. They may also reference (or include) other appenders. --&gt;
+&lt;!ELEMENT appender (errorHandler?, param*, layout?, filter*, appender-ref*)&gt;
+&lt;!ATTLIST appender
+  name 		ID 	#REQUIRED
+  class 	CDATA	#REQUIRED
+&gt;
+
+&lt;!ELEMENT layout (param*)&gt;
+&lt;!ATTLIST layout
+  class		CDATA	#REQUIRED
+&gt;
+
+&lt;!ELEMENT filter (param*)&gt;
+&lt;!ATTLIST filter
+  class		CDATA	#REQUIRED
+&gt;
+
+&lt;!-- ErrorHandlers can be of any class. They can admit any number of --&gt;
+&lt;!-- parameters. --&gt;
+
+&lt;!ELEMENT errorHandler (param*, root-ref?, logger-ref*,  appender-ref?)&gt; 
+&lt;!ATTLIST errorHandler
+   class        CDATA   #REQUIRED 
+&gt;
+
+&lt;!ELEMENT root-ref EMPTY&gt;
+
+&lt;!ELEMENT logger-ref EMPTY&gt;
+&lt;!ATTLIST logger-ref
+  ref IDREF #REQUIRED
+&gt;
+
+&lt;!ELEMENT param EMPTY&gt;
+&lt;!ATTLIST param
+  name		CDATA   #REQUIRED
+  value		CDATA	#REQUIRED
+&gt;
+
+&lt;!-- The priority class is org.apache.log4j.Level by default --&gt;
+&lt;!ELEMENT priority (param*)&gt;
+&lt;!ATTLIST priority
+  class   CDATA	#IMPLIED
+  value	  CDATA #REQUIRED
+&gt;
+
+&lt;!-- The level class is org.apache.log4j.Level by default --&gt;
+&lt;!ELEMENT level (param*)&gt;
+&lt;!ATTLIST level
+  class   CDATA	#IMPLIED
+  value	  CDATA #REQUIRED
+&gt;
+
+&lt;!-- If no level element is specified, then the configurator MUST not --&gt;
+&lt;!-- touch the level of the named category. --&gt;
+&lt;!ELEMENT category (param*,(priority|level)?,appender-ref*)&gt;
+&lt;!ATTLIST category
+  class         CDATA   #IMPLIED
+  name		CDATA	#REQUIRED
+  additivity	(true|false) "true"  
+&gt;
+
+&lt;!-- If no level element is specified, then the configurator MUST not --&gt;
+&lt;!-- touch the level of the named logger. --&gt;
+&lt;!ELEMENT logger (level?,appender-ref*)&gt;
+&lt;!ATTLIST logger
+  name		ID	#REQUIRED
+  additivity	(true|false) "true"  
+&gt;
+
+&lt;!ELEMENT categoryFactory (param*)&gt;
+&lt;!ATTLIST categoryFactory 
+   class        CDATA #REQUIRED&gt;
+
+&lt;!ELEMENT appender-ref EMPTY&gt;
+&lt;!ATTLIST appender-ref
+  ref IDREF #REQUIRED
+&gt;
+
+&lt;!-- If no priority element is specified, then the configurator MUST not --&gt;
+&lt;!-- touch the priority of root. --&gt;
+&lt;!-- The root category always exists and cannot be subclassed. --&gt;
+&lt;!ELEMENT root (param*, (priority|level)?, appender-ref*)&gt;
+
+
+&lt;!-- ==================================================================== --&gt;
+&lt;!--                       A logging event                                --&gt;
+&lt;!-- ==================================================================== --&gt;
+&lt;!ELEMENT log4j:eventSet (log4j:event*)&gt;
+&lt;!ATTLIST log4j:eventSet
+  xmlns:log4j             CDATA #FIXED "http://jakarta.apache.org/log4j/" 
+  version                (1.1|1.2) "1.2" 
+  includesLocationInfo   (true|false) "true"
+&gt;
+
+&lt;!ELEMENT log4j:event (log4j:message, log4j:NDC?, log4j:throwable?, 
+                       log4j:locationInfo?) &gt;
+
+&lt;!-- The timestamp format is application dependent. --&gt;
+&lt;!ATTLIST log4j:event
+    logger     CDATA #REQUIRED
+    level      CDATA #REQUIRED
+    thread     CDATA #REQUIRED
+    timestamp  CDATA #REQUIRED
+&gt;
+
+&lt;!ELEMENT log4j:message (#PCDATA)&gt;
+&lt;!ELEMENT log4j:NDC (#PCDATA)&gt;
+
+&lt;!ELEMENT log4j:throwable (#PCDATA)&gt;
+
+&lt;!ELEMENT log4j:locationInfo EMPTY&gt;
+&lt;!ATTLIST log4j:locationInfo
+  class  CDATA	#REQUIRED
+  method CDATA	#REQUIRED
+  file   CDATA	#REQUIRED
+  line   CDATA	#REQUIRED
+&gt;</pre>
+
+<p><tt class="filename">'springapp/src/main/resources/log4j.xml'</tt>:</p>
+<pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE log4j:configuration SYSTEM "log4j.dtd"&gt;
+
+&lt;log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"&gt;
+
+	&lt;!-- Appenders --&gt;
+	&lt;appender name="console" class="org.apache.log4j.ConsoleAppender"&gt;
+		&lt;param name="Target" value="System.out" /&gt;
+		&lt;layout class="org.apache.log4j.PatternLayout"&gt;
+			&lt;param name="ConversionPattern" value="%-5p: %c - %m%n" /&gt;
+		&lt;/layout&gt;
+	&lt;/appender&gt;
+
+	&lt;!-- Application logger --&gt;
+	&lt;logger name="springapp"&gt;
+		&lt;level value="info" /&gt;
+	&lt;/logger&gt;
+
+	&lt;!-- 3rdparty Loggers --&gt;
+	&lt;logger name="org.springframework.beans"&gt;
+		&lt;level value="warn" /&gt;
+	&lt;/logger&gt;
+	
+	&lt;logger name="org.springframework.jdbc"&gt;
+		&lt;level value="warn" /&gt;
+	&lt;/logger&gt;
+
+	&lt;logger name="org.springframework.transaction"&gt;
+		&lt;level value="warn" /&gt;
+	&lt;/logger&gt;
+
+	&lt;logger name="org.springframework.orm"&gt;
+		&lt;level value="warn" /&gt;
+	&lt;/logger&gt;
+
+	&lt;logger name="org.springframework.web"&gt;
+		&lt;level value="warn" /&gt;
+	&lt;/logger&gt;
+
+	&lt;logger name="org.springframework.webflow"&gt;
+		&lt;level value="warn" /&gt;
+	&lt;/logger&gt;
+	
+	&lt;!-- Root Logger --&gt;
+	&lt;root&gt;
+		&lt;priority value="warn" /&gt;
+		&lt;appender-ref ref="console" /&gt;
+	&lt;/root&gt;
+	
+&lt;/log4j:configuration&gt;</pre>
+
+<p>La siguiente clase que crearemos es un JavaBean muy sencillo que solamente
+contiene una propiedad, con sus correspondientes métodos getter y setter.
+Éste es el objeto que el formulario rellenará y desde el que nuestra
+lógica de negocio extraerá el porcentaje de incremento que queremos
+aplicar a los precios. La clase <tt class="classname">PriceIncrease</tt> utiliza las anotaciones <tt class="literal">@Min</tt> y <tt class="literal">@Max</tt> para definir el intervalo de valores válido para el incremento de precios del stock.</p>
+
+<p><tt class="filename">'springapp/src/main/java/com/companyname/springapp/service/PriceIncrease.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.service;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+public class PriceIncrease {
+
+    /** Logger for this class and subclasses */
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @Min(0)
+    @Max(50)
+    private int percentage;
+
+    public void setPercentage(int i) {
+        percentage = i;
+        logger.info("Percentage set to " + i);
+    }
+
+    public int getPercentage() {
+        return percentage;
+    }
+}</pre>
+
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step4.6"> </a>4.6.&nbsp;Añadir
+un controlador de formulario</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>A continuación, creamos la clase <tt class="classname">PriceIncreaseFormController</tt>
+ que actuará como controlador de las peticiones de incremento de precio 
+realizadas desde el formulario. Spring inyectará automáticamente al 
+controlador del formulario la referencia al servicio <tt class="methodname">ProductManager</tt> gracias a la anotació <tt class="literal">@Autowired</tt>. El método <tt class="methodname">formBackingObject(..)</tt>
+ será invocado antes de que el formulario se muestre al usuario 
+(petición GET) y rellenará el campo con un incremento por defecto de un 
+15%. El método <tt class="methodname">onSubmit(..)</tt> será invocado cuando el usuario envíe del formulario a través del método POST. El uso de la anotación <tt class="literal">@Valid</tt> permitirá validar el incremento introducido y volverá a mostrar el formulario en caso de que éste no sea válido.</p>
+<p><tt class="filename">'springapp/src/main/java/com/companyname/springapp/web/PriceIncreaseFormController.java'</tt>:</p>
+
+<pre class="programlisting">package com.companyname.springapp.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.companyname.springapp.service.PriceIncrease;
+import com.companyname.springapp.service.ProductManager;
+
+@Controller
+@RequestMapping(value="/priceincrease.htm")
+public class PriceIncreaseFormController {
+
+    /** Logger for this class and subclasses */
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @Autowired
+    private ProductManager productManager;
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String onSubmit(@Valid PriceIncrease priceIncrease, BindingResult result)
+    {
+        if (result.hasErrors()) {
+            return "priceincrease";
+        }
+		
+        int increase = priceIncrease.getPercentage();
+        logger.info("Increasing prices by " + increase + "%.");
+
+        productManager.increasePrice(increase);
+
+        return "redirect:/hello.htm";
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    protected PriceIncrease formBackingObject(HttpServletRequest request) throws ServletException {
+        PriceIncrease priceIncrease = new PriceIncrease();
+        priceIncrease.setPercentage(15);
+        return priceIncrease;
+    }
+
+    public void setProductManager(ProductManager productManager) {
+        this.productManager = productManager;
+    }
+
+    public ProductManager getProductManager() {
+        return productManager;
+    }
+
+}</pre>
+
+<p>Para mostrar los distintos mensajes de error, vamos a añadir también algunos mensajes al archivo de mensajes <tt class="filename">'messages.properties'</tt>.</p>
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/classes/messages.properties'</tt>:</p>
+
+<pre class="programlisting">title=SpringApp
+heading=Hello :: SpringApp
+greeting=Greetings, it is now
+<span class="bold"><b>priceincrease.heading=Price Increase :: SpringApp
+error.not-specified=Percentage not specified!!!
+error.too-low=You have to specify a percentage higher than {0}!
+error.too-high=Don''t be greedy - you can''t raise prices by more than {0}%!
+required=Entry required.
+typeMismatch=Invalid data.
+typeMismatch.percentage=That is not a number!!!</b></span></pre>
+
+<p>Finalmente, vamos a añadir un enlace a la página de incremento de
+precio desde <tt class="filename">'hello.jsp'</tt>.</p>
+
+<pre class="programlisting">&lt;%@ include file="/WEB-INF/views/include.jsp" %&gt;
+
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;&lt;fmt:message key="title"/&gt;&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;&lt;fmt:message key="heading"/&gt;&lt;/h1&gt;
+    &lt;p&gt;&lt;fmt:message key="greeting"/&gt; &lt;c:out value="${model.now}"/&gt;&lt;/p&gt;
+    &lt;h3&gt;Products&lt;/h3&gt;
+    &lt;c:forEach items="${model.products}" var="prod"&gt;
+      &lt;c:out value="${prod.description}"/&gt; &lt;i&gt;$&lt;c:out value="${prod.price}"/&gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+    &lt;/c:forEach&gt;
+<span class="bold"><b>    &lt;br&gt;
+    &lt;a href="&lt;c:url value="priceincrease.htm"/&gt;"&gt;Increase Prices&lt;/a&gt;
+    &lt;br&gt;
+</b></span>  &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>Compila, despliega y después de recargar la aplicación podemos
+probarla. El formulario mostrará los errores siempre que no se introduzca un valor válido de porcentaje.</p>
+
+<div class="screenshot">
+<div class="mediaobject" align="center"><img src="Cap%C3%ADtulo%C2%A04.%C2%A0Desarrollando%20la%20Interface%20Web%20Archivos/screen5.png" align="middle">
+<div class="caption">
+<p>La aplicación actualizada</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step4.7"></a>4.7.&nbsp;Resumen</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Vamos a ver lo que hemos hecho en la Parte 4.</p>
+<div class="orderedlist">
+<ol type="1">
+	<li>
+	<p>Hemos renombrado nuestro controlador a <tt class="classname">InventoryController</tt>
+	y le hemos dado una referencia a <tt class="classname">ProductManager</tt>
+	por lo que ahora podemos recuperar una lista de productos para mostrar.</p>
+	</li>
+	<li>
+	<p>Entonces hemos definido algunos datos de prueba para rellenar
+	objetos de negocio.</p>
+	</li>
+	<li>
+	<p>A continuación hemos modificado la página JSP para usar una
+	ubicación de mensajes y hemos añadido un loop forEach para mostrar una
+	lista dinámica de productos.</p>
+	</li>
+	<li>
+	<p>Después hemos creado un formulario para disponer de la capacidad
+	de incrementar los precios.</p>
+	</li>
+	<li>
+	<p>Finalmente hemos creado un controlador de formulario que valida los 
+datos introducidos, hemos desplegado y probado las nuevas 
+características.</p>
+	</li>
+</ol>
+</div>
+
+
+<p>A continuación puedes ver una captura de pantalla que muestra el aspecto que debería
+tener la estructura de directorios del proyecto después de seguir todas las instrucciones anteriores.</p>
+
+<div class="screenshot">
+<div class="mediaobject" align="center"><img src="Cap%C3%ADtulo%C2%A04.%C2%A0Desarrollando%20la%20Interface%20Web%20Archivos/dir-structure-endp4.png" align="middle">
+<div class="caption">
+<p>La estructura de directorios del proyecto al final de la parte 4
+</p>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+</div>
+</div>
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navfooter">
+<hr>
+<table summary="Navigation footer" width="100%">
+	<tbody>
+		<tr>
+			<td align="left" width="40%"><a accesskey="p" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part3.html">Anterior</a>&nbsp;</td>
+			<td align="center" width="20%"><a accesskey="h" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html">Inicio</a></td>
+			<td align="right" width="40%">&nbsp;<a accesskey="n" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part5.html">Siguiente</a></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" width="40%">Capítulo&nbsp;3.&nbsp;Desarrollando
+			la Lógica de Negocio&nbsp;</td>
+			<td align="center" width="20%"><span style="color: white; font-size: 90%;"><a href="http://www.uv.es/grimo">Autor: Francisco Grimaldo Moreno</a></span></td>
+			<td align="right" valign="top" width="40%">&nbsp;Capítulo&nbsp;5.&nbsp;Implementando
+			la Persistencia en Base de Datos</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="Cap%C3%ADtulo%C2%A04.%C2%A0Desarrollando%20la%20Interface%20Web%20Archivos/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4959413-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</div></body></html>

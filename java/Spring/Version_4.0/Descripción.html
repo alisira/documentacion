@@ -1,0 +1,190 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Descripción</title>
+<link rel="stylesheet" href="Descripci%C3%B3n%20Archivos/html.css" type="text/css">
+<link rel="home" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="up" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="previous" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="next" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html" title="Capítulo&nbsp;1.&nbsp;Aplicación Base y Configuración del Entorno">
+</head>
+<body alink="#0000ff" link="#0000ff" text="black" vlink="#840084" bgcolor="white">
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" style="border: 1px solid black; background-color: white; height: 73px;"><a style="border: medium none;" href="http://www.springframework.org/" title="The Spring Framework"><img style="border: medium none;" src="Descripci%C3%B3n%20Archivos/xdev-spring_logo.jpg"></a><a style="border: medium none;" href="http://www.springsource.com/" title="SpringSource"><img style="border: medium none; position: absolute; padding-top: 5px; right: 42px;" src="Descripci%C3%B3n%20Archivos/springsource-banner-rhs.png"></a></div>
+<div class="preface" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="overview"></a>Descripción</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Este documento es una guía paso a paso sobre cómo desarrollar una
+aplicación web, partiendo de cero, usando Spring Framework.</p>
+<p>Se asume que posees un conocimiento superficial de Spring, por lo
+que este tutorial te sera útil si estas aprendiendo o investigando
+Spring. Durante el tiempo que trabajes a través del material presentado
+en el tutorial, podrás ver cómo encajan diversas partes de Spring
+Framework dentro de una aplicación web Spring MVC, como Inversión de
+Control (Inversion of Control - IoC), Programación Orientada a Aspectos
+(Aspect-Oriented Programming - AOP) y la integración con las diversas librerías de
+servicios (como JPA).</p>
+<p>Spring provee diversas opciones para configurar tu aplicación. La
+forma más popular es usando archivos XML. Ésta es la forma más
+tradicional, soportada desde la primera versión de Spring. Con la
+introducción de Anotaciones en Java 5, ahora disponemos de una manera
+alternativa de configurar nuestras aplicaciones Spring. La nueva versión
+Spring 4.0.3 introduce un amplio soporte para configurar una aplicación
+web mediante anotaciones. Este documento usa el estilo más moderno de configuración
+mediante anotaciones.</p>
+<p>Ten en cuenta que no se tratará ninguna información en
+profundidad en este tutorial, así como ningún tipo de teoría; hay
+multitud de libros disponibles que cubren Spring en profundidad; siempre
+que una nueva clase o característica sea usada en el tutorial, se
+mostrarán enlaces a la sección de documentación de Spring, donde la
+clase o característica es tratada en profundidad.</p>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="overview-whats-covered"></a>1.&nbsp;Contenido</h2>
+</div>
+</div>
+<div></div>
+</div>
+<p>La siguiente lista detalla todas las partes de Spring Framework
+que son cubiertas a lo largo del tutorial.</p>
+<div class="itemizedlist">
+<ul type="disc">
+	<li>
+	<p>Inversión de Control (IoC)</p>
+	</li>
+	<li>
+	<p>El framework Spring Web MVC</p>
+	</li>
+	<li>
+	<p>Acceso a Datos mediante JPA</p>
+	</li>
+	<li>
+	<p>Integración mediante tests</p>
+	</li>
+</ul>
+</div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="overview-prerequisite-software"></a>2.&nbsp;Software Requerido</h2>
+</div>
+</div>
+<div></div>
+</div>
+<p>Se requiere el siguiente software y su adecuada configuración en
+el entorno. Deberías sentirte razonablemente confortable usando las
+siguientes tecnologías.</p>
+<div class="itemizedlist">
+<ul type="disc">
+	<li>
+	<p>Java SDK 1.5+</p>
+	</li>
+	<li>
+	<p>SpringSource Tool Suite 3.4.0 (Recomendado, pero no necesario)</p>
+	</li>
+	<li>
+	<p>Maven 2</p>
+	</li>
+</ul>
+</div>
+<p><span class="emphasis"><em>El proyecto SpringSource Tool Suite (<a href="http://www.springsource.com/products/sts">http://www.springsource.com/products/sts</a>)
+ proporciona
+un excelente entorno para el desarrollo de aplicaciones que utilicen 
+Spring Framework. SpringSource Tool Suite integra sobre la plataforma 
+Eclipse (<a href="http://www.eclipse.org/">http://www.eclipse.org/</a>),
+ entre otras cosas, el plugin de Spring IDE así como también da soporte 
+al servidor vFabric tc Server (Tomcat). Por supuesto, puedes usar 
+cualquier variación de las versiones de software anteriores. En 
+concreto, los pasos de este tutorial son reproducibles sobre el servidor
+ GlassFish v3.1.2 (<a href="https://glassfish.java.net/">https://glassfish.java.net/</a>).
+ Si quieres usar NetBeans o IntelliJ en lugar de Eclipse, o Jetty en 
+lugar de Tomcat o GlassFish, ciertos pasos de este tutorial no se 
+corresponderán
+directamente con tu entorno, pero deberías ser capaz de seguir adelante
+de todas maneras.</em></span></p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="overview-application-overview"></a>3.&nbsp;La aplicación que
+vamos a construir</h2>
+</div>
+</div>
+<div></div>
+</div>
+<p>La aplicación que vamos a construir desde cero a lo largo de este
+tutorial es un sistema de mantenimiento de inventario <span class="emphasis"><em>muy básico</em></span>. Este sistema de
+mantenimiento de inventario está muy limitado en alcance y
+funcionalidad; abajo puedes ver un diagrama de casos de uso ilustrando
+los sencillos casos de uso que implementaremos. La razón por la que la
+aplicación es tan limitada es que puedas concentrarte en las
+características específicas de Spring Web MVC y Spring, y olvidar los
+detalles más sutiles del mantenimiento de inventario.</p>
+<p></p>
+<div class="mediaobject" align="center"><img src="Descripci%C3%B3n%20Archivos/usecase.png" align="middle">
+<div class="caption">
+<p>Diagrama de casos de uso de un sistema de mantenimiento de
+inventario</p>
+</div>
+</div>
+<p><a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html" title="Capítulo&nbsp;1.&nbsp;Aplicación Base y Configuración del Entorno">Comenzaremos</a>
+configurando la estructura básica de los directorios para nuestra
+aplicacion, descargando las librerias necesarias, etc. El primer paso 
+nos proporcionará una base sólida sobre la que desarrollar de forma 
+adecuada las secciones <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part2.html" title="Capítulo&nbsp;2.&nbsp;Desarrollando y Configurando la Vista y el Controlador">2</a>,
+<a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part3.html" title="Capítulo&nbsp;3.&nbsp;Desarrollando la Logica de Negocio">3</a>,
+y <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part4.html" title="Capítulo&nbsp;4.&nbsp;Desarrollando la Interface Web">4</a>.</p>
+
+<p>Una vez terminada la configuración básica, introduciremos Spring,
+comenzando con el framework Spring Web MVC. Usaremos Spring Web MVC para
+mostrar el stock inventariado, lo que implicará escribir algunas clases
+simples en Java y algunos JSP. Entonces introduciremos acceso de datos y
+persistencia en nuestra aplicación, usando para ello el soporte que
+ofrece Spring para JPA.</p>
+<p>Una vez hayamos finalizado todos los pasos del tutorial,
+tendremos una aplicación que realiza un mantenimiento básico de stock,
+incluyendo listados de stock y el incremento de precios de los productos de dicho stock.</p>
+
+</div>
+</div>
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navfooter">
+<hr>
+<table summary="Navigation footer" width="100%">
+	<tbody>
+		<tr>
+			<td align="left" width="40%"><a accesskey="p" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html">Anterior</a>&nbsp;</td>
+			<td align="center" width="20%"><a accesskey="h" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html">Inicio</a></td>
+			<td align="right" width="40%">&nbsp;<a accesskey="n" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html">Siguiente</a></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" width="40%">Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso</td>
+			<td align="center" width="20%"><span style="color: white; font-size: 90%;"><a href="http://www.uv.es/grimo">Autor: Francisco Grimaldo Moreno</a></span></td>
+			<td align="right" valign="top" width="40%">&nbsp;Capítulo&nbsp;1.&nbsp;Aplicación
+			Base y Configuración del Entorno</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="Descripci%C3%B3n%20Archivos/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4959413-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body></html>

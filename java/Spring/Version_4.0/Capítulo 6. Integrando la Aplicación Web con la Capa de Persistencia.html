@@ -1,0 +1,547 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Capítulo&nbsp;6.&nbsp;Integrando la Aplicación Web con la
+Capa de Persistencia</title>
+<link rel="stylesheet" href="Cap%C3%ADtulo%C2%A06.%C2%A0Integrando%20la%20Aplicaci%C3%B3n%20Web%20con%20la%20Capa%20de%20Persistencia%20Archivos/html.css" type="text/css">
+<link rel="home" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="up" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html" title="Desarrollando una aplicación Spring Framework MVC v4 + JPA paso a paso">
+<link rel="previous" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part5.html" title="Capítulo&nbsp;5.&nbsp;Implementando Persistencia en Base de Datos">
+<link rel="next" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/springapp.zip" title="Apéndice&nbsp;A.&nbsp;Descargar Proyecto
+	Completo para Spring Tool Suite">
+</head>
+<body alink="#0000ff" link="#0000ff" text="black" vlink="#840084" bgcolor="white">
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" style="border: 1px solid black; background-color: white; height: 73px;"><a style="border: medium none;" href="http://www.springframework.org/" title="The Spring Framework"><img style="border: medium none;" src="Cap%C3%ADtulo%C2%A06.%C2%A0Integrando%20la%20Aplicaci%C3%B3n%20Web%20con%20la%20Capa%20de%20Persistencia%20Archivos/xdev-spring_logo.jpg"></a><a style="border: medium none;" href="http://www.springsource.com/" title="SpringSource"><img style="border: medium none; position: absolute; padding-top: 5px; right: 42px;" src="Cap%C3%ADtulo%C2%A06.%C2%A0Integrando%20la%20Aplicaci%C3%B3n%20Web%20con%20la%20Capa%20de%20Persistencia%20Archivos/springsource-banner-rhs.png"></a></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="part6"></a>Capítulo&nbsp;6.&nbsp;Integrando
+la Aplicación Web con la Capa de Persistencia</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Esta es la Parte 6 del tutorial paso a paso sobre como
+desarrollar una aplicación web desde cero usando Spring Framework. En la
+<a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part1.html" title="Capítulo&nbsp;1.&nbsp;Aplicación base y configuración del entorno">Parte 1</a> hemos configurado el entorno y puesto en marcha una aplicación básica. En la <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part2.html" title="Capítulo&nbsp;2.&nbsp;Desarrollando y Configurando la Vista y el Controlador">Parte
+2</a> hemos mejorado la aplicación que habíamos construido hasta entonces.
+En la <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part3.html" title="Capítulo&nbsp;3.&nbsp;Desarrollando la Lógica de Negocio">Parte 3</a> hemos añadido toda la lógica de negocio y los tests unitarios, y
+en la <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part4.html" title="Capítulo&nbsp;4.&nbsp;Desarrollando la Interface Web">Parte 4</a> hemos desarrollado la interface web. En la <a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part5.html" title="Capítulo&nbsp;5.&nbsp;Implementando Persistencia en Base de Datos">Parte
+5</a> hemos desarrollado la capa de persistencia. Ahora es el momento de
+integrarlo todo junto en una aplicación web completa.</p>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step6.1"></a>6.1.&nbsp;Modificar
+la Capa de Servicio</h2>
+</div>
+</div>
+<div></div>
+</div>
+<p>Si hemos estructurado nuestra aplicación adecuadamente, sólo
+tenemos que cambiar la capa de servicio para que haga uso de la
+persistencia en base de datos. Las clases de la vista y el controlador
+no tienen que ser modificadas, puesto que no deberían ser conscientes de
+ningún detalle de la implementación de la capa de servicio. Así que
+vamos a añadir persistencia a la implementación de
+ProductManager. Modifica la clase <tt class="classname">SimpleProductManager</tt>
+y añade una referencia a la interface <tt class="classname">ProductDao</tt>
+además de un método setter para esta referencia. Qué implementación
+usemos debe ser irrelevante para la clase ProductManager, a la cual se 
+le inyectará el DAO de manera automática a través del mé todo llamado <tt class="classname">setProductDao</tt>. El método <tt class="classname">getProducts</tt> usará ahora este DAO para recuperar
+la lista de productos. Finalmente, el método <tt class="classname">increasePrices</tt>
+recuperará la lista de productos y, después de haber incrementado los
+precios, almacenará los productos de nuevo en la base de datos usando el
+método <tt class="classname">saveProduct</tt> definido en el DAO.</p>
+
+<p><tt class="filename">'springapp/src/main/java/com/companyname/springapp/service/SimpleProductManager.java'</tt>:</p>
+
+<pre class="programlisting">package com.companyname.springapp.service;
+
+import java.util.List;
+
+<span class="bold"><b>import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;</b></span>
+
+import com.companyname.springapp.domain.Product;
+<span class="bold"><b>import com.companyname.springapp.repository.ProductDao;</b></span>
+
+<span class="bold"><b>@Component</b></span>
+public class SimpleProductManager implements ProductManager {
+
+    private static final long serialVersionUID = 1L;
+
+    <span class="bold"><b>@Autowired
+    private ProductDao productDao;
+
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
+    }</b></span>
+
+    public List&lt;Product&gt; getProducts() {
+        <span class="bold"><b>return productDao.getProductList();</b></span>
+    }
+
+    public void increasePrice(int percentage) {
+        <span class="bold"><b>List&lt;Product&gt; products = productDao.getProductList();</b></span>
+        if (products != null) {
+            for (Product product : products) {
+                double newPrice = product.getPrice().doubleValue() * 
+                                    (100 + percentage)/100;
+                product.setPrice(newPrice);
+                <span class="bold"><b>productDao.saveProduct(product);</b></span>
+            }
+        }
+    }
+}</pre></div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step6.2"> </a>6.2.&nbsp;Resolver
+los tests fallidos</h2>
+</div>
+</div>
+<div></div>
+</div>
+<p>Hemos modificado <tt class="classname">SimpleProductManager</tt>
+y ahora, evidentemente, los tests fallan. Necesitamos proporcionar a <tt class="classname">ProductManager</tt> una implementación en memoria de
+<tt class="classname">ProductDao</tt>. Realmente no queremos usar el
+verdadero DAO puesto que queremos evitar tener acceso a la base de datos
+en nuestros tests unitarios. Añadiremos una clase llamada <tt class="classname">InMemoryProductDao</tt> que almacenará una lista de
+productos que serán definidos en el constructor. Esta clase en memoria
+tiene que ser pasada a <tt class="classname">SimpleProductManager</tt>
+en el momento de ejecutar los tests.</p>
+
+<p><tt class="filename">'springapp/src/test/java/com/companyname/springapp/repository/InMemoryProductDao.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.repository;
+
+import java.util.List;
+
+import com.companyname.springapp.domain.Product;
+
+public class InMemoryProductDao implements ProductDao {
+
+    private List&lt;Product&gt; productList;
+
+    public InMemoryProductDao(List&lt;Product&gt; productList) {
+        this.productList = productList;
+    }
+
+    public List&lt;Product&gt; getProductList() {
+        return productList;
+    }
+
+    public void saveProduct(Product prod) {
+    }
+
+}</pre>
+<p>Y aquí esta la versión modificada de <tt class="classname">SimpleProductManagerTests</tt>:</p>
+
+<p><tt class="filename">'springapp/src/test/java/com/companyname/springapp/service/SimpleProductManagerTests.java'</tt>:</p>
+<pre class="programlisting">package com.companyname.springapp.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.companyname.springapp.domain.Product;
+<span class="bold"><b>import com.companyname.springapp.repository.InMemoryProductDao;
+import com.companyname.springapp.repository.ProductDao;</b></span>
+
+public class SimpleProductManagerTests {
+
+    private SimpleProductManager productManager;
+    
+    private List&lt;Product&gt; products;
+    
+    private static int PRODUCT_COUNT = 2;
+    
+    private static Double CHAIR_PRICE = new Double(20.50);
+    private static String CHAIR_DESCRIPTION = "Chair";
+    
+    private static String TABLE_DESCRIPTION = "Table";
+    private static Double TABLE_PRICE = new Double(150.10);
+    
+    private static int POSITIVE_PRICE_INCREASE = 10;
+    
+    @Before
+    public void setUp() throws Exception {
+        productManager = new SimpleProductManager();
+        products = new ArrayList&lt;Product&gt;();
+        
+        // stub up a list of products
+        Product product = new Product();
+        product.setDescription("Chair");
+        product.setPrice(CHAIR_PRICE);
+        products.add(product);
+        
+        product = new Product();
+        product.setDescription("Table");
+        product.setPrice(TABLE_PRICE);
+        products.add(product);
+        
+        <span class="bold"><b>ProductDao productDao = new InMemoryProductDao(products);
+        productManager.setProductDao(productDao);
+        //productManager.setProducts(products);</b></span>
+    }
+
+    @Test
+    public void testGetProductsWithNoProducts() {
+        productManager = new SimpleProductManager();
+        <span class="bold"><b>productManager.setProductDao(new InMemoryProductDao(null));</b></span>
+        assertNull(productManager.getProducts());
+    }
+
+    @Test
+    public void testGetProducts() {
+        List&lt;Product&gt; products = productManager.getProducts();
+        assertNotNull(products);        
+        assertEquals(PRODUCT_COUNT, productManager.getProducts().size());
+    
+        Product product = products.get(0);
+        assertEquals(CHAIR_DESCRIPTION, product.getDescription());
+        assertEquals(CHAIR_PRICE, product.getPrice());
+        
+        product = products.get(1);
+        assertEquals(TABLE_DESCRIPTION, product.getDescription());
+        assertEquals(TABLE_PRICE, product.getPrice());      
+    }   
+    
+    @Test
+    public void testIncreasePriceWithNullListOfProducts() {
+        try {
+            productManager = new SimpleProductManager();
+            <span class="bold"><b>productManager.setProductDao(new InMemoryProductDao(null));</b></span>
+            productManager.increasePrice(POSITIVE_PRICE_INCREASE);
+        }
+        catch(NullPointerException ex) {
+        	fail("Products list is null.");
+        }
+    }
+    
+    @Test
+    public void testIncreasePriceWithEmptyListOfProducts() {
+        try {
+            productManager = new SimpleProductManager();
+            <span class="bold"><b>productManager.setProductDao(new InMemoryProductDao(new ArrayList&lt;Product&gt;()));
+            //productManager.setProducts(new ArrayList&lt;Product&gt;());</b></span>
+            productManager.increasePrice(POSITIVE_PRICE_INCREASE);
+        }
+        catch(Exception ex) {
+        	fail("Products list is empty.");
+        }           
+    }
+    
+    @Test
+    public void testIncreasePriceWithPositivePercentage() {
+        productManager.increasePrice(POSITIVE_PRICE_INCREASE);
+        double expectedChairPriceWithIncrease = 22.55;
+        double expectedTablePriceWithIncrease = 165.11;
+        
+        List&lt;Product&gt; products = productManager.getProducts();      
+        Product product = products.get(0);
+        assertEquals(expectedChairPriceWithIncrease, product.getPrice(), 0);
+        
+        product = products.get(1);      
+        assertEquals(expectedTablePriceWithIncrease, product.getPrice(), 0);       
+    }
+}</pre>
+
+<p>También necesitamos modificar <tt class="classname">InventoryControllerTests</tt>
+puesto que esta clase también usa <tt class="classname">SimpleProductManager</tt>.
+Aquí está la version modificada de <tt class="classname">InventoryControllerTests</tt>:</p>
+
+<p><tt class="filename">'springapp/src/test/java/com/companyname/springapp/web/InventoryControllerTests.java'</tt>:</p>
+
+<pre class="programlisting">package com.companyname.springapp.web;
+
+<span class="bold"><b>import java.util.ArrayList;</b></span>
+import java.util.Map;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.web.servlet.ModelAndView;
+
+<span class="bold"><b>import com.companyname.springapp.domain.Product;
+import com.companyname.springapp.repository.InMemoryProductDao;</b></span>
+import com.companyname.springapp.service.SimpleProductManager;
+
+
+public class InventoryControllerTests {
+
+    @Test
+    public void testHandleRequestView() throws Exception{		
+        InventoryController controller = new InventoryController();
+        <span class="bold"><b>SimpleProductManager spm = new SimpleProductManager();
+        spm.setProductDao(new InMemoryProductDao(new ArrayList&lt;Product&gt;()));
+        controller.setProductManager(spm);
+        //controller.setProductManager(new SimpleProductManager());</b></span>
+        ModelAndView modelAndView = controller.handleRequest(null, null);		
+        assertEquals("hello", modelAndView.getViewName());
+        assertNotNull(modelAndView.getModel());
+        Map modelMap = (Map) modelAndView.getModel().get("model");
+        String nowValue = (String) modelMap.get("now");
+        assertNotNull(nowValue);
+    }
+}</pre>
+<p>Una vez realizados los cambios anteriores, comprobad que los tests <tt class="classname">SimpleProductManagerTests</tt> y <tt class="classname">InventoryControllerTests</tt> se ejecutan satisfactoriamente.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step6.3"></a>6.3.&nbsp;Crear
+un nuevo contexto de aplicación para configurar la capa de servicio</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Hemos visto antes que es tremendamente fácil modificar la capa de
+servicio para usar persistencia en base de datos. Esto es así porque
+está despegada de la capa web. Ahora es el momento de despegar también
+la configuración de la capa de servicio de la capa web. Eliminaremos la
+configuración de <tt class="classname">productManager</tt> y la lista de productos del archivo de
+configuración <tt class="filename">'app-config.xml'</tt>. Así es como este archivo quedaría
+ahora:</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/spring/app-config.xml'</tt>:</p>
+
+<pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"&gt;
+ 
+    &lt;bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"&gt;
+        &lt;property name="basename" value="messages"/&gt;
+    &lt;/bean&gt;
+
+    &lt;!-- Scans the classpath of this application for @Components to deploy as beans --&gt;
+    &lt;context:component-scan base-package="com.companyname.springapp.web" /&gt;
+
+    &lt;!-- Configures the @Controller programming model --&gt;
+    &lt;mvc:annotation-driven/&gt;
+	
+    &lt;bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
+        &lt;property name="viewClass" value="org.springframework.web.servlet.view.JstlView"&gt;&lt;/property&gt;
+        &lt;property name="prefix" value="/WEB-INF/views/"&gt;&lt;/property&gt;
+        &lt;property name="suffix" value=".jsp"&gt;&lt;/property&gt;        
+    &lt;/bean&gt;
+	
+&lt;/beans&gt;</pre>
+
+<p>Todavía necesitamos configurar la capa de servicio y lo haremos
+en nuestro propio archivo de contexto de aplicación. Este archivo se
+llama <tt class="filename">'applicationContext.xml'</tt> y será cargado
+mediante un servlet listener que definiremos en <tt class="filename">'web.xml'</tt>.
+Todos los bean configurados en este nuevo contexto de aplicación estarán
+disponibles desde cualquier contexto del servlet.</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/web.xml'</tt>:</p>
+
+<pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"&gt;
+
+  <span class="bold"><b>&lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;/WEB-INF/spring/applicationContext.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+
+  &lt;listener&gt;
+    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+  &lt;/listener&gt;</b></span>
+
+  &lt;display-name&gt;Springapp&lt;/display-name&gt;
+  
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;springapp&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+	&lt;init-param&gt;
+		&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+		&lt;param-value&gt;
+			/WEB-INF/spring/app-config.xml
+		&lt;/param-value&gt;
+	&lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+  &lt;/servlet&gt;
+
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;springapp&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;*.htm&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+  
+&lt;/web-app&gt;</pre>
+
+<p>Ahora creamos un nuevo archivo <tt class="filename">'applicationContext.xml'</tt>
+en el directorio <tt class="filename">'/WEB-INF/spring'</tt>".</p>
+
+<p><tt class="filename">'springapp/src/main/webapp/WEB-INF/spring/applicationContext.xml'</tt>:</p>
+<pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"&gt;
+
+ 
+    &lt;!-- holding properties for database connectivity /--&gt;
+    &lt;context:property-placeholder location="classpath:jdbc.properties"/&gt;
+
+    &lt;!-- enabling annotation driven configuration /--&gt;
+    &lt;context:annotation-config/&gt;
+ 
+    &lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;
+      &lt;property name="driverClassName" value="${jdbc.driverClassName}"/&gt;
+      &lt;property name="url" value="${jdbc.url}"/&gt;
+      &lt;property name="username"  value="${jdbc.username}"/&gt;
+      &lt;property name="password" value="${jdbc.password}"/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id="entityManagerFactory"
+	class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+	p:dataSource-ref="dataSource"
+	p:jpaVendorAdapter-ref="jpaAdapter"&gt;
+	&lt;property name="loadTimeWeaver"&gt;
+            &lt;bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/&gt;
+	&lt;/property&gt;                             
+	&lt;property name="persistenceUnitName" value="springappPU"&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+	 
+    &lt;bean id="jpaAdapter"
+	class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+	p:database="${jpa.database}"
+	p:showSql="${jpa.showSql}"/&gt;
+
+    &lt;bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+	p:entityManagerFactory-ref="entityManagerFactory"/&gt;
+
+    &lt;tx:annotation-driven transaction-manager="transactionManager"/&gt;
+
+    &lt;!-- Scans the classpath of this application for @Components to deploy as beans --&gt;
+    &lt;context:component-scan base-package="com.companyname.springapp.repository" /&gt;
+    &lt;context:component-scan base-package="com.companyname.springapp.service" /&gt;
+	
+&lt;/beans&gt;</pre>
+
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step6.4"></a>6.4.&nbsp;Test
+final de la aplicación completa</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Ahora es el momento de ver si todas estas piezas funcionan
+juntas. Construye y despliega la aplicación finalizada y recuerda tener
+la base de datos arrancada y funcionando. Esto es lo que deberías ver
+cuando apuntes tu navegador web a la aplicación:</p>
+<div class="screenshot">
+<div class="mediaobject" align="center"><img src="Cap%C3%ADtulo%C2%A06.%C2%A0Integrando%20la%20Aplicaci%C3%B3n%20Web%20con%20la%20Capa%20de%20Persistencia%20Archivos/screen6.png" align="middle">
+<div class="caption">
+<p>La aplicación completa</p>
+</div>
+</div>
+</div>
+<p>La aplicación aparece exactamente como lo hacía antes. Sin embargo, hemos
+añadido la persistencia en base de datos, por lo que si cierras
+la aplicación tus incrementos de precio no se perderán sino que estarán
+todavía allí cuando vuelvas a cargar la aplicación.</p>
+
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both;"><a name="step6.5"></a>6.5.&nbsp;Resumen</h2>
+</div>
+</div>
+<div></div>
+</div>
+
+<p>Hemos completado las tres capas de la aplicación -- la capa web,
+la capa de servicio y la capa de persistencia. En esta última parte
+hemos reconfigurado la aplicación.</p>
+<div class="orderedlist">
+<ol type="1">
+	<li>
+	<p>Primero hemos modificado la capa de servicio para usar la
+	interface ProductDAO.</p>
+	</li>
+	<li>
+	<p>Después hemos tenido que arreglar algunos fallos en los tests de
+	la capa de servicio y la capa web.</p>
+	</li>
+	<li>
+	<p>A continuación, hemos introducido un nuevo applicationContext
+	para separar la configuración de la capa de servicio y de la capa de
+	persistencia de la configuración de la capa web.</p>
+	</li>
+	<li>
+	<p>Finalmente hemos desplegado la aplicación y testeado que aún
+	funciona.</p>
+	</li>
+</ol>
+</div>
+<p>A continuación puedes ver una captura de pantalla que muestra el aspecto que debería
+tener la estructura de directorios del proyecto después de seguir todas las instrucciones anteriores.</p>
+
+
+<div class="screenshot">
+<div class="mediaobject" align="center"><img src="Cap%C3%ADtulo%C2%A06.%C2%A0Integrando%20la%20Aplicaci%C3%B3n%20Web%20con%20la%20Capa%20de%20Persistencia%20Archivos/dir-structure-endp6.png" align="middle"></div>
+</div>
+</div>
+</div>
+<div xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navfooter">
+<hr>
+<table summary="Navigation footer" width="100%">
+	<tbody>
+		<tr>
+			<td align="left" width="40%"><a accesskey="p" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/part5.html">Anterior</a>&nbsp;</td>
+			<td align="center" width="20%"><a accesskey="h" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/index.html">Inicio</a></td>
+			<td align="right" width="40%">&nbsp;<a accesskey="n" href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/springapp.zip">Siguiente</a></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" width="40%">Capítulo&nbsp;5.&nbsp;Implementando
+			Persistencia en Base de Datos&nbsp;</td>
+			<td align="center" width="20%"><span style="color: white; font-size: 90%;"><a href="http://www.uv.es/grimo">Autor: Francisco Grimaldo Moreno</a></span></td>
+			<td align="right" width="40%">&nbsp;<a href="http://www.uv.es/grimo/teaching/SpringMVCv4PasoAPaso/springapp.zip">Apéndice&nbsp;A.&nbsp;Descargar Proyecto
+	Completo para Spring Tool Suite</a></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="Cap%C3%ADtulo%C2%A06.%C2%A0Integrando%20la%20Aplicaci%C3%B3n%20Web%20con%20la%20Capa%20de%20Persistencia%20Archivos/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4959413-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body></html>
