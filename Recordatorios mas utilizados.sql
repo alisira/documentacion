@@ -148,6 +148,34 @@ db.people.find(
 );
 
 
+Buscar fechas por rango
+	{"fecha":{ $gte: ISODate('2019-06-24T00:00:00'), $lt:ISODate('2019-06-24T23:59:59') }}
+
+Buscar con and, in por mes
+	{ $and: [ { "nombre": { $in :["RGT Cycling - Cap Formentor"] } }, { $expr: {$eq: [{ $month: "$fecha" }, 7]}}] }
+
+Buscar por expresion regular
+	{ $where: "/^22.*/.test(this.distancia)" }
+	{ nombre: { $regex: /.*cap.*/i } }
+
+
+Actualizar un registro
+	db.segmento_historials.updateOne({ _id: ObjectId('5f0e3ebf34c71b6f1060bc4d') },  {$set:{tipo_segmento:0}});
+
+Actualizar todos los registros de una coleccion
+	db.segmento_historials.updateMany({ },  {$set:{tipo_segmento:0}});
+
+
+$unwind funcion de agregacion 
+	Desnormaliza un array que este contenido dentro de un objeto y creo un objecto unico junto con cada item del array desnormalizado
+	{ $unwind: "$hidden_efforts" }
+
+Ejemplo:
+	const weekActivity = await WeekActivity.aggregate([ { "$match": {"weekly_scores.activities.id":{"$in":[Number(idActivity) ]}}}, { "$unwind": "$weekly_scores" }, { "$unwind": "$weekly_scores.activities" }, { "$match":{"weekly_scores.activities.id":{"$in":[Number(idActivity) ]}}}]).exec();
+
+
+
+
 
 Crear usuario admin 
 	db.createUser(
@@ -171,8 +199,11 @@ https://developerslogblog.wordpress.com/2019/11/27/mongodb-sort-how-to-fix-maxim
 	db.adminCommand({setParameter: 1, internalQueryExecMaxBlockingSortBytes: 335544320})
 	
 	
+backup 
+	mongodump --host=localhost --port=27017 --db=stravali --forceTableScan
 
-
+Restore 
+	mongorestore --host=localhost --port=27017 <path to the backup>
 
 
 Restaurar las bases de datos de kibernum y Fch
@@ -550,7 +581,6 @@ Reiniciar el tomcat de SIGEFIRRH
 Ver las dependecias
 	ldd /usr/bin/svn
 
-
 Buscar archivos repetidos con fdupes  guardarlo en un archivo
 	fdupes -r . > archivos_repetidos.txt	
 
@@ -563,8 +593,7 @@ Solicitar conexion a la red
 1) Requerido
 
 sudo apt-get install aptitude
-sudo aptitude install php7.0 php7.0-odbc php7.0-cli php7.0-pgsql php7.0-curl php7.0-gd  php7.0-xdebug nmap htop sudo docdiff rsync postgresql rpm rar unrar pgadmin3 terminator git apache2 php-fpdf odbc-postgresql bzip2 ssh kompare qmmp tar gimp mencoder libgstreamer-plugins-bad1.0-0 libmpg123-0 libjs-jquery  phppgadmin postgresql-doc postgresql-doc-9.1 openjdk-7-jdk g++ qtqr lib32asound2 libc6-pic lib32z1 ia32-libs gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-plugins-bad subversion libsvn1 cinnamon pyrenamer dvdrip handbrake ogmrip gmountiso isomaster  genisoimage motion picard vlc brasero k3b gparted gnash duff maven fdupes software-properties-common libreoffice
-
+sudo aptitude install php7.0 php7.0-odbc php7.0-cli php7.0-pgsql php7.0-curl php7.0-gd  php7.0-xdebug nmap htop sudo docdiff rsync postgresql rpm rar unrar pgadmin3 terminator git apache2 php-fpdf odbc-postgresql bzip2 ssh kompare qmmp tar gimp mencoder libgstreamer-plugins-bad1.0-0 libmpg123-0 libjs-jquery  phppgadmin postgresql-doc postgresql-doc-9.1 openjdk-7-jdk g++ qtqr lib32asound2 libc6-pic lib32z1 ia32-libs gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-plugins-bad subversion libsvn1 cinnamon pyrenamer dvdrip handbrake ogmrip gmountiso isomaster  genisoimage motion picard vlc brasero k3b gparted gnash duff maven fdupes software-properties-common libreoffice ciano kdenlive  handbrake k3b  ktorrent
 
 Instalar Oracle java 8
 sudo add-apt-repository ppa:webupd8team/java
@@ -577,6 +606,7 @@ Buscar archivos repetidos
 
 Graba pantalla
     kazam
+
 Reproductor de flash: gnash
     gnash --fullscreen 10_java_Polymorphism.swf
 
@@ -924,6 +954,18 @@ for(i=0;i<data.length;i++){
 
 --JAVASCRIPT
 
+Funcion map de un array itera sobre los valores de un array y genera otro segun el valor del callback
+    var numeros = [1, 4, 9];
+    var dobles  = numeros.map(function(num) {
+      return num * 2;
+    });
+
+    // dobles es ahora [2, 8, 18]
+    // numeros sigue siendo [1, 4, 9]
+
+
+Crear un date con hora 0
+	new Date('2019-06-24T00:00:00');
 
 Generar una imagen de un tamaño x
 	http://placehold.it/30x30
@@ -1082,6 +1124,11 @@ Convertir Array To Json
 
 	console.log('Abajo');
 	console.log(jsonArray);
+
+
+Filter
+	words.filter(word => word.length > 6);
+
 
 
 
