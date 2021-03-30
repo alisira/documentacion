@@ -13,7 +13,7 @@ Actualiza o crea un valor en una tabla destino los valores los saca del recorrid
 db.expert.find().forEach(function(experts) {
     db.expert.update({_id: experts._id}, {$set: {date_created: experts.date_updated}})
 });
-
+ 
 
 
 Ejemplo de consulta de agregacion con match y project
