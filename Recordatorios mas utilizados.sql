@@ -854,6 +854,13 @@ Ver todos los commits de un archivo en particular
 Llevar el archivo a una version en particular
 	git checkout 0d70ba9^ Pictures/drupal-icon.png
 
+Guarda temporalmente los cambios en una pila para poder hacer pull
+	git stash
+
+Recupera lo que estaba guardado en la pila despues de hacer pull
+	git stash apply
+
+
 --Configuracion Firefox para que no pida permiso de acceso a la camara
     media.navigator.permission.disabled;true
 
