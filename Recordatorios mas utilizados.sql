@@ -961,6 +961,49 @@ for(i=0;i<data.length;i++){
 
 --JAVASCRIPT
 
+
+/**
+ * Convertir un objeto a un arreglo
+ * en JavaScript
+ * 
+ * @author parzibyte
+ * 
+ * https://parzibyte.me/blog
+ */
+	let alumnosConCalificaciones = {
+		"Luis": 100,
+		"Pedro": 90,
+		"María José": 100,
+		"John Galt": 99
+	};
+
+// Object.entries convierte tanto clave y valor. Cada par es convertido a un arreglo. Al final tenemos un array de arrays
+	let arregloDeClavesYValores = Object.entries(alumnosConCalificaciones);
+	console.log("Claves y valores: ", arregloDeClavesYValores);
+
+	/*
+	Salida:
+	Claves y valores:  [ [ 'Luis', 100 ],
+	  [ 'Pedro', 90 ],
+	  [ 'María José', 100 ],
+	  [ 'John Galt', 99 ] ]
+	*/
+
+// Object.values toma los valores, para este ejemplo serían las calificaciones
+	let calificaciones = Object.values(alumnosConCalificaciones);
+	console.log("Valores: ", calificaciones);
+	/*Salida:
+	Valores:  [ 100, 90, 100, 99 ]
+	*/
+
+// Object.keys toma las claves, para este ejemplo serían los nombres de alumnos
+	let alumnos = Object.keys(alumnosConCalificaciones);
+	console.log("Claves: ", alumnos);
+	/*Salida:
+	Claves:  [ 'Luis', 'Pedro', 'María José', 'John Galt' ]
+	*/
+
+
 Funcion map de un array itera sobre los valores de un array y genera otro segun el valor del callback
     var numeros = [1, 4, 9];
     var dobles  = numeros.map(function(num) {
@@ -1137,6 +1180,18 @@ Filter
 	words.filter(word => word.length > 6);
 
 
+Funcion para redondear decimales de una forma efectiva corrigiendo el bug de javascript (http://www.jacklmoore.com/notes/rounding-in-javascript/)
+
+	Number(Math.round(1.005+'e2')+'e-2'); // 1.01
+	And to abstract that into something more usable:
+
+	function round(value, decimals) {
+	  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+	}
+
+	Ejemplo
+	round(1.005, 2); // 1.01
+
 
 
 Buscar la manera de eliminar la fecha local de Wed Sep 30 2015 21:00:00 GMT-0300 (CLT) a Jan 09 2015 00:00:00 GMT-0200 (CLST)
@@ -1186,6 +1241,7 @@ Buscar el id de grupo en una referencia existente en la misma tabla
     comment.ready = $scope.setLatestCommentReady;
     comment.findAll();
     };
+	
 **************************************************************************************
 
 
