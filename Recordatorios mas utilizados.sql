@@ -150,6 +150,7 @@ db.people.find(
 
 Buscar fechas por rango
 	{"fecha":{ $gte: ISODate('2019-06-24T00:00:00'), $lt:ISODate('2019-06-24T23:59:59') }}
+	db.actividades.find({$and: [{fecha:{$gte:new Date('2016-03-07')}}, {fecha:{$lte:new Date('2016-03-08')}} ]},  {id_strava:true, fecha:true });
 
 Buscar con and, in por mes
 	{ $and: [ { "nombre": { $in :["RGT Cycling - Cap Formentor"] } }, { $expr: {$eq: [{ $month: "$fecha" }, 7]}}] }
@@ -1191,9 +1192,17 @@ Buscar el id de grupo en una referencia existente en la misma tabla
 
 ************ANGULAR8***********
 
-iniciar servidor y detecte automaticamente los cambios 
+iniciar servidor  
+    ng serve -o
+
+iniciar servidor en un puerto y host especificos y detecte automaticamente los cambios en los archivos 
     ng serve --port 80 --host cucacuca.com --poll=2000
 
+Crear nuevo proyecto angular
+    ng new nombre-proyecto
+    
+Crear un componente
+    ng generate component xyz
 
 
 
