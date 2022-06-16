@@ -1246,6 +1246,21 @@ Buscar el id de grupo en una referencia existente en la misma tabla
 **************************************************************************************
 
 
+************TYPESCRIPT************
+
+Funcion que obliga al invocador a entregar un objeto que contenga una propiedad X de tipo number o any, puede ser un 
+enum que tenga ese valor
+
+	funcionXX = (obj: {X:number}) => {
+	  console.log(obj);
+	  console.log(obj.X);
+	  return obj;
+	}
+
+
+
+
+
 ************ANGULAR8***********
 
 iniciar servidor  
