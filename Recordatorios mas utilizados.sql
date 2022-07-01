@@ -9,6 +9,38 @@ mysql  --protocol=tcp --host=localhost --user=root --password --port=3306 --defa
 
  ---------------MONGODB-------------------------------------------------------------------
 
+
+Instalar mondodb
+    1)sudo apt update
+    2)sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
+    3)wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+    4)echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+    5)sudo apt update
+    6)sudo apt install mongodb-org
+    7)crear path necesario
+        sudo mkdir /data/db
+    8)Iniciar
+        sudo systemctl start mongod
+        sudo systemctl status mongod
+    9) Desinstalar
+        sudo service mongod stop 
+        sudo apt-get purge mongodb-org*
+        sudo rm -r /var/log/mongodb
+        sudo rm -r /var/lib/mongodb
+Fuente:https://ubunlog.com/mongodb-4-4-instalacion-versiones-lts-de-ubuntu/
+
+
+
+Instalar compass
+    1) Descargar de la pagina oficial
+        https://www.mongodb.com/try/download/compass
+    
+    2) Ejecutar dpkg
+        sudo dpkg -i mongodb-compass_1.32.2_amd64.deb
+
+
+
+
 Actualiza o crea un valor en una tabla destino los valores los saca del recorrido del forEach (Ejecutar un bucle sobre el resultado de una busqueda)
 db.expert.find().forEach(function(experts) {
     db.expert.update({_id: experts._id}, {$set: {date_created: experts.date_updated}})
@@ -227,8 +259,6 @@ Restaurar las bases de datos de kibernum y Fch
  * http://hola.kibernum.com/api/admin-preload?action=add_refprofile_to_postlike
  *
  * http://hola.kibernum.com/api/admin-preload?action=add_refprofile_to_user
-
-
 
 
 
