@@ -15,6 +15,7 @@ dpkg -i com.github.robertsanseries.ciano_0.1.4_amd64.deb
 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 aptitude update
+sudo mkdir /data/db
 sudo apt install mongodb-org
 mongo -version
 sudo sed -i -e '$a127.0.0.1       cucacuca2.com' /etc/hosts
@@ -26,8 +27,10 @@ sudo aptitude install libgconf-2-4
 wget https://downloads.mongodb.com/compass/mongodb-compass_1.32.2_amd64.deb
 dpkg -i mongodb-compass_1.32.2_amd64.deb
 aptitude install  deepin-image-viewer
+#Fuente Nodejs https://github.com/nodesource/distributions/blob/master/README.md
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo aptitude install nodejs
+#Instalar ultima version del cliente de angular en forma global
 sudo npm install -g @angular/cli
 ng version
 /etc/init.d/apache2 stop
