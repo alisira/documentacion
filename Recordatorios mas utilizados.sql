@@ -30,7 +30,6 @@ Instalar mondodb
 Fuente:https://ubunlog.com/mongodb-4-4-instalacion-versiones-lts-de-ubuntu/
 
 
-
 Instalar compass
     1) Descargar de la pagina oficial
         https://www.mongodb.com/try/download/compass
@@ -259,7 +258,7 @@ Restaurar las bases de datos de kibernum y Fch
  * http://hola.kibernum.com/api/admin-preload?action=add_refprofile_to_postlike
  *
  * http://hola.kibernum.com/api/admin-preload?action=add_refprofile_to_user
-
+*/
 
 
 --Buscar un determinado valor, mostrar dicha columna, validando q exista esa columna en los documentos
@@ -458,11 +457,53 @@ Configuracion optima apache
         </Directory>
 
 
-LINUX--------------------------------------------------------------------------------------------------------------------------------LINUX
+LINUX--------------------------------------------------------------------------------------------------------------------------------
+
+Agregar o cambiar nombre e ip del servidor
+    nano /etc/hosts 
+
+
+Saber que programa usa un puerto o esta escuchando
+    sudo lsof -i -P -n
+    sudo lsof -i -P -n | grep LISTEN
+    netstat -putona | grep numero-de-puerto
+
+Habilitar o deshabilitar permanentemente un servicio
+    sudo systemctl enable bluetooth.service
+    sudo systemctl disable bluetooth.service
+Fuente:https://geekland.eu/systemctl-administrar-servicios-linux/#:~:text=Para%20que%20un%20servicio%20arranque,del%20proceso%20que%20queremos%20habilitar.&text=En%20el%20momento%20de%20ejecutar,%2Fsystemd%2Fsystem%2Fbluetooth.
+
+
+Ejecutar un comando en segundo plano, agregue el & al final del comando:
+    command &
+
+
+Para suprimir los stdout y stderr utilice la siguiente sintaxis:
+    command > /dev/null 2>&1 &
+>/dev/null 2>&1 significa redirigir stdout a /dev/null y stderr a stdout
+
+
+Ver el estado de todos los procesos detenidos y en segundo plano en la sesión de shell actual:
+    jobs -l
+
+
+Traer un proceso en segundo plano al primer plano, use el comando fg
+    fg
+Incluya % y el ID del trabajo después del comando:
+    fg %1
+
+
+Mantener los procesos en segundo plano en ejecución después de salir de un shell
+    disown
+Si tiene más de un trabajo en segundo plano, incluya % y el ID después del comando:
+    disown %1
+Fuente https://noviello.it/es/como-ejecutar-comandos-de-linux-en-segundo-plano/
+
 
 Dar permiso al usuario no root para iniciar servidores usando el puerto 80
     sudo apt-get install libcap2-bin
     sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
+
 
 Graba el escritorio
 	/usr/local/bin/recordmydesktop --no-sound
