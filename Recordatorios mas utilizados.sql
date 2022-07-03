@@ -34,8 +34,8 @@ Fuente:https://ubunlog.com/mongodb-4-4-instalacion-versiones-lts-de-ubuntu/
 Instalar compass
     1) Descargar de la pagina oficial
         https://www.mongodb.com/try/download/compass
-    
-    2) Ejecutar dpkg
+    2)sudo aptitude install libgconf-2-4
+    3) Ejecutar dpkg
         sudo dpkg -i mongodb-compass_1.32.2_amd64.deb
 
 
@@ -624,7 +624,7 @@ Solicitar conexion a la red
 1) Requerido
 
 sudo apt-get install aptitude
-sudo aptitude install php7.0 php7.0-odbc php7.0-cli php7.0-pgsql php7.0-curl php7.0-gd  php7.0-xdebug nmap htop sudo docdiff rsync postgresql rpm rar unrar pgadmin3 terminator git apache2 php-fpdf odbc-postgresql bzip2 ssh kompare qmmp tar gimp mencoder libgstreamer-plugins-bad1.0-0 libmpg123-0 libjs-jquery  phppgadmin postgresql-doc postgresql-doc-9.1 openjdk-7-jdk g++ qtqr lib32asound2 libc6-pic lib32z1 ia32-libs gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-plugins-bad subversion libsvn1 cinnamon pyrenamer dvdrip handbrake ogmrip gmountiso isomaster  genisoimage motion picard vlc brasero k3b gparted gnash duff maven fdupes software-properties-common libreoffice ciano kdenlive  handbrake k3b  ktorrent
+sudo aptitude install php7.0 php7.0-odbc php7.0-cli php7.0-pgsql php7.0-curl php7.0-gd  php7.0-xdebug nmap htop sudo docdiff rsync postgresql rpm rar unrar pgadmin3 terminator git apache2 php-fpdf odbc-postgresql bzip2 ssh kompare qmmp tar gimp mencoder libgstreamer-plugins-bad1.0-0 libmpg123-0 libjs-jquery  phppgadmin postgresql-doc postgresql-doc-9.1 openjdk-7-jdk g++ qtqr lib32asound2 libc6-pic lib32z1 ia32-libs gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-plugins-bad subversion libsvn1 cinnamon pyrenamer dvdrip handbrake ogmrip gmountiso isomaster  genisoimage motion picard vlc brasero k3b gparted gnash duff maven fdupes software-properties-common libreoffice ciano kdenlive  handbrake k3b  ktorrent audacity
 
 Instalar Oracle java 8
 sudo add-apt-repository ppa:webupd8team/java
@@ -769,13 +769,21 @@ COMO MONTAR UNA IMAGEN
 
 
 ----INSTALAR TEAMVIEWER
-Habilitar instalacion de arquitectura de 32bits
 
 
-The following packages have unmet dependencies:
- ia32-libs : Depends: ia32-libs-i386 but it is not installable
-E: Unable to correct problems, you have held broken packages.
+Instalacion version nueva
+1) sudo aptitude install libminizip1
+2) sudo dpkg -i teamviewer_15.31.5_amd64.deb
 
+
+
+
+Instalacion version antigua
+    1)Habilitar instalacion de arquitectura de 32bits
+
+    The following packages have unmet dependencies:
+    ia32-libs : Depends: ia32-libs-i386 but it is not installable
+    E: Unable to correct problems, you have held broken packages.
 
          Solución:
 
@@ -785,12 +793,11 @@ E: Unable to correct problems, you have held broken packages.
                           apt-get -f install
 
 
-
--instalar paquetes de 32bits
-aptitude install libc6:i386  libasound2:i386  libfontconfig1:i386 libfreetype6:i386  libjpeg62:i386 libpng12-0:i386 libsm6:i386 libxdamage1:i386 libxext6:i386  libxinerama1:i386 libxrandr2:i386 libxfixes3:i386  libxrender1:i386  libxtst6:i386  zlib1g:i386
+    2)instalar paquetes de 32bits
+    aptitude install libc6:i386  libasound2:i386  libfontconfig1:i386 libfreetype6:i386  libjpeg62:i386 libpng12-0:i386 libsm6:i386 libxdamage1:i386 libxext6:i386  libxinerama1:i386 libxrandr2:i386       libxfixes3:i386  libxrender1:i386  libxtst6:i386  zlib1g:i386
 
 Instalados en Elementary loky al 20/05/17
-sudo aptitude install  libasound2:i386  libdbus-1-3:i386 libexpat1:i386 libfontconfig1:i386 libfreetype6:i386 libjpeg62:i386 libsm6:i386 libxdamage1:i386 libxext6:i386 libxfixes3:i386 libxinerama1:i386 libxrandr2:i386 libxrender1:i386 libxtst6:i386 zlib1g:i386
+    sudo aptitude install  libasound2:i386  libdbus-1-3:i386 libexpat1:i386 libfontconfig1:i386 libfreetype6:i386 libjpeg62:i386 libsm6:i386 libxdamage1:i386 libxext6:i386 libxfixes3:i386 libxinerama1:i386  libxrandr2:i386 libxrender1:i386 libxtst6:i386 zlib1g:i386
 
 
 Installation via command line
@@ -828,7 +835,7 @@ create eclipse STS link access para q trabaje en ubuntu 16 y mas
 		# Run headers_$1 command for all suitable architectures
 
 		/opt/sts-bundle/sts-3.8.3.RELEASE/STS
-2. Crear enlaze simbolico
+2. Crear enlace simbolico
 	sudo ln -s /opt/sts-bundle/sts-3.8.3.RELEASE/eclipse-sts.sh /usr/bin/eclipse_sts
 
 3.Solo se debe ejecutar desde consola no corre bien desde la interfaz grafica
