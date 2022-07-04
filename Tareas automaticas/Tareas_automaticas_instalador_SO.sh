@@ -3,6 +3,13 @@
 
 apt-get install aptitude
 #aptitude install htop docdiff rsync postgresql rpm rar unrar pgadmin3 terminator git odbc-postgresql bzip2 ssh kompare qmmp tar gimp openjdk-11-jdk handbrake picard vlc brasero k3b gparted duff maven fdupes software-properties-common libreoffice kdenlive k3b audacity nemo curl rarcrack
+wget https://www.syntevo.com/downloads/smartgit/smartgit-linux-21_2_3.tar.gz
+tar -xvf smartgit-linux-21_2_3.tar.gz
+cd smartgit/bin/
+chmod +x ./smartgit.sh 
+chmod +x ./add-menuitem.sh
+./smartgit.sh 
+./add-menuitem.sh
 add-apt-repository ppa:musicbrainz-developers/stable
 aptitude update
 aptitude install picard 
